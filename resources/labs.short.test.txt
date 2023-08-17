@@ -1,0 +1,178 @@
+Printed at:
+FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
+2615 EAST CLINTON AVE FRESNO, CA 93703-2223
+As of: Aug 16, 2023@08:53
+
+
+
+Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
+               2615 EAST CLINTON AVE FRESNO, CA 93703-2223
+
+Report Released Date/Time: Aug 16, 2023@06:32
+Provider: JAIN,NAMAN
+  Specimen: PLASMA.           CH 0816 30
+    Specimen Collection Date: Aug 16, 2023
+      Test name                Result    units      Ref.   range   Site Code
+GLUCOSE,Blood                   104     mg/dL      70 - 105         [570]
+SODIUM,Blood                    140     mmol/L     136 - 145        [570]
+POTASSIUM,Blood                 4.0     mmol/L     3.5 - 5.1        [570]
+CHLORIDE,Blood                  100 L   mmol/L     101 - 111        [570]
+CARBON DIOXIDE,Blood             31     mmol/L     24 - 32          [570]
+UREA NITROGEN,Blood              34 H   mg/dL      7 - 24           [570]
+CREATININE,blood                1.0     mg/dL      0.6 - 1.3        [570]
+CALCIUM,Blood                   9.6     mg/dL      8.4 - 10.2       [570]
+ANION GAP,blood                  13     mmol/L     9 - 17           [570]
+EGFR CKD,blood                   82                Ref: >=60        [570]
+      Eval: Estimated Glomerular Filtration Rate (eGFR) calculated using the
+      Eval: 2021 Chronic Kidney Disease-Epidemiology (CKD-EPI) Collaboration
+      Eval: creatinine equation; units of measure are mL/min/1.73 m2.
+      Eval:
+      Eval: Results are only valid for adults (=18 years) whose serum
+      Eval: creatinine is in a steady state.  eGFR calculations are not valid
+      Eval: for patients with acute kidney injury and for patients on
+      Eval: dialysis.  Creatinine-based estimates of kidney function may also
+      Eval: be inaccurate in patients with reduced creatinine generation
+      Eval: due to decreased muscle mass (e.g., malnutrition, severe
+      Eval: hypoalbuminemia, sarcopenia, chronic neuromuscular disease,
+      Eval: amputations, severe heart failure or liver disease) and in
+      Eval: patients with increased creatinine generation due to increased
+      Eval: muscle mass (e.g., muscle builders, anabolic steroids) or
+      Eval: increased dietary intake.
+      Eval:
+      Eval: As drug clearance is proportional to total GFR and not GFR indexed
+      Eval: to body surface area (BSA), in individuals with a BSA substantially
+      Eval: different than 1.73 m2, drug dosing should be based the reported
+      Eval: eGFR value de-indexed from BSA by multiplying by the individual's
+      Eval: BSA and dividing by 1.73.
+      Eval:
+      Eval: CKD is diagnosed based on abnormalities of kidney structure or
+      Eval: function, present for >3 months, with implications for health and
+      Eval: disease. CKD is classified and staged based on cause, eGFR and
+      Eval: albuminuria (quantified as urine albumin to creatinine ratio). An
+      Eval: eGFR >60 mL/min/1.73 m2 in the absence of increased urine albumin
+      Eval: excretion or structural abnormalities does not represent CKD.
+      Eval:
+      Eval: eGFR(mL/min/1.73 m2)     CKD STAGE     INTERPRETATION
+      Eval: -------------------------------------------------------------------
+      Eval: >=90                     G1            Normal
+      Eval: 60-89                    G2            Mild decrease
+      Eval: 45-59                    G3A           Mild to moderate decrease
+      Eval: 30-44                    G3B           Moderate to severe decrease
+      Eval: 15-29                    G4            Severe decrease
+      Eval: <15                      G5            Kidney failure
+PROTEIN,TOTAL,Blood             8.2     g/dL       6.7 - 8.6        [570]
+ALBUMIN ,Blood                  3.8     g/dL       3.6 - 4.8        [570]
+BILIRUBIN,TOTAL,Blood           1.0     mg/dL      0.2 - 1.0        [570]
+BILIRUBIN,DIRECT,blood          0.3 H   mg/dL      Ref: <=0.2       [570]
+ALKP,Blood                      193 H   IU/L       36 - 109         [570]
+ALT,Blood                       110 H   IU/L       10 - 40          [570]
+AST,Blood                        83 H   IU/L       10 - 42          [570]
+MAGNESIUM,Blood                 2.2     mg/dL      1.8 - 2.5        [570]
+PHOSPHORUS,Blood                5.5 H   mg/dL      2.2 - 4.2        [570]
+===============================================================================
+
+
+
+Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
+               2615 EAST CLINTON AVE FRESNO, CA 93703-2223
+
+Report Released Date/Time: Aug 16, 2023@05:51
+Provider: JAIN,NAMAN
+  Specimen: BLOOD.            HE 0816 18
+    Specimen Collection Date: Aug 16, 2023
+      Test name                Result    units      Ref.   range   Site Code
+WBC                            10.8     10*3/uL    4.0 - 11.0       [570]
+RBC                             5.0     10*6/uL    4.7 - 6.1        [570]
+HGB,Blood                      14.1     g/dL       14.0 - 17.0      [570]
+HCT,Blood                      45.1     %          42.0 - 52.0      [570]
+MCV                              91     fL         80 - 94          [570]
+MCH                              28     pg         27 - 31          [570]
+MCHC                             31 L   g/dL       32 - 36          [570]
+RDW-CV                         15.4     %          11.5 - 20.0      [570]
+PLT                             263     K/cmm      150 - 400        [570]
+NRBC%                           0.0     %          0.0 - 0.2        [570]
+NRBC#                          0.00     10*3/uL    0.00 - 0.01      [570]
+NEUTROPHILS %                  66.2 H   %          36.0 - 66.0      [570]
+LYMPHOCYTES %                  21.1 L   %          24.0 - 44.0      [570]
+MONOCYTES %                     7.7 H   %          0.0 - 6.0        [570]
+EOSINOPHILS %                   3.8 H   %          0.0 - 3.0        [570]
+BASOPHILS %                     0.5     %          0.0 - 1.0        [570]
+IMMATURE GRANULOCYTE %          0.7     %          0.0 - 0.9        [570]
+NEUTROPHILS #                  7.17     10*3/uL    1.44 - 7.26      [570]
+LYMPHOCYTES #                  2.28     10*3/uL    0.96 - 4.84      [570]
+MONOCYTES #                    0.83 H   10*3/uL    0.00 - 0.66      [570]
+EOSINOPHILS #                  0.41 H   10*3/uL    0.00 - 0.33      [570]
+BASOPHILS #                    0.05     10*3/uL    0.00 - 0.11      [570]
+IMMATURE GRANULOCYTE #         0.08     10*3/uL    0.00 - 0.10      [570]
+Comment: Automated count - smear not reviewed.
+===============================================================================
+
+
+
+Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
+               2615 EAST CLINTON AVE FRESNO, CA 93703-2223
+
+Report Released Date/Time: Aug 04, 2023@04:14
+Provider: FIRDAUS,MUHAMMAD
+  Specimen: BLOOD.            HE 0804 4
+    Specimen Collection Date: Aug 04, 2023@03:40
+      Test name                Result    units      Ref.   range   Site Code
+WBC                            18.3 H   10*3/uL    4.0 - 11.0       [570]
+RBC                             2.9 L   10*6/uL    4.7 - 6.1        [570]
+HGB,Blood                       9.9 L   g/dL       14.0 - 17.0      [570]
+HCT,Blood                      30.8 L   %          42.0 - 52.0      [570]
+MCV                             107 H   fL         80 - 94          [570]
+MCH                              34 H   pg         27 - 31          [570]
+MCHC                             32     g/dL       32 - 36          [570]
+RDW-CV                         16.3     %          11.5 - 20.0      [570]
+PLT                             206     K/cmm      150 - 400        [570]
+NEUTROPHILS %(M)               96.5 H   %          36.0 - 66.0      [570]
+LYMPHOCYTES %(M)                0.9 L   %          24.0 - 44.0      [570]
+MONOCYTES %(M)                  1.7     %          0.0 - 6.0        [570]
+EOSINOPHILS %(M)                0.0     %          0.0 - 3.0        [570]
+BASOPHILS %(M)                  0.0     %          0.0 - 1.0        [570]
+MYELOCYTE %(M)                  0.9 H   %          Ref: <=0.0       [570]
+NEUTROPHILS #(M)              17.66 H   10*3/uL    1.44 - 7.26      [570]
+LYMPHOCYTES #(M)               0.16 L   10*3/uL    0.96 - 4.84      [570]
+MONOCYTES #(M)                 0.31     10*3/uL    0.00 - 0.66      [570]
+EOSINOPHILS #(M)               0.00     10*3/uL    0.00 - 0.33      [570]
+BASOPHILS #(M)                 0.00     10*3/uL    0.00 - 0.11      [570]
+IMMATURE GRANULOCYTE #(M)      0.16 H   10*3/uL    0.00 - 0.10      [570]
+RBC MORPHOLOGY             Abnormal                Ref: Normal      [570]
+PLT (ESTM)                 Adequate                Ref: Adequate    [570]
+PLT MORPHOLOGY               Normal                Ref: Normal      [570]
+ANISOCYTOSIS                     1+ H              Ref: None        [570]
+MACROCYTOSIS                     1+ H              Ref: None        [570]
+POIKILOCYTOSIS                   1+ H              Ref: None        [570]
+SCHISTOCYTES                     1+ H              Ref: None        [570]
+BURR CELLS                       1+ H              Ref: None        [570]
+Comment: Computer Assisted Manual differential count performed by Medical
+        Technologist
+        NEUT# includes all mature neutrophils & bands counted in the
+        differential.
+        LYMPH# includes all mature lymphocytes counted in the differential.
+        IG# includes all Immature Granulocytes counted in the differential
+===============================================================================
+
+
+                            ---- MICROBIOLOGY ----
+Printed at:
+FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
+2615 EAST CLINTON AVE FRESNO, CA 93703-2223
+As of: Aug 15, 2023@09:20
+
+
+
+Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
+               2615 EAST CLINTON AVE FRESNO, CA 93703-2223
+
+Accession [UID]: MYCO 23 248 [4423000248]   Received: Aug 05, 2023@17:17
+Collection sample: BRONCHIAL LAVAGE    Collection date: Aug 05, 2023 16:20
+Provider: ASLAM,WAQAS
+Comment on specimen:
+*FUNGAL CULTURE,BRONCHIAL Merged: Aug 05, 2023@17:46 by 423592
+
+
+ Test(s) ordered: FUNGAL CULTURE,BRONCHIAL...... completed: Aug 05, 2023 17:46
+
+===============================================================================
