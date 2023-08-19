@@ -15,5 +15,7 @@ enum RowType: string
     case Whitespace = 'Whitespace';
     case Title = 'Title';
     case OrderingProvider = 'Ordering Provider';
+    case MicroHeader = 'Microbiology Header';
+    case SeparatorLine = 'Separator Line';
     case Other = 'Other';
 }
