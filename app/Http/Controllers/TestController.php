@@ -22,52 +22,13 @@ class TestController extends Controller
         //        dd($labBuilder->getLabCollection());
         $labs = $labBuilder->getLabCollection();
 
-        //        $labs = collect([
-        //
-        //            collect([
-        //                'name' => 'Hgb',
-        //                'result' => '10.2',
-        //                'collection_date' => Carbon::now()->subDay()->format('Y-m-d H:i'),
-        //            ]),
-        //            collect([
-        //                'name' => 'PLT',
-        //                'result' => '265',
-        //                'collection_date' => Carbon::now()->subDay()->format('Y-m-d H:i'),
-        //            ]),
-        //            collect([
-        //                'name' => 'Hgb',
-        //                'result' => '10.1',
-        //                'collection_date' => Carbon::now()->subMinutes(30)->subHours(2)->format('Y-m-d H:i'),
-        //            ]),
-        //            collect([
-        //                'name' => 'WBC',
-        //                'result' => '12.5',
-        //                'collection_date' => Carbon::now()->format('Y-m-d H:i'),
-        //            ]),
-        //            collect([
-        //                'name' => 'Hgb',
-        //                'result' => '8.9',
-        //                'collection_date' => Carbon::now()->format('Y-m-d H:i'),
-        //            ]),
-        //            collect([
-        //                'name' => 'PLT',
-        //                'result' => '250',
-        //                'collection_date' => Carbon::now()->format('Y-m-d H:i'),
-        //            ]),
-        //            collect([
-        //                'name' => 'WBC',
-        //                'result' => '11.0',
-        //                'collection_date' => Carbon::now()->subDay()->format('Y-m-d H:i'),
-        //            ]),
-        //        ]);
-
         $labs = $labs->sortByDesc(function (Collection $row, int $key) {
             return $row['collection_date']->toDateTimeString();
 
         });
 
         $labLabelsSorted = $labs->pluck('name')->unique()->sortBy(function (?string $name, int $key) {
-            $order = array_search($name, include(app_path('Services/Format/').'sort.php'));
+            $order = array_search($name, include(app_path('Services/Language/aliases.php')));
             if (! $order) {
                 return 10000;
             }
