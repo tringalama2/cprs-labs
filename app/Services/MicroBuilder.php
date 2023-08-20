@@ -2,21 +2,22 @@
 
 namespace App\Services;
 
-use App\Enums\RowType;
+use App\Services\Parser\RowTypes\Row;
 
-class MicroBuilder extends AbstractLabBuilder
+class MicroBuilder extends DiagnosticTestBuilder
 {
     public function process(): void
     {
         // TODO: Implement process() method.
 
         foreach ($this->labRows as $index => $row) {
-            if ($this->getRowType($row, $index) === RowType::MicroHeader) {
-                $starRow = $index;
+            if (Row::isMicroHeader($row)) {
+                $startRow = $index;
             }
-            if ($this->getRowType($row, $index) === RowType::SeparatorLine) {
+            if (Row::isSeparator($row)) {
                 $endRow = $index;
-                $this->getLabs()->micro[] = array_slice($this->labRows);
+                $numRows = $endRow - $startRow;
+                $this->getLabs()->micro[] = array_slice($this->labRows, $startRow, $numRows);
                 $startRow = 0;
             }
         }

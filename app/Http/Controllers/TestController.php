@@ -13,23 +13,20 @@ class TestController extends Controller
     public function __invoke()
     {
         //  https://regex101.com/r/dF3aE6/1
-        //        $labDirector = new LabDirector(file_get_contents(resource_path('labs.short.test.txt')));
-        //        $labDirector->buildLabs();
-        //        $labBuilder = $labDirector->getLabBuilder();
 
         $labBuilder = new LabBuilder(file_get_contents(resource_path('labs.short.test.txt')));
         $labBuilder->process();
-        //        dd($labBuilder->getLabCollection());
+
         $labs = $labBuilder->getLabCollection();
+        $unparsableRows = $labBuilder->getUnparsableRowsCollection();
 
         $labs = $labs->sortByDesc(function (Collection $row, int $key) {
             return $row['collection_date']->toDateTimeString();
-
         });
 
         $labLabelsSorted = $labs->pluck('name')->unique()->sortBy(function (?string $name, int $key) {
-            $order = array_search($name, include(app_path('Services/Language/aliases.php')));
-            if (! $order) {
+            $order = array_search($name, include(app_path('Services/Format/sort.php')));
+            if ($order === false) {
                 return 10000;
             }
 
@@ -40,8 +37,6 @@ class TestController extends Controller
             return Carbon::parse($item)->format('n/j/y<b\r>G:i');
         });
 
-        $unableToParse = $labBuilder->getUnableToParseCollection();
-
-        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeader', 'unableToParse'));
+        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeader', 'unparsableRows'));
     }
 }

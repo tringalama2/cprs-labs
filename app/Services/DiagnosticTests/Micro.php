@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Labs;
+namespace App\Services\DiagnosticTests;
 
 use DateTime;
 
-class Micro implements LabInterface
+class Micro implements DiagnosticTestInterface
 {
     public string $source;
 
@@ -23,7 +23,7 @@ class Micro implements LabInterface
     // or use a micro result class that has 2 props: string $result and array $sensitivities
     // and have a $results array that can store as many classes as needed.  yea!!
 
-    public function display(): string
+    public function result(): array
     {
         // TODO: Implement display() method.
     }

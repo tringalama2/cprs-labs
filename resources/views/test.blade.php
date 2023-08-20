@@ -1,4 +1,3 @@
-@php use Carbon\Carbon; @endphp
 <x-app-layout>
     <div>
 
@@ -12,19 +11,29 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($labLabelsSorted as $lab)
+            @foreach($labLabelsSorted as $labNamd)
                 <tr class="border-b border-gray-500">
-                    <th scope="row" class="border-r border-gray-500 px-2">{{ $lab }}</th>
+                    <th scope="row" class="border-r border-gray-500 px-2">{{ $labNamd }}</th>
                     @foreach($labs->pluck('collection_date')->unique() as $date)
-                        <td class="border-r border-gray-500 px-2 text-center">{{ $labs->where('collection_date', $date)->where('name', $lab)->first()?->get('result') }}</td>
+                        @php
+                            $lab = $labs->where('collection_date', $date)->where('name', $labNamd)->first();
+                        @endphp
+                        <td class="border-r border-gray-500 px-2 text-center
+                        @if(str($lab?->get('flag'))->contains('*'))
+                        bg-red-500
+                        @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
+                        bg-red-300
+                        @endif
+                        ">{{ $lab?->get('result') }}
+                        </td>
                     @endforeach
                 </tr>
             @endforeach
             </tbody>
         </table>
         <h2 class="text-lg underline">Unable To Process</h2>
-        @foreach($unableToParse as $row)
-            <div>{{ $row }}</div>
+        @foreach($unparsableRows as $row)
+            <div>{{ implode(' ', $row->toArray()) }}</div>
         @endforeach
     </div>
 </x-app-layout>
