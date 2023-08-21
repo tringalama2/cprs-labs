@@ -32,20 +32,32 @@ return [
     'EOSINOPHILS %(M)',
     'BASOPHILS %(M)',
     'MYELOCYTE %(M)',
+    'METAMYELOCYTE %(M)',
     'NEUTROPHILS #(M)',
     'LYMPHOCYTES #(M)',
     'MONOCYTES #(M)',
     'EOSINOPHILS #(M)',
     'BASOPHILS #(M)',
     'IMMATURE GRANULOCYTE #(M)',
+
+    // CBC Morphology
     'RBC MORPHOLOGY',
     'PLT (ESTM)',
     'PLT MORPHOLOGY',
+    'LARGE PLATELETS',
+    'POLYCHROMASIA',
+    'HYPOCHROMIA',
     'ANISOCYTOSIS',
+    'MICROCYTOSIS',
     'MACROCYTOSIS',
     'POIKILOCYTOSIS',
     'SCHISTOCYTES',
+    'SPHEROCYTES',
+    'OVALOCYTES',
+    'STOMATOCYTE',
     'BURR CELLS',
+    'ACANTHOCYTES',
+    'TEARDROP CELLS',
 
     // chem
     'GLUCOSE,Blood',
@@ -81,4 +93,39 @@ return [
     'BASE EXCESS (BE)',
     'O2 SAT%',
     'FIO2',
+
+    // Coag
+    'ANTI-Xa(UFH),BLOOD',
+    'PROTHROMBIN TIME,blood',
+    'INR,blood',
+    'APTT',
+
+    // Cardiac
+    'BNP,BLOOD',
+    'CK,Blood',
+    'CKMB,blood',
+    'CKMB INDEX,blood',
+    'MYOGLOBIN,Blood',
+    'TROPONIN-I,BLOOD',
+
+    // UA
+    'URINE GLUCOSE',
+    'URINE PROTEIN',
+    'URINE BILIRUBIN',
+    'URINE UROBILINOGEN',
+    'URINE PH',
+    'URINE BLOOD',
+    'URINE KETONES',
+    'URINE NITRITE',
+    'URINE LEUKOCYTE ESTERASE',
+    'URINE CLARITY',
+    'URINE SPECIFIC GRAVITY',
+    'URINE COLOR',
+    'RBC/HPF',
+    'WBC/HPF',
+    'URINE BACTERIA',
+    'SQUAMOUS EPITHELIAL',
+    'HYALINE CAST',
+    'CALCIUM OXALATE',
+
 ];

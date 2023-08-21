@@ -31,20 +31,32 @@ return [
     'EOSINOPHILS %(M)' => 'Eosinophils %(M)',
     'BASOPHILS %(M)' => 'Basophils %(M)',
     'MYELOCYTE %(M)' => 'Myelocyte %(M)',
+    'METAMYELOCYTE %(M)' => 'Metamyelocyte %(M)',
     'NEUTROPHILS #(M)' => 'Neutrophils #(M)',
     'LYMPHOCYTES #(M)' => 'Lymphocytes #(M)',
     'MONOCYTES #(M)' => 'Monocytes #(M)',
     'EOSINOPHILS #(M)' => 'Eosinophils #(M)',
     'BASOPHILS #(M)' => 'Basophils #(M)',
     'IMMATURE GRANULOCYTE #(M)' => 'Immature Granulocyte #(M)',
+
+    // CBC Morphology
     'RBC MORPHOLOGY' => 'RBC Morphology',
     'PLT (ESTM)' => 'PLT (ESTM)',
     'PLT MORPHOLOGY' => 'PLT Morphology',
+    'LARGE PLATELETS' => 'Large Platelets',
+    'POLYCHROMASIA' => 'Polychromasia',
+    'HYPOCHROMIA' => 'Hypochromia',
     'ANISOCYTOSIS' => 'Anisocytosis',
+    'MICROCYTOSIS' => 'Microcytosis',
     'MACROCYTOSIS' => 'Macrocytosis',
     'POIKILOCYTOSIS' => 'Poikilocytosis',
     'SCHISTOCYTES' => 'Schistocytes',
+    'SPHEROCYTES' => 'Spherocytes',
+    'OVALOCYTES' => 'Ovalocytes',
+    'STOMATOCYTE' => 'Stomatocyte',
     'BURR CELLS' => 'Burr cells',
+    'ACANTHOCYTES' => 'Acanthocytes',
+    'TEARDROP CELLS' => 'Teardrop cells',
 
     // chem
     'GLUCOSE,Blood' => 'Glucose',
@@ -80,4 +92,39 @@ return [
     'BASE EXCESS (BE)' => 'Base Excess',
     'O2 SAT%' => 'SpO2',
     'FIO2' => 'FIO2',
+
+    // Coag
+    'ANTI-Xa(UFH),BLOOD' => 'Anit-Xa (UFH)',
+    'PROTHROMBIN TIME,blood' => 'PT',
+    'INR,blood' => 'INR',
+    'APTT' => 'aPTT',
+
+    // Cardiac
+    'BNP,BLOOD' => 'BNP',
+    'CK,Blood' => 'CK',
+    'CKMB,blood' => 'CKMB',
+    'CKMB INDEX,blood' => 'CKMB Index',
+    'MYOGLOBIN,Blood' => 'Myoglobin',
+    'TROPONIN-I,BLOOD' => 'Troponin-I',
+
+    // UA
+    'URINE GLUCOSE' => 'Urine Glucose',
+    'URINE PROTEIN' => 'Urine Protein',
+    'URINE BILIRUBIN' => 'Urine Bilirubin',
+    'URINE UROBILINOGEN' => 'Urine Urobilinogen',
+    'URINE PH' => 'Urine pH',
+    'URINE BLOOD' => 'Urine Blood',
+    'URINE KETONES' => 'Urine Ketones',
+    'URINE NITRITE' => 'Urine Nitrite',
+    'URINE LEUKOCYTE ESTERASE' => 'Urine Leukocyte Esterase',
+    'URINE CLARITY' => 'Urine Clarity',
+    'URINE SPECIFIC GRAVITY' => 'Urine Sp Gravity',
+    'URINE COLOR' => 'Urine Color',
+    'RBC/HPF' => 'RBC/Hpf',
+    'WBC/HPF' => 'WBC/Hpf',
+    'URINE BACTERIA' => 'Urine Bacteria',
+    'SQUAMOUS EPITHELIAL' => 'Squamous Epithelial',
+    'HYALINE CAST' => 'Hyaline Cast',
+    'CALCIUM OXALATE' => 'Calcium Oxalate',
+
 ];
