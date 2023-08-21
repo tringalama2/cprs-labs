@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\LabBuilderEmptyCollectionException;
 use App\Services\LabBuilder;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class TestController extends Controller
@@ -14,29 +14,31 @@ class TestController extends Controller
     {
         //  https://regex101.com/r/dF3aE6/1
 
-        $labBuilder = new LabBuilder(file_get_contents(resource_path('labs.short.test.txt')));
-        $labBuilder->process();
+        $userSortDescending = true;
 
-        $labs = $labBuilder->getLabCollection();
-        $unparsableRows = $labBuilder->getUnparsableRowsCollection();
+        try {
 
-        $labs = $labs->sortByDesc(function (Collection $row, int $key) {
-            return $row['collection_date']->toDateTimeString();
-        });
+            $labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
+            $labBuilder->process();
+            $labBuilder->sort($userSortDescending);
 
-        $labLabelsSorted = $labs->pluck('name')->unique()->sortBy(function (?string $name, int $key) {
-            $order = array_search($name, include(app_path('Services/Format/sort.php')));
-            if ($order === false) {
-                return 10000;
-            }
+            $labs = $labBuilder->getLabCollection();
+            $unparsableRows = $labBuilder->getUnparsableRowsCollection();
+            $labLabelsSorted = $labBuilder->getLabLabels();
+            $datetimeHeaders = $labBuilder->getCollectionDateHeaders();
 
-            return $order;
-        });
+        } catch (LabBuilderEmptyCollectionException $exception) {
+            report($exception);
+            dd('Lab Collection Empty.  Consider a director class to ensure the order of the builder?');
 
-        $datetimeHeader = $labs->pluck('collection_date')->unique()->map(function ($item) {
-            return Carbon::parse($item)->format('n/j/y<b\r>G:i');
-        });
+            return back()->withError($exception->getMessage())->withInput();
+        }
 
-        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeader', 'unparsableRows'));
+        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows'));
     }
+
+    /**
+     * @param  Collection  $labs
+     * @return Collection
+     */
 }

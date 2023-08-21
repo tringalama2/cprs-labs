@@ -69,4 +69,16 @@ return [
     'AST,Blood',
     'MAGNESIUM,Blood',
     'PHOSPHORUS,Blood',
+
+    // ABG
+    'SODIUM,ISTAT',
+    'POTASSIUM,ISTAT',
+    'PH @ 37C',
+    'PCO2 @ 37C',
+    'TCO2',
+    'PO2 @ 37C',
+    'HCO3',
+    'BASE EXCESS (BE)',
+    'O2 SAT%',
+    'FIO2',
 ];

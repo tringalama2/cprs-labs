@@ -2,23 +2,23 @@
     <div>
 
 
-        <table>
+        <table class="text-sm">
             <thead>
             <tr>
                 <th scope="col" class="border-b border-gray-500"></th>
                 <th scope="col"
-                    class="border-b border-gray-500 px-2">{!! $datetimeHeader->implode('</th><th class="border-b border-gray-500  px-2">') !!}</th>
+                    class="border-b border-gray-500 px-2">{!! $datetimeHeaders->implode('</th><th class="border-b border-gray-500  px-2">') !!}</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($labLabelsSorted as $labNamd)
+            @foreach($labLabelsSorted as $labName => $labAlias)
                 <tr class="border-b border-gray-500">
-                    <th scope="row" class="border-r border-gray-500 px-2">{{ $labNamd }}</th>
+                    <th scope="row" class="border-r border-gray-500 px-2">{{ $labAlias ? $labAlias : $labName }}</th>
                     @foreach($labs->pluck('collection_date')->unique() as $date)
                         @php
-                            $lab = $labs->where('collection_date', $date)->where('name', $labNamd)->first();
+                            $lab = $labs->where('collection_date', $date)->where('name', $labName)->first();
                         @endphp
-                        <td class="border-r border-gray-500 px-2 text-center
+                        <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
                         @if(str($lab?->get('flag'))->contains('*'))
                         bg-red-500
                         @elseif(str($lab?->get('flag'))->contains(['H', 'L']))

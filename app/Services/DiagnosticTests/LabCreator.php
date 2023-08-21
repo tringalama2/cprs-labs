@@ -21,6 +21,14 @@ class LabCreator implements DiagnosticTestCreatorInterface
             return new UnparsableDiagnosticTest($resultData);
         }
 
+        // todo: create TestNotPerformedDiagnosticTest Type and pass in metadata and lab name
+        // Report Released Date/Time:
+        //Provider: IQBAL,HUMZAH A
+        //  Specimen: PLASMA.           CH 0805 142
+        //    Specimen Collection Date: Aug 05, 2023
+        //      Test name                Result    units      Ref.   range   Site Code
+        //AMMONIA,BLOOD              Test Not Performed
+
         return new Lab(
             $name = $resultData['name'],
             $result = $resultData['result'],
@@ -59,6 +67,11 @@ class LabCreator implements DiagnosticTestCreatorInterface
     {
         $result_array = Str::of($this->diagnosticTests[$index])->split('/(\s){2,}/')->flatten()->toArray();
 
+        //        if (Str::startsWith($this->diagnosticTests[$index], 'FIO2')) {
+        //            dd($this->diagnosticTests[$index], Str::of($this->diagnosticTests[$index])->split('/(\s){2,}/')->flatten()->toArray());
+        //        }
+
+        //tests with units
         if (count($result_array) == 5) {
             return [
                 'name' => $result_array[0],
@@ -70,6 +83,7 @@ class LabCreator implements DiagnosticTestCreatorInterface
             ];
         }
 
+        // tests without units
         if (count($result_array) == 4) {
             return [
                 'name' => $result_array[0],
@@ -79,6 +93,19 @@ class LabCreator implements DiagnosticTestCreatorInterface
                 'reference_range' => $result_array[2],
                 'site_code' => $result_array[3],
             ];
+        }
+
+        // special tests
+        switch ($result_array[0]) {
+            case 'FIO2':
+                return [
+                    'name' => $result_array[0],
+                    'result' => $result_array[1],
+                    'flag' => '',
+                    'units' => '',
+                    'reference_range' => '',
+                    'site_code' => $result_array[2],
+                ];
         }
 
         return $result_array;

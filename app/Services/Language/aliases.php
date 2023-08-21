@@ -51,7 +51,7 @@ return [
     'SODIUM,Blood' => 'Na',
     'POTASSIUM,Blood' => 'K',
     'CHLORIDE,Blood' => 'Cl',
-    'CARBON DIOXIDE,Blood' => 'Bicarb',
+    'CARBON DIOXIDE,Blood' => 'HCO3',
     'UREA NITROGEN,Blood' => 'BUN',
     'CREATININE,blood' => 'Cr',
     'CALCIUM,Blood' => 'Calcium',
@@ -68,6 +68,16 @@ return [
     'AST,Blood' => 'AST',
     'MAGNESIUM,Blood' => 'Mg',
     'PHOSPHORUS,Blood' => 'PO4',
-];
 
-// Todo: use the alias list for the sort lists as well
+    // ABG
+    'SODIUM,ISTAT' => 'Na',
+    'POTASSIUM,ISTAT' => 'K',
+    'PH @ 37C' => 'pH',
+    'PCO2 @ 37C' => 'PCO2',
+    'TCO2' => 'TCO2',
+    'PO2 @ 37C' => 'PO2',
+    'HCO3' => 'HCO3',
+    'BASE EXCESS (BE)' => 'Base Excess',
+    'O2 SAT%' => 'SpO2',
+    'FIO2' => 'FIO2',
+];

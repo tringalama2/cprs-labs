@@ -16,6 +16,11 @@ class LabMetaRowParser
     public function stripDateFromRow(string $row): bool|Carbon
     {
         $date = Str::of($row)->match(self::DATE_PATTERN);
+
+        if (strlen($date) < 12) {
+            return false;
+        }
+
         if (strlen($date) === 12) {
             return Carbon::createFromFormat(self::DATETIME_CARBON_FORMAT, $date.'@00:00');
         }
