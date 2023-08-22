@@ -15,12 +15,14 @@
                 $loopPanel = '';
             @endphp
             @foreach($labLabelsSorted as $labLabel)
-                <tr class="border-b border-gray-500">
+                <tr class="border-b border-gray-500 hover:bg-sky-200 group">
                     @if ($labLabel->panel != $loopPanel)
                         <th rowspan="{{ $panels[$labLabel->panel] }}"
-                            class="rotate-[-90deg] font-extrabold border-r border-gray-500">{{ $labLabel->panel }}</th>
+                            class="font-extrabold border-r border-gray-500 group-hover:bg-white align-text-top text-xl"
+                            style="writing-mode: vertical-lr;">{{ $labLabel->panel }}</th>
                     @endif
-                    <th scope="row" class="border-r border-gray-500 px-2">{{ $labLabel->label }}</th>
+                    <th scope="row"
+                        class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300">{{ $labLabel->label }}</th>
                     @foreach($labs->groupBy('collection_date') as $date)
                         @php
                             $lab = $date->where('name', $labLabel->name)->first();
@@ -29,8 +31,16 @@
                         <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
                         @if(str($lab?->get('flag'))->contains('*'))
                         bg-red-500
+                        text-red-950
+                        group-hover:bg-sky-500
+                        font-bold
                         @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
                         bg-red-300
+                        text-red-900
+                        group-hover:bg-sky-400
+                        font-bold
+                        @else
+                        group-hover:bg-sky-200
                         @endif
                         ">{{ $lab?->get('result') }}
                         </td>
