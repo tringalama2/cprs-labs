@@ -23,6 +23,7 @@ return new class extends Migration
             ['id' => 6, 'label' => 'Coag', 'sort_id' => 6],
             ['id' => 7, 'label' => 'Cardiac', 'sort_id' => 7],
             ['id' => 8, 'label' => 'UA', 'sort_id' => 8],
+            ['id' => 9, 'label' => 'Infectious', 'sort_id' => 9],
         ]);
     }
 

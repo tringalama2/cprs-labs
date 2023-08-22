@@ -127,6 +127,8 @@ return new class extends Migration
             ['panel_id' => '8', 'name' => 'SQUAMOUS EPITHELIAL', 'label' => 'Squamous Epithelial', 'sort_id' => '108'],
             ['panel_id' => '8', 'name' => 'HYALINE CAST', 'label' => 'Hyaline Cast', 'sort_id' => '109'],
             ['panel_id' => '8', 'name' => 'CALCIUM OXALATE', 'label' => 'Calcium Oxalate', 'sort_id' => '110'],
+            ['panel_id' => '9', 'name' => 'C. DIFF TOX B GENE PCR,stool', 'label' => 'C. Diff Tox B PCR', 'sort_id' => '111'],
+            ['panel_id' => '9', 'name' => 'VZ DNA', 'label' => 'VZV DNA PCR', 'sort_id' => '112'],
         ]);
 
     }

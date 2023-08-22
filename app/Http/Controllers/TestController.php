@@ -15,6 +15,7 @@ class TestController extends Controller
 
         $userSortDescending = true;
 
+        // Todo: move to new DiagnosticTestDirector
         try {
 
             $labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
@@ -23,11 +24,17 @@ class TestController extends Controller
 
             $labs = $labBuilder->getLabCollection();
             $unparsableRows = $labBuilder->getUnparsableRowsCollection();
+            $unrecognizedLabs = $labBuilder->getUnrecognizedLabs();
+            $unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
             $labLabelsSorted = $labBuilder->getLabLabels();
             $datetimeHeaders = $labBuilder->getCollectionDateHeaders();
             $panels = $labLabelsSorted->groupBy('panel')->map->count();
             //            dd($labLabelsSorted);
             //            dd($labs->groupBy('collection_date')->first()->where('name', 'WBC'));
+
+            //            dd($labBuilder->getLabCollection(), $labBuilder->getUnrecognizedLabs(),
+            //                $labs->merge($labBuilder->getUnrecognizedLabs()),
+            //                $labLabelsSorted);
 
         } catch (LabBuilderEmptyCollectionException $exception) {
             report($exception);
@@ -36,6 +43,6 @@ class TestController extends Controller
             return back()->withError($exception->getMessage())->withInput();
         }
 
-        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows', 'panels'));
+        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows', 'panels', 'unrecognizedLabLabels'));
     }
 }

@@ -79,13 +79,40 @@ class LabBuilder extends DiagnosticTestBuilder
     public function getLabLabels(): Collection
     {
         $this->verifyLabCollectionNotEmpty();
+        $labsAndPanels = $this->getLabsAndPanels();
+
+        return $labsAndPanels->intersectByKeys($this->labCollection->pluck('name')->flip());
+    }
+
+    private function getLabsAndPanels(): Collection
+    {
         $availableLabs = Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
             ->select('labs.name', 'labs.label', 'panels.label as panel')
             ->orderBy('panels.sort_id')
             ->orderBy('labs.sort_id')
-            ->get();
+            ->get()->keyBy('name');
 
-        return $availableLabs->keyBy('name')->intersectByKeys($this->labCollection->pluck('name')->flip());
+        return $availableLabs;
+    }
+
+    public function getUnrecognizedLabs(): Collection
+    {
+        $this->verifyLabCollectionNotEmpty();
+        $labsAndPanels = $this->getLabsAndPanels();
+        $unrecognized = $this->getUnrecognizedLabLabels()->flip();
+
+        return $this->labCollection->filter(function (Collection $value, int $key) use ($unrecognized) {
+            return $unrecognized->has($value->get('name'));
+        });
+    }
+
+    public function getUnrecognizedLabLabels(): Collection
+    {
+        $this->verifyLabCollectionNotEmpty();
+        $labsAndPanels = $this->getLabsAndPanels();
+
+        return $this->labCollection->pluck('name')->flip()->diffKeys($labsAndPanels)->flip();
+
     }
 
     /**

@@ -98,6 +98,7 @@ class LabCreator implements DiagnosticTestCreatorInterface
         // special tests
         switch ($result_array[0]) {
             case 'FIO2':
+            case 'VZ DNA':
                 return [
                     'name' => $result_array[0],
                     'result' => $result_array[1],
@@ -106,6 +107,16 @@ class LabCreator implements DiagnosticTestCreatorInterface
                     'reference_range' => '',
                     'site_code' => $result_array[2],
                 ];
+            case 'C. DIFF TOX B GENE PCR,stoolNegative':
+                return [
+                    'name' => Str::substr($result_array[0], 0, 28),
+                    'result' => Str::substr($result_array[0], -8),
+                    'flag' => '',
+                    'units' => '',
+                    'reference_range' => $result_array[1],
+                    'site_code' => $result_array[2],
+                ];
+
         }
 
         return $result_array;
