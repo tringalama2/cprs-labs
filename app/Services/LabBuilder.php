@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\LabBuilderEmptyCollectionException;
+use App\Models\Lab;
 use App\Services\DiagnosticTests\LabCreator;
 use App\Services\DiagnosticTests\UnparsableDiagnosticTest;
 use App\Services\Parser\RowTypes\Row;
@@ -78,22 +79,13 @@ class LabBuilder extends DiagnosticTestBuilder
     public function getLabLabels(): Collection
     {
         $this->verifyLabCollectionNotEmpty();
+        $availableLabs = Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
+            ->select('labs.name', 'labs.label', 'panels.label as panel')
+            ->orderBy('panels.sort_id')
+            ->orderBy('labs.sort_id')
+            ->get();
 
-        return $this->labCollection
-            ->pluck('name')
-            ->unique()
-            ->sortBy(function (?string $name, int $key) {
-                $order = array_search($name, include(app_path('Services/Format/sort.php')));
-                if ($order === false) {
-                    return 10000;
-                }
-
-                return $order;
-            })
-            ->flip()
-            ->map(function (int $value, string $key) {
-                return array_search($key, array_flip(include app_path('Services/Language/aliases.php')));
-            });
+        return $availableLabs->keyBy('name')->intersectByKeys($this->labCollection->pluck('name')->flip());
     }
 
     /**

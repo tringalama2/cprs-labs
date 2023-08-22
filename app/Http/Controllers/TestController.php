@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\LabBuilderEmptyCollectionException;
 use App\Services\LabBuilder;
-use Illuminate\Support\Collection;
 
 class TestController extends Controller
 {
@@ -26,19 +25,17 @@ class TestController extends Controller
             $unparsableRows = $labBuilder->getUnparsableRowsCollection();
             $labLabelsSorted = $labBuilder->getLabLabels();
             $datetimeHeaders = $labBuilder->getCollectionDateHeaders();
+            $panels = $labLabelsSorted->groupBy('panel')->map->count();
+            //            dd($labLabelsSorted);
+            //            dd($labs->groupBy('collection_date')->first()->where('name', 'WBC'));
 
         } catch (LabBuilderEmptyCollectionException $exception) {
             report($exception);
-            dd('Lab Collection Empty.  Consider a director class to ensure the order of the builder?');
+            //dd('Lab Collection Empty.  Consider a director class to ensure the order of the builder?');
 
             return back()->withError($exception->getMessage())->withInput();
         }
 
-        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows'));
+        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows', 'panels'));
     }
-
-    /**
-     * @param  Collection  $labs
-     * @return Collection
-     */
 }

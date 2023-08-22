@@ -11,21 +11,13 @@
             </tr>
             </thead>
             <tbody>
-            @php
-                $loopPanel = '';
-            @endphp
-            @foreach($labLabelsSorted as $labLabel)
+            @foreach($labLabelsSorted as $labName => $labAlias)
                 <tr class="border-b border-gray-500">
-                    @if ($labLabel->panel != $loopPanel)
-                        <th rowspan="{{ $panels[$labLabel->panel] }}"
-                            class="rotate-[-90deg] font-extrabold border-r border-gray-500">{{ $labLabel->panel }}</th>
-                    @endif
-                    <th scope="row" class="border-r border-gray-500 px-2">{{ $labLabel->label }}</th>
-                    @foreach($labs->groupBy('collection_date') as $date)
+                    <th scope="row" class="border-r border-gray-500 px-2">{{ $labAlias ? $labAlias : $labName }}</th>
+                    @foreach($labs->pluck('collection_date')->unique() as $date)
                         @php
-                            $lab = $date->where('name', $labLabel->name)->first();
+                            $lab = $labs->where('collection_date', $date)->where('name', $labName)->first();
                         @endphp
-
                         <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
                         @if(str($lab?->get('flag'))->contains('*'))
                         bg-red-500
@@ -36,9 +28,6 @@
                         </td>
                     @endforeach
                 </tr>
-                @php
-                    $loopPanel = $labLabel->panel
-                @endphp
             @endforeach
             </tbody>
         </table>
