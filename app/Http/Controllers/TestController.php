@@ -24,7 +24,6 @@ class TestController extends Controller
 
             $labs = $labBuilder->getLabCollection();
             $unparsableRows = $labBuilder->getUnparsableRowsCollection();
-            $unrecognizedLabs = $labBuilder->getUnrecognizedLabs();
             $unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
             $labLabelsSorted = $labBuilder->getLabLabels();
             $datetimeHeaders = $labBuilder->getCollectionDateHeaders();
@@ -43,6 +42,7 @@ class TestController extends Controller
             return back()->withError($exception->getMessage())->withInput();
         }
 
-        return view('test', compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows', 'panels', 'unrecognizedLabLabels'));
+        return view('test',
+            compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows', 'panels', 'unrecognizedLabLabels'));
     }
 }

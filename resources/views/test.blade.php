@@ -1,7 +1,5 @@
 <x-app-layout>
     <div>
-
-
         <table class="text-sm border-collapse border-spacing-0">
             <thead>
             <tr>

@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Exceptions\LabBuilderEmptyCollectionException;
 use App\Models\Lab;
+use App\Models\UnparsableLab;
+use App\Models\UnrecognizedLab;
 use App\Services\DiagnosticTests\LabCreator;
 use App\Services\DiagnosticTests\UnparsableDiagnosticTest;
 use App\Services\Parser\RowTypes\Row;
@@ -95,26 +97,6 @@ class LabBuilder extends DiagnosticTestBuilder
         });
     }
 
-    public function getUnrecognizedLabs(): Collection
-    {
-        $this->verifyLabCollectionNotEmpty();
-        $labsAndPanels = $this->getLabsAndPanels();
-        $unrecognized = $this->getUnrecognizedLabLabels()->flip();
-
-        return $this->labCollection->filter(function (Collection $value, int $key) use ($unrecognized) {
-            return $unrecognized->has($value->get('name'));
-        });
-    }
-
-    public function getUnrecognizedLabLabels(): Collection
-    {
-        $this->verifyLabCollectionNotEmpty();
-        $labsAndPanels = $this->getLabsAndPanels();
-
-        return $this->labCollection->pluck('name')->flip()->diffKeys($labsAndPanels)->flip();
-
-    }
-
     /**
      * @throws LabBuilderEmptyCollectionException
      */
@@ -128,5 +110,29 @@ class LabBuilder extends DiagnosticTestBuilder
             ->map(function ($item) {
                 return Carbon::parse($item)->format('n/j/y<b\r>G:i');
             });
+    }
+
+    /**
+     * @throws LabBuilderEmptyCollectionException
+     */
+    public function logUnmatchedLabs(): void
+    {
+        $this->verifyLabCollectionNotEmpty();
+
+        $this->getUnrecognizedLabLabels()->each(function (string $item, int $key) {
+            UnrecognizedLab::firstOrCreate(['name' => $item]);
+        });
+        $this->unparsableRowsCollection->each(function (string $item, int $key) {
+            UnparsableLab::firstOrCreate(['name' => $item]);
+        });
+    }
+
+    public function getUnrecognizedLabLabels(): Collection
+    {
+        $this->verifyLabCollectionNotEmpty();
+        $labsAndPanels = $this->getLabsAndPanels();
+
+        return $this->labCollection->pluck('name')->flip()->diffKeys($labsAndPanels)->flip();
+
     }
 }
