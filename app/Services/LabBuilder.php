@@ -86,13 +86,13 @@ class LabBuilder extends DiagnosticTestBuilder
 
     private function getLabsAndPanels(): Collection
     {
-        $availableLabs = Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
-            ->select('labs.name', 'labs.label', 'panels.label as panel')
-            ->orderBy('panels.sort_id')
-            ->orderBy('labs.sort_id')
-            ->get()->keyBy('name');
-
-        return $availableLabs;
+        return cache()->remember('availableLabs', 60, function () {
+            return Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
+                ->select('labs.name', 'labs.label', 'panels.label as panel')
+                ->orderBy('panels.sort_id')
+                ->orderBy('labs.sort_id')
+                ->get()->keyBy('name');
+        });
     }
 
     public function getUnrecognizedLabs(): Collection

@@ -25,7 +25,7 @@
                     @endif
                     <th scope="row"
                         class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300
-                         z-20 sticky left-0
+                         z-20 sticky left-7
                         ">{{ $labLabel->label }}</th>
                     @foreach($labs->groupBy('collection_date') as $date)
                         @php
@@ -67,7 +67,7 @@
                     @endif
                     <th scope="row"
                         class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300
-                        z-20 sticky left-0">{{ $labLabel }}</th>
+                        z-20 sticky left-7">{{ $labLabel }}</th>
                     @foreach($labs->groupBy('collection_date') as $date)
                         @php
                             $lab = $date->where('name', $labLabel)->first();
