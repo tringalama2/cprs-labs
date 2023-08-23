@@ -2,12 +2,13 @@
     <div>
 
 
-        <table class="text-sm">
+        <table class="text-sm border-collapse border-spacing-0">
             <thead>
             <tr>
-                <th scope="col" class="border-b border-gray-500"></th>
+                <th scope="col" class="border-b border-gray-500 z-40 sticky bg-white top-0 left-0"></th>
+                <th scope="col" class="border-b border-gray-500 z-40 sticky bg-white top-0 left-0"></th>
                 <th scope="col"
-                    class="border-b border-gray-500 px-2">{!! $datetimeHeaders->implode('</th><th class="border-b border-gray-500  px-2">') !!}</th>
+                    class="border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">{!! $datetimeHeaders->implode('</th><th class="border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">') !!}</th>
             </tr>
             </thead>
             <tbody>
@@ -18,11 +19,14 @@
                 <tr class="border-b border-gray-500 hover:bg-sky-200 group">
                     @if ($labLabel->panel != $loopPanel)
                         <th rowspan="{{ $panels[$labLabel->panel] }}"
-                            class="font-extrabold border-r border-gray-500 group-hover:bg-white text-xl text-start ps-3"
+                            class="font-extrabold border-r border-gray-500 group-hover:bg-white text-xl text-start ps-3
+                            z-30 sticky bg-white left-0"
                             style="writing-mode: vertical-lr;">{{ $labLabel->panel }}</th>
                     @endif
                     <th scope="row"
-                        class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300">{{ $labLabel->label }}</th>
+                        class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300
+                         z-20 sticky left-0
+                        ">{{ $labLabel->label }}</th>
                     @foreach($labs->groupBy('collection_date') as $date)
                         @php
                             $lab = $date->where('name', $labLabel->name)->first();
@@ -41,6 +45,7 @@
                         font-bold
                         @else
                         group-hover:bg-sky-200
+                        bg-white
                         @endif
                         ">{{ $lab?->get('result') }}
                         </td>
@@ -55,12 +60,14 @@
                 <tr class="border-b border-gray-500 hover:bg-sky-200 group">
                     @if($loop->first)
                         <th rowspan="{{ $unrecognizedLabLabels->count() }}"
-                            class="font-extrabold border-r border-gray-500 group-hover:bg-white align-top text-start ps-3 text-xl"
+                            class="font-extrabold border-r border-gray-500 group-hover:bg-white align-top text-start ps-3 text-xl
+                            z-30 sticky bg-white left-0"
                             style="writing-mode: vertical-lr;">Other
                         </th>
                     @endif
                     <th scope="row"
-                        class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300">{{ $labLabel }}</th>
+                        class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300
+                        z-20 sticky left-0">{{ $labLabel }}</th>
                     @foreach($labs->groupBy('collection_date') as $date)
                         @php
                             $lab = $date->where('name', $labLabel)->first();
@@ -79,6 +86,7 @@
                         font-bold
                         @else
                         group-hover:bg-sky-200
+                        bg-white
                         @endif
                         ">{{ $lab?->get('result') }}
                         </td>
@@ -87,9 +95,11 @@
             @endforeach
             </tbody>
         </table>
-        <h2 class="text-lg underline">Unable To Process</h2>
-        @foreach($unparsableRows as $row)
-            <div>{{ implode(' ', $row->toArray()) }}</div>
-        @endforeach
+        <div class="bg-white">
+            <h2 class="text-lg underline">Unable To Process</h2>
+            @foreach($unparsableRows as $row)
+                <div>{{ implode(' ', $row->toArray()) }}</div>
+            @endforeach
+        </div>
     </div>
 </x-app-layout>
