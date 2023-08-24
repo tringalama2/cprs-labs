@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Exceptions\LabBuilderEmptyCollectionException;
 use App\Services\LabBuilder;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -33,29 +32,22 @@ class Labs extends Component
         $userSortDescending = true;
 
         // Todo: move to new DiagnosticTestDirector
-        try {
 
-            //$labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
-            $labBuilder = new LabBuilder($this->input);
-            $labBuilder->process();
-            $labBuilder->sort($userSortDescending);
+        //$labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
+        $labBuilder = new LabBuilder($this->input);
+        //            $labDirector = new DiagnosticTestDirector($labBuilder);
+        $labBuilder->process();
+        $labBuilder->sort($userSortDescending);
 
-            $this->labs = $labBuilder->getLabCollection();
-            $this->unparsableRows = $labBuilder->getUnparsableRowsCollection();
-            $this->unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
-            $this->labLabelsSorted = $labBuilder->getLabLabels();
-            $this->datetimeHeaders = $labBuilder->getCollectionDateHeaders();
-            $this->panels = $this->labLabelsSorted->groupBy('panel')->map->count();
-            $labBuilder->logUnmatchedLabs();
+        $this->labs = $labBuilder->getLabCollection();
+        $this->unparsableRows = $labBuilder->getUnparsableRowsCollection();
+        $this->unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
+        $this->labLabelsSorted = $labBuilder->getLabLabels();
+        $this->datetimeHeaders = $labBuilder->getDateTimeHeaders();
+        $this->panels = $labBuilder->getPanels();
 
-            $this->emit('resultsReady');
+        $this->emit('resultsReady');
 
-        } catch (LabBuilderEmptyCollectionException $exception) {
-            report($exception);
-            //dd('Lab Collection Empty.  Consider a director class to ensure the order of the builder?');
-
-            //            return back()->withError($exception->getMessage())->withInput();
-        }
     }
 
     public function render(): View

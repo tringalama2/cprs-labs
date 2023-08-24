@@ -8,7 +8,7 @@ abstract class DiagnosticTestBuilder
 {
     const OVERFLOW_ROW_PATTERN = '/^(\s)+([A-Za-z: ]*)(\[([0-9]+?)\]$)/';
 
-    public array $labRows;
+    protected array $labRows;
 
     protected string $rawLabs;
 

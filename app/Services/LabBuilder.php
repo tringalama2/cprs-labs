@@ -14,27 +14,74 @@ use Illuminate\Support\Collection;
 
 class LabBuilder extends DiagnosticTestBuilder
 {
+    public Collection $labLabels;
+
     private Collection $labCollection;
 
     private Collection $unparsableRowsCollection;
+
+    private Collection $panels;
+
+    private Collection $datetimeHeaders;
+
+    private Collection $unparsableRows;
+
+    private Collection $unrecognizedLabLabels;
+
+    private Collection $labsAndPanels;
 
     public function __construct($rawLabs)
     {
         parent::__construct($rawLabs);
         $this->labCollection = collect();
         $this->unparsableRowsCollection = collect();
+        $this->setLabsAndPanels();
     }
 
-    /**
-     * @throws LabBuilderEmptyCollectionException
-     */
+    private function setLabsAndPanels(): void
+    {
+        $this->labsAndPanels = Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
+            ->select('labs.name', 'labs.label', 'panels.label as panel')
+            ->orderBy('panels.sort_id')
+            ->orderBy('labs.sort_id')
+            ->get()->keyBy('name');
+    }
+
     public function sort(bool $descending = true): void
     {
-        $this->verifyLabCollectionNotEmpty();
-
         $this->labCollection = $this->labCollection->sortBy(function (Collection $row, int $key) {
             return $row['collection_date']->toDateTimeString();
-        }, SORT_REGULAR, true);
+        }, SORT_REGULAR, $descending);
+    }
+
+    public function getDateTimeHeaders(): Collection
+    {
+        return $this->datetimeHeaders;
+    }
+
+    public function getLabCollection(): Collection
+    {
+        return $this->labCollection;
+    }
+
+    public function getUnparsableRowsCollection(): Collection
+    {
+        return $this->unparsableRowsCollection;
+    }
+
+    public function getLabLabels(): Collection
+    {
+        return $this->labLabels;
+    }
+
+    public function getPanels(): Collection
+    {
+        return $this->panels;
+    }
+
+    public function getUnrecognizedLabLabels(): Collection
+    {
+        return $this->unrecognizedLabLabels;
     }
 
     /**
@@ -50,10 +97,20 @@ class LabBuilder extends DiagnosticTestBuilder
         }
     }
 
+    //    private function getLabsAndPanels(): Collection
+    //    {
+    //        return cache()->remember('availableLabs', 60, function () {
+    //            return Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
+    //                ->select('labs.name', 'labs.label', 'panels.label as panel')
+    //                ->orderBy('panels.sort_id')
+    //                ->orderBy('labs.sort_id')
+    //                ->get()->keyBy('name');
+    //        });
+    //    }
+
     public function process(): void
     {
         foreach ($this->labRows as $index => $row) {
-
             if (Row::isResult($row)) {
                 $lab = (new LabCreator($this->labRows, $index))->getDiagnosticTest();
                 if ($lab instanceof UnparsableDiagnosticTest) {
@@ -63,47 +120,18 @@ class LabBuilder extends DiagnosticTestBuilder
                 }
             }
         }
+
+        $this->unrecognizedLabLabels = $this->labCollection->pluck('name')->flip()->diffKeys($this->labsAndPanels)->flip();
+
+        $this->labLabels = $this->labsAndPanels->intersectByKeys($this->labCollection->pluck('name')->flip());
+        $this->panels = $this->labLabels->groupBy('panel')->map->count();
+        $this->datetimeHeaders = $this->setCollectionDateHeaders();
+
+        $this->logUnmatchedLabs();
     }
 
-    public function getLabCollection(): Collection
+    public function setCollectionDateHeaders(): Collection
     {
-        return $this->labCollection;
-    }
-
-    public function getUnparsableRowsCollection(): Collection
-    {
-        return $this->unparsableRowsCollection;
-    }
-
-    /**
-     * @throws LabBuilderEmptyCollectionException
-     */
-    public function getLabLabels(): Collection
-    {
-        $this->verifyLabCollectionNotEmpty();
-        $labsAndPanels = $this->getLabsAndPanels();
-
-        return $labsAndPanels->intersectByKeys($this->labCollection->pluck('name')->flip());
-    }
-
-    private function getLabsAndPanels(): Collection
-    {
-        return cache()->remember('availableLabs', 60, function () {
-            return Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
-                ->select('labs.name', 'labs.label', 'panels.label as panel')
-                ->orderBy('panels.sort_id')
-                ->orderBy('labs.sort_id')
-                ->get()->keyBy('name');
-        });
-    }
-
-    /**
-     * @throws LabBuilderEmptyCollectionException
-     */
-    public function getCollectionDateHeaders(): Collection
-    {
-        $this->verifyLabCollectionNotEmpty();
-
         return $this->labCollection
             ->pluck('collection_date')
             ->unique()
@@ -112,27 +140,13 @@ class LabBuilder extends DiagnosticTestBuilder
             });
     }
 
-    /**
-     * @throws LabBuilderEmptyCollectionException
-     */
     public function logUnmatchedLabs(): void
     {
-        $this->verifyLabCollectionNotEmpty();
-
-        $this->getUnrecognizedLabLabels()->each(function (string $item, int $key) {
+        $this->unrecognizedLabLabels->each(function (string $item, int $key) {
             UnrecognizedLab::firstOrCreate(['name' => $item]);
         });
         $this->unparsableRowsCollection->each(function (string $item, int $key) {
             UnparsableLab::firstOrCreate(['name' => $item]);
         });
-    }
-
-    public function getUnrecognizedLabLabels(): Collection
-    {
-        $this->verifyLabCollectionNotEmpty();
-        $labsAndPanels = $this->getLabsAndPanels();
-
-        return $this->labCollection->pluck('name')->flip()->diffKeys($labsAndPanels)->flip();
-
     }
 }
