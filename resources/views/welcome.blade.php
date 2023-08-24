@@ -55,7 +55,8 @@
             <div class="flex justify-center px-0 mt-16 sm:items-center sm:justify-between">
                 <div class="text-sm text-center text-gray-500 sm:text-left">
                     <div class="flex items-center gap-4">
-                        <a href="https://www.buymeacoffee.com/tringali" target="_blank">Buy me a pizza</a>
+                        <a href="https://www.buymeacoffee.com/tringali" target="_blank">Buy me a burrito bowl
+                            &#127791; &#129379; </a>
                     </div>
                 </div>
                 <div class="ml-4 text-sm text-center text-gray-500 sm:text-right sm:ml-0">
