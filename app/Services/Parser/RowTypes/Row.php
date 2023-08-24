@@ -13,7 +13,14 @@ class Row
 
     public static function isResult($row): bool
     {
-        return ! str_starts_with($row, ' ') && count(Str::of($row)->split('/(\s){2,}/')) > 2;
+        return ! str_starts_with($row, ' ')
+            && count(Str::of($row)->split('/(\s){2,}/')) > 2
+            && self::endsWithSiteCode($row);
+    }
+
+    public static function endsWithSiteCode($row): bool
+    {
+        return Str::of($row)->isMatch('/(\[([0-9]+?)\]$)/');
     }
 
     public static function hasSiteCode($row): bool

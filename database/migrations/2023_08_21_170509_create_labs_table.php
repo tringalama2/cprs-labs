@@ -131,8 +131,14 @@ return new class extends Migration
             ['panel_id' => '8', 'name' => 'SQUAMOUS EPITHELIAL', 'label' => 'Squamous Epithelial', 'sort_id' => '110'],
             ['panel_id' => '8', 'name' => 'HYALINE CAST', 'label' => 'Hyaline Cast', 'sort_id' => '111'],
             ['panel_id' => '8', 'name' => 'CALCIUM OXALATE', 'label' => 'Calcium Oxalate', 'sort_id' => '112'],
-            ['panel_id' => '9', 'name' => 'C. DIFF TOX B GENE PCR,stool', 'label' => 'C. Diff Tox B PCR', 'sort_id' => '113'],
-            ['panel_id' => '9', 'name' => 'VZ DNA', 'label' => 'VZV DNA PCR', 'sort_id' => '114'],
+            ['panel_id' => '9', 'name' => 'MRSA SURVL NARES DNA,E-SWAB', 'label' => 'MRSA Nares', 'sort_id' => '1'],
+            ['panel_id' => '9', 'name' => 'MRSA SURVL NARES AGAR,E-SWAB', 'label' => 'MRSA Nares', 'sort_id' => '2'],
+            ['panel_id' => '9', 'name' => 'C. DIFF TOX B GENE PCR,stool', 'label' => 'C. Diff Tox B PCR', 'sort_id' => '3'],
+            ['panel_id' => '9', 'name' => 'VZ DNA', 'label' => 'VZV DNA PCR', 'sort_id' => '4'],
+            ['panel_id' => '9', 'name' => 'HSV 1 DNA(QUAL)', 'label' => 'HSV 1 DNA', 'sort_id' => '5'],
+            ['panel_id' => '9', 'name' => 'HSV 2 DNA(QUAL)', 'label' => 'HSV 2 DNA', 'sort_id' => '6'],
+            ['panel_id' => '9', 'name' => 'HSV 1 DNA', 'label' => 'HSV 1 DNA', 'sort_id' => '7'],
+            ['panel_id' => '9', 'name' => 'HSV 2 DNA', 'label' => 'HSV 2 DNA', 'sort_id' => '8'],
             ['panel_id' => '12', 'name' => 'ETHANOL,Urine', 'label' => 'EtOH', 'sort_id' => '115'],
             ['panel_id' => '12', 'name' => 'AMPHETAMINES SCREEN,urine', 'label' => 'Amphetamines', 'sort_id' => '116'],
             ['panel_id' => '12', 'name' => 'BARBITURATES SCREEN,urine', 'label' => 'Barbiturates', 'sort_id' => '117'],
@@ -172,6 +178,7 @@ return new class extends Migration
             ['panel_id' => '17', 'name' => 'TRIGLYCERIDE,Blood', 'label' => 'Triglyceride', 'sort_id' => '2'],
             ['panel_id' => '17', 'name' => 'HDL,blood', 'label' => 'HDL', 'sort_id' => '3'],
             ['panel_id' => '17', 'name' => 'LDL CALCULATION,blood', 'label' => 'LDL (calc)', 'sort_id' => '4'],
+            ['panel_id' => '18', 'name' => 'OCCULT BLOOD RANDOM-GUAIAC', 'label' => 'Occult Blood', 'sort_id' => '1'],
         ]);
 
     }

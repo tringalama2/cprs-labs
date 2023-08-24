@@ -32,6 +32,7 @@ return new class extends Migration
             ['id' => 15, 'label' => 'Vitamins', 'sort_id' => 16],
             ['id' => 16, 'label' => 'Autoimmune', 'sort_id' => 17],
             ['id' => 17, 'label' => 'Lipids', 'sort_id' => 10],
+            ['id' => 18, 'label' => 'Stool', 'sort_id' => 18],
         ]);
     }
 

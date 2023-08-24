@@ -96,22 +96,38 @@ class LabCreator implements DiagnosticTestCreatorInterface
         }
 
         // special tests
-        switch ($result_array[0]) {
-            case 'FIO2':
-            case 'VZ DNA':
+        switch (true) {
+            case Str::startsWith($result_array[0], ['VZ DNA', 'FIO2', 'HSV']):
                 return [
                     'name' => $result_array[0],
                     'result' => $result_array[1],
-                    'flag' => '',
+                    'flag' => $this->stripFlagFromResult($result_array[1]),
                     'units' => '',
                     'reference_range' => '',
                     'site_code' => $result_array[2],
                 ];
-            case 'C. DIFF TOX B GENE PCR,stoolNegative':
+            case Str::startsWith($result_array[0], [
+                'MRSA SURVL NARES AGAR,E-SWAB',
+                'C. DIFF TOX B GENE PCR,stool',
+            ]):
+
                 return [
                     'name' => Str::substr($result_array[0], 0, 28),
-                    'result' => Str::substr($result_array[0], -8),
-                    'flag' => '',
+                    'result' => Str::substr($result_array[0], (strlen($result_array[0]) - 28) * -1),
+                    'flag' => $this->stripFlagFromResult(Str::substr($result_array[0], (strlen($result_array[0]) - 28) * -1)),
+                    'units' => '',
+                    'reference_range' => $result_array[1],
+                    'site_code' => $result_array[2],
+                ];
+            case Str::startsWith($result_array[0], [
+                'MRSA SURVL NARES DNA,E-SWAB',
+                'OCCULT BLOOD RANDOM-GUAIAC ',
+            ]):
+
+                return [
+                    'name' => trim(Str::substr($result_array[0], 0, 27)),
+                    'result' => Str::substr($result_array[0], (strlen($result_array[0]) - 27) * -1),
+                    'flag' => $this->stripFlagFromResult(Str::substr($result_array[0], (strlen($result_array[0]) - 28) * -1)),
                     'units' => '',
                     'reference_range' => $result_array[1],
                     'site_code' => $result_array[2],
@@ -124,6 +140,6 @@ class LabCreator implements DiagnosticTestCreatorInterface
 
     public function stripFlagFromResult(string $result): string
     {
-        return Str::of($result)->match('/([H|L]\**)/');
+        return Str::of($result)->match('/([H|L]\**)$/');
     }
 }
