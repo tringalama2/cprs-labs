@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\LabBuilderEmptyCollectionException;
 use App\Services\LabBuilder;
 
 class TestController extends Controller
@@ -15,32 +14,17 @@ class TestController extends Controller
 
         $userSortDescending = true;
 
-        // Todo: move to new DiagnosticTestDirector
-        try {
+        $labBuilder = new LabBuilder(file_get_contents(resource_path('lab2.test.txt')));
 
-            $labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
-            $labBuilder->process();
-            $labBuilder->sort($userSortDescending);
+        $labBuilder->process();
+        $labBuilder->sort($userSortDescending);
 
-            $labs = $labBuilder->getLabCollection();
-            $unparsableRows = $labBuilder->getUnparsableRowsCollection();
-            $unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
-            $labLabelsSorted = $labBuilder->getLabLabels();
-            $datetimeHeaders = $labBuilder->getCollectionDateHeaders();
-            $panels = $labLabelsSorted->groupBy('panel')->map->count();
-            //            dd($labLabelsSorted);
-            //            dd($labs->groupBy('collection_date')->first()->where('name', 'WBC'));
-
-            //            dd($labBuilder->getLabCollection(), $labBuilder->getUnrecognizedLabs(),
-            //                $labs->merge($labBuilder->getUnrecognizedLabs()),
-            //                $labLabelsSorted);
-
-        } catch (LabBuilderEmptyCollectionException $exception) {
-            report($exception);
-            //dd('Lab Collection Empty.  Consider a director class to ensure the order of the builder?');
-
-            return back()->withError($exception->getMessage())->withInput();
-        }
+        $labs = $labBuilder->getLabCollection();
+        $unparsableRows = $labBuilder->getUnparsableRows();
+        $unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
+        $labLabelsSorted = $labBuilder->getLabLabels();
+        $datetimeHeaders = $labBuilder->getDateTimeHeaders();
+        $panels = $labLabelsSorted->groupBy('panel')->map->count();
 
         return view('test',
             compact('labs', 'labLabelsSorted', 'datetimeHeaders', 'unparsableRows', 'panels', 'unrecognizedLabLabels'));

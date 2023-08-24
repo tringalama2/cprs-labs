@@ -18,13 +18,11 @@ class LabBuilder extends DiagnosticTestBuilder
 
     private Collection $labCollection;
 
-    private Collection $unparsableRowsCollection;
+    private Collection $unparsableRows;
 
     private Collection $panels;
 
     private Collection $datetimeHeaders;
-
-    private Collection $unparsableRows;
 
     private Collection $unrecognizedLabLabels;
 
@@ -34,7 +32,7 @@ class LabBuilder extends DiagnosticTestBuilder
     {
         parent::__construct($rawLabs);
         $this->labCollection = collect();
-        $this->unparsableRowsCollection = collect();
+        $this->unparsableRows = collect();
         $this->setLabsAndPanels();
     }
 
@@ -64,9 +62,9 @@ class LabBuilder extends DiagnosticTestBuilder
         return $this->labCollection;
     }
 
-    public function getUnparsableRowsCollection(): Collection
+    public function getUnparsableRows(): Collection
     {
-        return $this->unparsableRowsCollection;
+        return $this->unparsableRows;
     }
 
     public function getLabLabels(): Collection
@@ -114,7 +112,7 @@ class LabBuilder extends DiagnosticTestBuilder
             if (Row::isResult($row)) {
                 $lab = (new LabCreator($this->labRows, $index))->getDiagnosticTest();
                 if ($lab instanceof UnparsableDiagnosticTest) {
-                    $this->unparsableRowsCollection = $this->unparsableRowsCollection->push(collect($lab->result()));
+                    $this->unparsableRows = $this->unparsableRows->push(collect($lab->result()));
                 } else {
                     $this->labCollection = $this->labCollection->push(collect($lab->result()));
                 }
@@ -145,7 +143,7 @@ class LabBuilder extends DiagnosticTestBuilder
         $this->unrecognizedLabLabels->each(function (string $item, int $key) {
             UnrecognizedLab::firstOrCreate(['name' => $item]);
         });
-        $this->unparsableRowsCollection->each(function (string $item, int $key) {
+        $this->unparsableRows->each(function (string $item, int $key) {
             UnparsableLab::firstOrCreate(['name' => $item]);
         });
     }

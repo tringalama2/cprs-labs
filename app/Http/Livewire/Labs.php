@@ -52,7 +52,7 @@ class Labs extends Component
         $labBuilder->sort($userSortDescending);
 
         $this->labs = $labBuilder->getLabCollection();
-        $this->unparsableRows = $labBuilder->getUnparsableRowsCollection();
+        $this->unparsableRows = $labBuilder->getUnparsableRows();
         $this->unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
         $this->labLabelsSorted = $labBuilder->getLabLabels();
         $this->datetimeHeaders = $labBuilder->getDateTimeHeaders();

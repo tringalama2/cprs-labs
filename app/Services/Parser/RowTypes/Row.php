@@ -16,6 +16,11 @@ class Row
         return ! str_starts_with($row, ' ') && count(Str::of($row)->split('/(\s){2,}/')) > 2;
     }
 
+    public static function hasSiteCode($row): bool
+    {
+        return Str::of($row)->isMatch('/\[[\d]+\]$/');
+    }
+
     public static function isMicroHeader($row): bool
     {
         return Str::contains($row, '---- MICROBIOLOGY ----');
@@ -24,6 +29,14 @@ class Row
     public static function isSeparator($row): bool
     {
         return '===============================================================================' === $row;
+    }
+
+    public static function isOverflow($row): bool
+    {
+        // older overflow pattern, missed some rows...
+        //const OVERFLOW_ROW_PATTERN = '/^(\s)+([A-Za-z: ]*)(\[([0-9]+?)\]$)/';
+
+        return Str::of($row)->isMatch('/^(\s)+(.)*(\[([0-9]+?)\]$)/');
     }
 
     //    protected function getRowType(string $row): RowType

@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
+use App\Services\Parser\RowTypes\Row;
 
 abstract class DiagnosticTestBuilder
 {
-    const OVERFLOW_ROW_PATTERN = '/^(\s)+([A-Za-z: ]*)(\[([0-9]+?)\]$)/';
-
-    protected array $labRows;
+    public array $labRows;
 
     protected string $rawLabs;
 
@@ -22,6 +20,7 @@ abstract class DiagnosticTestBuilder
         $this->fixOverflowRows();
         // repeat for some rows that overflow twice
         $this->fixOverflowRows();
+        // re-index
         $this->labRows = array_values($this->labRows);
     }
 
@@ -59,6 +58,6 @@ abstract class DiagnosticTestBuilder
 
     private function is_overflow($row): bool
     {
-        return Str::of($row)->isMatch(self::OVERFLOW_ROW_PATTERN);
+        return Row::isOverflow($row);
     }
 }
