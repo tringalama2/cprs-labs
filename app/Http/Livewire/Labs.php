@@ -22,13 +22,25 @@ class Labs extends Component
 
     public $unrecognizedLabLabels;
 
+    protected $rules = [
+        'input' => 'required',
+    ];
+
+    protected $messages = [
+        'input.required' => 'No labs were detected.',
+    ];
+
     public function clear(): void
     {
+        $this->resetValidation();
+        $this->resetErrorBag();
         $this->reset();
     }
 
     public function save(): void
     {
+        $this->validate();
+
         $userSortDescending = true;
 
         // Todo: move to new DiagnosticTestDirector
