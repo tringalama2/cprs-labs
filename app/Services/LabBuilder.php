@@ -6,6 +6,7 @@ use App\Exceptions\LabBuilderEmptyCollectionException;
 use App\Models\Lab;
 use App\Models\UnparsableLab;
 use App\Models\UnrecognizedLab;
+use App\Services\DiagnosticTests\CancelledDiagnosticTest;
 use App\Services\DiagnosticTests\LabCreator;
 use App\Services\DiagnosticTests\UnparsableDiagnosticTest;
 use App\Services\Parser\RowTypes\Row;
@@ -26,6 +27,8 @@ class LabBuilder extends DiagnosticTestBuilder
 
     private Collection $unrecognizedLabLabels;
 
+    private Collection $cancelledTests;
+
     private Collection $labsAndPanels;
 
     public function __construct($rawLabs)
@@ -33,6 +36,7 @@ class LabBuilder extends DiagnosticTestBuilder
         parent::__construct($rawLabs);
         $this->labCollection = collect();
         $this->unparsableRows = collect();
+        $this->cancelledTests = collect();
         $this->setLabsAndPanels();
     }
 
@@ -65,6 +69,11 @@ class LabBuilder extends DiagnosticTestBuilder
     public function getUnparsableRows(): Collection
     {
         return $this->unparsableRows;
+    }
+
+    public function getCancelledTests(): Collection
+    {
+        return $this->cancelledTests;
     }
 
     public function getLabLabels(): Collection
@@ -113,6 +122,10 @@ class LabBuilder extends DiagnosticTestBuilder
                 $lab = (new LabCreator($this->labRows, $index))->getDiagnosticTest();
                 if ($lab instanceof UnparsableDiagnosticTest) {
                     $this->unparsableRows = $this->unparsableRows->push(collect($lab->result()));
+                } elseif ($lab instanceof CancelledDiagnosticTest) {
+                    // Todo: do we really need this we currently aren't displaying
+                    //       cancelled tests to the user
+                    $this->cancelledTests = $this->cancelledTests->push(collect($lab->result()));
                 } else {
                     $this->labCollection = $this->labCollection->push(collect($lab->result()));
                 }

@@ -30,6 +30,11 @@ class Labs extends Component
         'input.required' => 'No labs were detected.',
     ];
 
+    public function mount(): void
+    {
+        $this->input = file_get_contents(resource_path('lab2.test.txt'));
+    }
+
     public function clear(): void
     {
         $this->resetValidation();

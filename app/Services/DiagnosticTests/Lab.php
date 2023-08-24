@@ -2,7 +2,6 @@
 
 namespace App\Services\DiagnosticTests;
 
-use App\Services\Language\LanguageHelper;
 use Carbon\Carbon;
 
 class Lab implements DiagnosticTestInterface
@@ -35,15 +34,5 @@ class Lab implements DiagnosticTestInterface
             'ordering_provider' => $this->orderingProvider,
             'site_code' => $this->siteCode,
         ];
-    }
-
-    public function is_missing(): bool
-    {
-        return ! $this->getName($this->name);
-    }
-
-    public function getName($alias): ?string
-    {
-        return LanguageHelper::getName($alias);
     }
 }

@@ -15,10 +15,53 @@ class LabCreator implements DiagnosticTestCreatorInterface
     public function getDiagnosticTest(): DiagnosticTestInterface
     {
         $metaData = $this->getResultMetaData($this->index);
-        $resultData = $this->getResultData($this->index);
+        $result_array = Str::of($this->diagnosticTests[$this->index])->split('/(\s){2,}/')->flatten()->toArray();
 
-        if (count($resultData) < 4) {
-            return new UnparsableDiagnosticTest($resultData);
+        if (Str::of($result_array[1])->contains(['canc'])) {
+            return new CancelledDiagnosticTest($result_array);
+        }
+
+        if (Str::startsWith($result_array[0], ['VZ DNA', 'FIO2', 'HSV'])) {
+            return $this->createLabWithMeta([
+                'name' => $result_array[0],
+                'result' => $result_array[1],
+                'flag' => $this->stripFlagFromResult($result_array[1]),
+                'units' => '',
+                'reference_range' => '',
+                'site_code' => $result_array[2],
+            ], $metaData);
+        }
+
+        if (Str::startsWith($result_array[0], [
+            'MRSA SURVL NARES AGAR,E-SWAB',
+            'C. DIFF TOX B GENE PCR,stool',
+        ])) {
+
+            return $this->createLabWithMeta([
+                'name' => Str::substr($result_array[0], 0, 28),
+                'result' => Str::substr($result_array[0], (strlen($result_array[0]) - 28) * -1),
+                'flag' => $this->stripFlagFromResult(Str::substr($result_array[0],
+                    (strlen($result_array[0]) - 28) * -1)),
+                'units' => '',
+                'reference_range' => $result_array[1],
+                'site_code' => $result_array[2],
+            ], $metaData);
+        }
+
+        if (Str::startsWith($result_array[0], [
+            'MRSA SURVL NARES DNA,E-SWAB',
+            'OCCULT BLOOD RANDOM-GUAIAC ',
+        ])) {
+
+            return $this->createLabWithMeta([
+                'name' => trim(Str::substr($result_array[0], 0, 27)),
+                'result' => Str::substr($result_array[0], (strlen($result_array[0]) - 27) * -1),
+                'flag' => $this->stripFlagFromResult(Str::substr($result_array[0],
+                    (strlen($result_array[0]) - 28) * -1)),
+                'units' => '',
+                'reference_range' => $result_array[1],
+                'site_code' => $result_array[2],
+            ], $metaData);
         }
 
         // todo: create TestNotPerformedDiagnosticTest Type and pass in metadata and lab name
@@ -29,18 +72,34 @@ class LabCreator implements DiagnosticTestCreatorInterface
         //      Test name                Result    units      Ref.   range   Site Code
         //AMMONIA,BLOOD              Test Not Performed
 
-        return new Lab(
-            $name = $resultData['name'],
-            $result = $resultData['result'],
-            $collectionDate = $metaData['collection_date'],
-            $releasedDate = $metaData['released_date'],
-            $flag = $resultData['flag'],
-            $units = $resultData['units'],
-            $referenceRange = $resultData['reference_range'],
-            $specimen = $metaData['specimen'],
-            $orderingProvider = $metaData['ordering_provider'],
-            $siteCode = $resultData['site_code'],
-        );
+        //        if (Str::startsWith($this->diagnosticTests[$index], 'FIO2')) {
+        //            dd($this->diagnosticTests[$index], Str::of($this->diagnosticTests[$index])->split('/(\s){2,}/')->flatten()->toArray());
+        //        }
+
+        if (count($result_array) == 4) {
+            return $this->createLabWithMeta([
+                'name' => $result_array[0],
+                'result' => $result_array[1],
+                'flag' => $this->stripFlagFromResult($result_array[1]),
+                'units' => '',
+                'reference_range' => $result_array[2],
+                'site_code' => $result_array[3],
+            ], $metaData);
+        }
+
+        if (count($result_array) == 5) {
+            return $this->createLabWithMeta([
+                'name' => $result_array[0],
+                'result' => $result_array[1],
+                'flag' => $this->stripFlagFromResult($result_array[1]),
+                'units' => $result_array[2],
+                'reference_range' => $result_array[3],
+                'site_code' => $result_array[4],
+            ], $metaData);
+        }
+
+        return new UnparsableDiagnosticTest($result_array);
+
     }
 
     private function getResultMetaData($index): array
@@ -63,79 +122,20 @@ class LabCreator implements DiagnosticTestCreatorInterface
         ];
     }
 
-    private function getResultData($index): array
+    private function createLabWithMeta($resultData, $metaData): Lab
     {
-        $result_array = Str::of($this->diagnosticTests[$index])->split('/(\s){2,}/')->flatten()->toArray();
-
-        //        if (Str::startsWith($this->diagnosticTests[$index], 'FIO2')) {
-        //            dd($this->diagnosticTests[$index], Str::of($this->diagnosticTests[$index])->split('/(\s){2,}/')->flatten()->toArray());
-        //        }
-
-        //tests with units
-        if (count($result_array) == 5) {
-            return [
-                'name' => $result_array[0],
-                'result' => $result_array[1],
-                'flag' => $this->stripFlagFromResult($result_array[1]),
-                'units' => $result_array[2],
-                'reference_range' => $result_array[3],
-                'site_code' => $result_array[4],
-            ];
-        }
-
-        // tests without units
-        if (count($result_array) == 4) {
-            return [
-                'name' => $result_array[0],
-                'result' => $result_array[1],
-                'flag' => $this->stripFlagFromResult($result_array[1]),
-                'units' => '',
-                'reference_range' => $result_array[2],
-                'site_code' => $result_array[3],
-            ];
-        }
-
-        // special tests
-        switch (true) {
-            case Str::startsWith($result_array[0], ['VZ DNA', 'FIO2', 'HSV']):
-                return [
-                    'name' => $result_array[0],
-                    'result' => $result_array[1],
-                    'flag' => $this->stripFlagFromResult($result_array[1]),
-                    'units' => '',
-                    'reference_range' => '',
-                    'site_code' => $result_array[2],
-                ];
-            case Str::startsWith($result_array[0], [
-                'MRSA SURVL NARES AGAR,E-SWAB',
-                'C. DIFF TOX B GENE PCR,stool',
-            ]):
-
-                return [
-                    'name' => Str::substr($result_array[0], 0, 28),
-                    'result' => Str::substr($result_array[0], (strlen($result_array[0]) - 28) * -1),
-                    'flag' => $this->stripFlagFromResult(Str::substr($result_array[0], (strlen($result_array[0]) - 28) * -1)),
-                    'units' => '',
-                    'reference_range' => $result_array[1],
-                    'site_code' => $result_array[2],
-                ];
-            case Str::startsWith($result_array[0], [
-                'MRSA SURVL NARES DNA,E-SWAB',
-                'OCCULT BLOOD RANDOM-GUAIAC ',
-            ]):
-
-                return [
-                    'name' => trim(Str::substr($result_array[0], 0, 27)),
-                    'result' => Str::substr($result_array[0], (strlen($result_array[0]) - 27) * -1),
-                    'flag' => $this->stripFlagFromResult(Str::substr($result_array[0], (strlen($result_array[0]) - 28) * -1)),
-                    'units' => '',
-                    'reference_range' => $result_array[1],
-                    'site_code' => $result_array[2],
-                ];
-
-        }
-
-        return $result_array;
+        return new Lab(
+            $name = $resultData['name'],
+            $result = $resultData['result'],
+            $collectionDate = $metaData['collection_date'],
+            $releasedDate = $metaData['released_date'],
+            $flag = $resultData['flag'],
+            $units = $resultData['units'],
+            $referenceRange = $resultData['reference_range'],
+            $specimen = $metaData['specimen'],
+            $orderingProvider = $metaData['ordering_provider'],
+            $siteCode = $resultData['site_code'],
+        );
     }
 
     public function stripFlagFromResult(string $result): string
