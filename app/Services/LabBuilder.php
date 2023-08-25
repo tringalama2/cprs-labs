@@ -97,29 +97,20 @@ class LabBuilder extends DiagnosticTestBuilder
     private function verifyLabCollectionNotEmpty(): void
     {
         if ($this->labCollection->isEmpty()) {
-            $this->process();
+            $this->build();
             if ($this->labCollection->isEmpty()) {
                 throw new LabBuilderEmptyCollectionException('Lab Collection is empty.');
             }
         }
     }
 
-    //    private function getLabsAndPanels(): Collection
-    //    {
-    //        return cache()->remember('availableLabs', 60, function () {
-    //            return Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
-    //                ->select('labs.name', 'labs.label', 'panels.label as panel')
-    //                ->orderBy('panels.sort_id')
-    //                ->orderBy('labs.sort_id')
-    //                ->get()->keyBy('name');
-    //        });
-    //    }
-
-    public function process(): void
+    public function build(): void
     {
         foreach ($this->labRows as $index => $row) {
             if (Row::isResult($row)) {
+
                 $lab = (new LabCreator($this->labRows, $index))->getDiagnosticTest();
+
                 if ($lab instanceof UnparsableDiagnosticTest) {
                     $this->unparsableRows = $this->unparsableRows->push(collect($lab->result()));
                 } elseif ($lab instanceof CancelledDiagnosticTest) {

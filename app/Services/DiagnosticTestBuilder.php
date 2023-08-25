@@ -46,7 +46,7 @@ abstract class DiagnosticTestBuilder
 
     }
 
-    abstract public function process(): void;
+    abstract public function build(): void;
 
     public function getLabs(): Labs
     {

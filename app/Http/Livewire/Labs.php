@@ -30,11 +30,6 @@ class Labs extends Component
         'input.required' => 'No labs were detected.',
     ];
 
-    public function mount(): void
-    {
-        $this->input = file_get_contents(resource_path('lab2.test.txt'));
-    }
-
     public function clear(): void
     {
         $this->resetValidation();
@@ -53,7 +48,7 @@ class Labs extends Component
         //$labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
         $labBuilder = new LabBuilder($this->input);
         //            $labDirector = new DiagnosticTestDirector($labBuilder);
-        $labBuilder->process();
+        $labBuilder->build();
         $labBuilder->sort($userSortDescending);
 
         $this->labs = $labBuilder->getLabCollection();

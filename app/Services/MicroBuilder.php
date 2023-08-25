@@ -6,7 +6,7 @@ use App\Services\Parser\RowTypes\Row;
 
 class MicroBuilder extends DiagnosticTestBuilder
 {
-    public function process(): void
+    public function build(): void
     {
         // TODO: Implement process() method.
 

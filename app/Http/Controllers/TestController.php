@@ -16,7 +16,7 @@ class TestController extends Controller
 
         $labBuilder = new LabBuilder(file_get_contents(resource_path('lab2.test.txt')));
 
-        $labBuilder->process();
+        $labBuilder->build();
         $labBuilder->sort($userSortDescending);
 
         $labs = $labBuilder->getLabCollection();
