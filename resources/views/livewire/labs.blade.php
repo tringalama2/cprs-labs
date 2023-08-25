@@ -50,13 +50,11 @@
                 <table class="text-sm border-collapse border-spacing-0">
                     <thead>
                     <tr>
-                        <th scope="col" class="border-b border-gray-500 z-40 sticky bg-white top-0 left-0"
+                        <th scope="col" class="border-b border-gray-500 z-40 sticky bg-gray-200 top-0 left-0"
                             colspan="2">
-                            <div
-                                class="absolute top-0 left-0 cursor-pointer flex flex-col items-center mt-2 ms-2
-">
+                            <div class="top-0 left-0 flex justify-between py-1 px-2">
                                 <button class="modal-close text-xs p2 font-medium text-white bg-sky-700
-                rounded-lg hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300">
+                                        rounded-lg hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300">
                                     <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="16"
                                          height="16"
                                          viewBox="0 0 18 18">
@@ -64,6 +62,28 @@
                                             d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                                     </svg>
                                 </button>
+
+                                <div class="mr-2 relative inline-block border-b border-gray-300 border-dotted group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-info-circle" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path
+                                            d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                    </svg>
+                                    <div
+                                        class="font-medium text-sm l-1/2 top-[135%]-ml-24 w-48 border border-gray-500 bg-gray-200 text-gray-800 rounded p-2 invisible opacity-0 group-hover:visible z-10 group-hover:opacity-100 absolute transition-opacity after:content-[''] after:absolute after:bottom-full after:left-1/2 after:-ml-1 after:border-1 after:border-solid after:border-t-transparent after:border-r-transparent after:border-b-gray-500 after:border-l-transparent">
+                                        <h5 class="font-bold">Navigation</h5>
+                                        <p>Press <kbd
+                                                class="bg-gray-800 text-gray-100 rounded font-mono py-0.5 px-1">ESC</kbd>
+                                            to exit<br/>
+                                            Hold <kbd
+                                                class="bg-gray-800 text-gray-100 rounded font-mono py-0.5 px-1">Shift</kbd>
+                                            to scroll horizontally
+                                        </p>
+
+                                    </div>
+                                </div>
                             </div>
                         </th>
                         <th scope="col"
@@ -79,8 +99,7 @@
                             <tr class="border-b border-gray-500 hover:bg-sky-200 group">
                                 @if ($labLabel->panel != $loopPanel)
                                     <th rowspan="{{ $panels[$labLabel->panel] }}"
-                                        class="font-extrabold border-r border-gray-500 group-hover:bg-white text-xl text-start ps-3
-                            z-30 sticky bg-white left-0"
+                                        class="font-extrabold border-r border-gray-500 group-hover:bg-white text-xl text-start ps-3 z-30 sticky bg-white left-0"
                                         style="writing-mode: vertical-lr;">{{ $labLabel->panel }}</th>
                                 @endif
                                 <th scope="row"
@@ -93,21 +112,21 @@
                                     @endphp
 
                                     <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
-                        @if(str($lab?->get('flag'))->contains('*'))
-                        bg-red-500
-                        text-red-950
-                        group-hover:bg-sky-500
-                        font-bold
-                        @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
-                        bg-red-300
-                        text-red-900
-                        group-hover:bg-sky-400
-                        font-bold
-                        @else
-                        group-hover:bg-sky-200
-                        bg-white
-                        @endif
-                        ">{{ $lab?->get('result') }}
+                                        @if(str($lab?->get('flag'))->contains('*'))
+                                        bg-red-500
+                                        text-red-950
+                                        group-hover:bg-sky-500
+                                        font-bold
+                                        @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
+                                        bg-red-300
+                                        text-red-900
+                                        group-hover:bg-sky-400
+                                        font-bold
+                                        @else
+                                        group-hover:bg-sky-200
+                                        bg-white
+                                        @endif
+                                        ">{{ $lab?->get('result') }}
                                     </td>
                                 @endforeach
                             </tr>
@@ -134,21 +153,21 @@
                                     @endphp
 
                                     <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
-                        @if(str($lab?->get('flag'))->contains('*'))
-                        bg-red-500
-                        text-red-950
-                        group-hover:bg-sky-500
-                        font-bold
-                        @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
-                        bg-red-300
-                        text-red-900
-                        group-hover:bg-sky-400
-                        font-bold
-                        @else
-                        group-hover:bg-sky-200
-                        bg-white
-                        @endif
-                        ">{{ $lab?->get('result') }}
+                                        @if(str($lab?->get('flag'))->contains('*'))
+                                        bg-red-500
+                                        text-red-950
+                                        group-hover:bg-sky-500
+                                        font-bold
+                                        @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
+                                        bg-red-300
+                                        text-red-900
+                                        group-hover:bg-sky-400
+                                        font-bold
+                                        @else
+                                        group-hover:bg-sky-200
+                                        bg-white
+                                        @endif
+                                        ">{{ $lab?->get('result') }}
                                     </td>
                                 @endforeach
                             </tr>
@@ -191,19 +210,12 @@
         Livewire.on('resultsReady', event => {
             toggleModal()
         })
-        // var openmodal = document.querySelectorAll('.modal-open')
-        // for (var i = 0; i < openmodal.length; i++) {
-        //     openmodal[i].addEventListener('click', function (event) {
-        //         event.preventDefault()
-        //         toggleModal()
-        //     })
-        // }
 
         const overlay = document.querySelector('.modal-overlay')
         overlay.addEventListener('click', toggleModal)
 
-        var closemodal = document.querySelectorAll('.modal-close')
-        for (var i = 0; i < closemodal.length; i++) {
+        const closemodal = document.querySelectorAll('.modal-close')
+        for (let i = 0; i < closemodal.length; i++) {
             closemodal[i].addEventListener('click', toggleModal)
         }
 
