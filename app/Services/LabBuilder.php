@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Exceptions\LabBuilderEmptyCollectionException;
 use App\Models\Lab;
 use App\Models\UnparsableLab;
 use App\Models\UnrecognizedLab;
@@ -89,19 +88,6 @@ class LabBuilder extends DiagnosticTestBuilder
     public function getUnrecognizedLabLabels(): Collection
     {
         return $this->unrecognizedLabLabels;
-    }
-
-    /**
-     * @throws LabBuilderEmptyCollectionException
-     */
-    private function verifyLabCollectionNotEmpty(): void
-    {
-        if ($this->labCollection->isEmpty()) {
-            $this->build();
-            if ($this->labCollection->isEmpty()) {
-                throw new LabBuilderEmptyCollectionException('Lab Collection is empty.');
-            }
-        }
     }
 
     public function build(): void
