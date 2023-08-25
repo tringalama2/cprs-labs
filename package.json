@@ -19,6 +19,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@alpinejs/focus": "^3.12.3"
+        "@alpinejs/focus": "^3.12.3",
+        "@sentry/browser": "^7.40.0"
     }
 }
