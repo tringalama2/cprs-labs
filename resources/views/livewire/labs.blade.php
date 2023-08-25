@@ -1,9 +1,11 @@
 <div>
     <form wire:submit.prevent="save">
-        <textarea wire:model.defer="input"
+        <label hidden for="input">Lab Input</label>
+        <textarea id="input"
+                  wire:model.defer="input"
                   wire:loading.attr="disabled"
-                  rows="8"
-                  class="mb-3 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300
+                  rows="12"
+                  class="font-mono mb-3 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300
                   focus:ring-sky-500 focus:border-sky-500"
                   placeholder="Paste labs here..."></textarea>
         <x-input-error :messages="$errors->get('input')" class="mt-2"/>
@@ -207,7 +209,7 @@
 
         document.onkeydown = function (evt) {
             evt = evt || window.event
-            var isEscape = false
+            let isEscape = false;
             if ("key" in evt) {
                 isEscape = (evt.key === "Escape" || evt.key === "Esc")
             } else {

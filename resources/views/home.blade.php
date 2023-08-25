@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto p-6 lg:p-8">
         <div class="flex justify-center">
             CPRS Lab Formatter
         </div>
