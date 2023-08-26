@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Services\LabBuilder;
 use App\Services\MicroBuilder;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
 use Livewire\Component;
 
 class Labs extends Component
@@ -33,7 +34,9 @@ class Labs extends Component
 
     public function mount(): void
     {
-        $this->input = file_get_contents(resource_path('lab.test.txt'));
+        if (App::environment('local')) {
+            $this->input = file_get_contents(resource_path('lab.test.txt'));
+        }
     }
 
     public function clear(): void
