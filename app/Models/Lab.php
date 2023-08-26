@@ -15,6 +15,6 @@ class Lab extends Model
         'name',
         'label',
         'panel_id',
-        'sort_id',
+        'order_column',
     ];
 }

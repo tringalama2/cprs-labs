@@ -15,7 +15,7 @@ class LabFactory extends Factory
             'name' => $this->faker->name(),
             'label' => $this->faker->word(),
             'panel_id' => $this->faker->randomNumber(),
-            'sort_id' => $this->faker->randomNumber(),
+            'order_column' => $this->faker->randomNumber(),
         ];
     }
 }

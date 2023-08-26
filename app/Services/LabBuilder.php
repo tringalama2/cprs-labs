@@ -43,8 +43,8 @@ class LabBuilder extends DiagnosticTestBuilder
     {
         $this->labsAndPanels = Lab::leftJoin('panels', 'labs.panel_id', '=', 'panels.id')
             ->select('labs.name', 'labs.label', 'panels.label as panel')
-            ->orderBy('panels.sort_id')
-            ->orderBy('labs.sort_id')
+            ->orderBy('panels.order_column')
+            ->orderBy('labs.order_column')
             ->get()->keyBy('name');
     }
 

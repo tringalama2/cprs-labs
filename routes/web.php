@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\TestController;
@@ -52,6 +53,12 @@ Route::middleware('auth')->group(function () {
     Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)
         ->middleware('signed')
         ->name('verification.verify');
+
+    Route::view('/profile', 'profile.edit')->name('profile.edit');
+
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::get('dashboard', DashboardController::class)->name('dashboard');
+    });
 
     Route::post('logout', LogoutController::class)
         ->name('logout');

@@ -13,6 +13,6 @@ class Panel extends Model
 
     protected $fillable = [
         'label',
-        'sort_id',
+        'order_column',
     ];
 }

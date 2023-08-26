@@ -21,7 +21,7 @@ class EmailVerificationController extends Controller
         }
 
         if (Auth::user()->hasVerifiedEmail()) {
-            return redirect(route('home'));
+            return redirect(route('admin.dashboard'));
         }
 
         if (Auth::user()->markEmailAsVerified()) {

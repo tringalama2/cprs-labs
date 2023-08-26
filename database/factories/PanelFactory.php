@@ -13,7 +13,7 @@ class PanelFactory extends Factory
     {
         return [
             'label' => $this->faker->word(),
-            'sort_id' => $this->faker->randomNumber(),
+            'order_column' => $this->faker->randomNumber(),
         ];
     }
 }
