@@ -3,30 +3,23 @@
 namespace App\Services;
 
 use App\Services\Parser\RowTypes\Row;
+use Illuminate\Support\Collection;
 
 abstract class DiagnosticTestBuilder
 {
-    public array $labRows;
+    public Collection $labRows;
 
     protected string $rawLabs;
 
-    private Labs $labs;
-
     public function __construct($rawLabs)
     {
-        $this->reset();
         $this->rawLabs = $rawLabs;
-        $this->labRows = $this->rawLabToRows($this->rawLabs);
+        $this->labRows = collect($this->rawLabToRows($this->rawLabs));
         $this->fixOverflowRows();
         // repeat for some rows that overflow twice
         $this->fixOverflowRows();
         // re-index
-        $this->labRows = array_values($this->labRows);
-    }
-
-    private function reset(): void
-    {
-        $this->labs = new Labs;
+        $this->labRows = $this->labRows->values();
     }
 
     private function rawLabToRows($rawLabString): array
@@ -36,25 +29,20 @@ abstract class DiagnosticTestBuilder
 
     private function fixOverflowRows(): void
     {
-        $overflowRows = array_filter($this->labRows, [$this, 'is_overflow']);
+        $overflowRows = $this->labRows->filter(function (string $row) {
+            return Row::isOverflow($row);
+        });
+
         foreach ($overflowRows as $index => $row) {
             // append overflow row to prior row
             $this->labRows[$index - 1] .= $row;
             // remove overflow
-            unset($this->labRows[$index]);
+            $this->labRows->forget($index);
         }
 
     }
 
     abstract public function build(): void;
-
-    public function getLabs(): Labs
-    {
-        $lab = $this->labs;
-        $this->reset();
-
-        return $lab;
-    }
 
     private function is_overflow($row): bool
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Services\LabBuilder;
+use App\Services\MicroBuilder;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
@@ -30,6 +31,11 @@ class Labs extends Component
         'input.required' => 'No labs were detected.',
     ];
 
+    public function mount(): void
+    {
+        $this->input = file_get_contents(resource_path('lab.test.txt'));
+    }
+
     public function clear(): void
     {
         $this->resetValidation();
@@ -42,6 +48,10 @@ class Labs extends Component
         $this->validate();
 
         $userSortDescending = true;
+
+        $microBuilder = new MicroBuilder($this->input);
+
+        $microBuilder->build();
 
         // Todo: move to new DiagnosticTestDirector
 

@@ -9,19 +9,20 @@ use App\Services\DiagnosticTests\ResultFormats\NoUnitsResultFormat;
 use App\Services\DiagnosticTests\ResultFormats\ResultFormatContract;
 use App\Services\Parser\LabMetaRowParser;
 use App\Services\Parser\RowTypes\Row;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class LabCreator implements DiagnosticTestCreatorInterface
 {
-    public function __construct(public array $diagnosticTests, public int $index)
+    public function __construct(public Collection $diagnosticTests, public int $index)
     {
     }
 
     public function getDiagnosticTest(): DiagnosticTestInterface
     {
         $metaData = $this->getResultMetaData($this->index);
-        $resultPieces = Str::of($this->diagnosticTests[$this->index])->split('/(\s){2,}/')->flatten()->toArray();
+        $resultPieces = Str::of($this->diagnosticTests->get($this->index))->split('/(\s){2,}/')->flatten()->toArray();
 
         if (Str::of($resultPieces[1])->contains(['canc'])) {
             return new CancelledDiagnosticTest($resultPieces);
@@ -58,17 +59,17 @@ class LabCreator implements DiagnosticTestCreatorInterface
         //  from result row, traverse back up to the first metadata headers
         $i = $index;
         while ($index > 0) {
-            if (Row::isCollectedDate($this->diagnosticTests[$index])) {
+            if (Row::isCollectedDate($this->diagnosticTests->get($index))) {
                 break;
             }
             $index--;
         }
 
         return [
-            'collection_date' => $metaRowParser->stripDateFromRow($this->diagnosticTests[$index]),
-            'specimen' => $metaRowParser->stripSpecimenFromRow($this->diagnosticTests[$index - 1]),
-            'ordering_provider' => $metaRowParser->stripProviderFromRow($this->diagnosticTests[$index - 2]),
-            'released_date' => $metaRowParser->stripDateFromRow($this->diagnosticTests[$index - 3]),
+            'collection_date' => $metaRowParser->stripDateFromRow($this->diagnosticTests->get($index)),
+            'specimen' => $metaRowParser->stripSpecimenFromRow($this->diagnosticTests->get($index - 1)),
+            'ordering_provider' => $metaRowParser->stripProviderFromRow($this->diagnosticTests->get($index - 2)),
+            'released_date' => $metaRowParser->stripDateFromRow($this->diagnosticTests->get($index - 3)),
         ];
     }
 

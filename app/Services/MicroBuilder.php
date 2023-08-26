@@ -3,29 +3,37 @@
 namespace App\Services;
 
 use App\Services\Parser\RowTypes\Row;
+use Illuminate\Support\Collection;
 
 class MicroBuilder extends DiagnosticTestBuilder
 {
+    private Collection $microCollection;
+
+    public function __construct($rawLabs)
+    {
+        parent::__construct($rawLabs);
+        $this->microCollection = collect();
+    }
+
     public function build(): void
     {
         // TODO: Implement process() method.
 
-        foreach ($this->labRows as $index => $row) {
-            if (Row::isMicroHeader($row)) {
-                $startRow = $index;
-            }
-            if (Row::isSeparator($row)) {
-                $endRow = $index;
-                $numRows = $endRow - $startRow;
-                $this->getLabs()->micro[] = array_slice($this->labRows, $startRow, $numRows);
-                $startRow = 0;
-            }
-        }
-        // loop through all, mark beginning of micro
+        $headers = $this->labRows->filter(function (string $row) {
+            return Row::isMicroHeader($row);
+        });
 
-        // mark end of micro
-        // array_slice to get just micro rows
-        // store in micro array??
-        // $this->lab->micro[] = $spliced;
+        $headers->each(function (string $headerRow, int $microHeaderIndex) {
+
+            $this->microCollection->push(
+                $this->labRows
+                    ->slice($microHeaderIndex)
+                    ->takeUntil(function (string $row, int $index) {
+                        return Row::isSeparator($row);
+                    })
+            );
+        });
+        $this->microCollection->dd();
+
     }
 }
