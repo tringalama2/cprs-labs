@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Services\DiagnosticTests\MicroCreator;
 use App\Services\Parser\RowTypes\Row;
 use Illuminate\Support\Collection;
 
@@ -25,15 +26,14 @@ class MicroBuilder extends DiagnosticTestBuilder
 
         $headers->each(function (string $headerRow, int $microHeaderIndex) {
 
-            $this->microCollection->push(
-                $this->labRows
-                    ->slice($microHeaderIndex)
-                    ->takeUntil(function (string $row, int $index) {
-                        return Row::isSeparator($row);
-                    })
-            );
-        });
-        $this->microCollection->dd();
+            $micro = (new MicroCreator($this->labRows, $microHeaderIndex))->getDiagnosticTest();
 
+            $this->microCollection->push($micro->result());
+        });
+    }
+
+    public function getMicroCollection(): Collection
+    {
+        return $this->microCollection;
     }
 }

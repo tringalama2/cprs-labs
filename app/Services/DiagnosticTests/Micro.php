@@ -2,29 +2,31 @@
 
 namespace App\Services\DiagnosticTests;
 
-use DateTime;
+use Carbon\Carbon;
 
 class Micro implements DiagnosticTestInterface
 {
-    public string $source;
-
-    public string $specimen;
-
-    public DateTime $collectDate;
-
-    public DateTime $resultDate;
-
-    public string $result;
-
-    public array $sensitivities;
-
-    //Todo: handle multiple organisms in 1 result
-    // maybe have $result1, $sensitivities1, $result2..etc. I have never seen more than 3
-    // or use a micro result class that has 2 props: string $result and array $sensitivities
-    // and have a $results array that can store as many classes as needed.  yea!!
+    public function __construct(
+        public string $name,
+        public string $result,
+        public Carbon $collectionDate,
+        public Carbon|bool $completedDate,
+        public string $sample,
+        public string $specimen,
+        public string $orderingProvider,
+    ) {
+    }
 
     public function result(): array
     {
-        // TODO: Implement display() method.
+        return [
+            'name' => $this->name,
+            'result' => $this->result,
+            'collection_date' => $this->collectionDate,
+            'released_date' => $this->completedDate,
+            'sample' => $this->sample,
+            'specimen' => $this->specimen,
+            'ordering_provider' => $this->orderingProvider,
+        ];
     }
 }

@@ -50,7 +50,6 @@ class LabCreator implements DiagnosticTestCreatorInterface
         //
 
         return new UnparsableDiagnosticTest($resultPieces);
-
     }
 
     private function getResultMetaData($index): array

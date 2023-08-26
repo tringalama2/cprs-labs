@@ -15,17 +15,17 @@ class LabMetaRowParser
 
     public function stripDateFromRow(string $row): bool|Carbon
     {
-        $date = Str::of($row)->match(self::DATE_PATTERN);
+        $datetime = Str::of($row)->match(self::DATE_PATTERN);
 
-        if (strlen($date) < 12) {
+        if (strlen($datetime) < 12) {
             return false;
         }
 
-        if (strlen($date) === 12) {
-            return Carbon::createFromFormat(self::DATETIME_CARBON_FORMAT, $date.'@00:00');
+        if (strlen($datetime) === 12) {
+            return Carbon::createFromFormat(self::DATETIME_CARBON_FORMAT, $datetime.'@00:00');
         }
 
-        return Carbon::createFromFormat(self::DATETIME_CARBON_FORMAT, $date);
+        return Carbon::createFromFormat(self::DATETIME_CARBON_FORMAT, $datetime);
     }
 
     public function stripSpecimenFromRow(string $row): string

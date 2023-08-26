@@ -53,6 +53,8 @@ class Labs extends Component
 
         $microBuilder->build();
 
+        $microBuilder->getMicroCollection()->dd();
+
         // Todo: move to new DiagnosticTestDirector
 
         //$labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
