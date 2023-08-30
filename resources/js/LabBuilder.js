@@ -1,17 +1,15 @@
 import collect from "collect.js";
+import {LabCreator} from "./LabCreator.js";
 
 export const LabBuilder = (labInput) => {
     const labRows = labInput.split("\n")
     const labCollection = collect()
 
-    const doExternalProcessing = () => {
-        // function to be called by the instantiator
-    }
-
     const getLabCollection = () => {
-        collect(labRows).each((row) => {
+        collect(labRows).each((row, index) => {
             // check if is result row
             if (isResultRow(row)) {
+                lab = LabCreator(labRows, index).getLab();
                 labCollection.push(row)
             }
 
