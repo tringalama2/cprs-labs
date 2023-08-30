@@ -65,6 +65,7 @@ class Labs extends Component
         $microBuilder->build();
 
         $microBuilder->getMicroCollection();
+        $microBuilder->getDateTimeHeaders();
 
         //$labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
         $labBuilder = new LabBuilder($this->input);

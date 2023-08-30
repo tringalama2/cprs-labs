@@ -9,7 +9,6 @@ use App\Services\DiagnosticTests\CancelledDiagnosticTest;
 use App\Services\DiagnosticTests\LabCreator;
 use App\Services\DiagnosticTests\UnparsableDiagnosticTest;
 use App\Services\Parser\RowTypes\Row;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class LabBuilder extends DiagnosticTestBuilder
@@ -132,19 +131,9 @@ class LabBuilder extends DiagnosticTestBuilder
                 ];
             }));
         $this->panels = $this->labLabels->groupBy('panel')->map->count();
-        $this->datetimeHeaders = $this->setCollectionDateHeaders();
+        $this->datetimeHeaders = $this->setCollectionDateHeaders($this->labCollection);
 
         $this->logUnmatchedLabs();
-    }
-
-    public function setCollectionDateHeaders(): Collection
-    {
-        return $this->labCollection
-            ->pluck('collection_date')
-            ->unique()
-            ->map(function ($item) {
-                return Carbon::parse($item)->format('n/j/y<b\r>G:i');
-            });
     }
 
     public function logUnmatchedLabs(): void

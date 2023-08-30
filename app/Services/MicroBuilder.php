@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 
 class MicroBuilder extends DiagnosticTestBuilder
 {
+    private Collection $datetimeHeaders;
+
     private Collection $microCollection;
 
     public function __construct($rawLabs)
@@ -28,12 +30,19 @@ class MicroBuilder extends DiagnosticTestBuilder
 
             $micro = (new MicroCreator($this->labRows, $microHeaderIndex))->getDiagnosticTest();
 
-            $this->microCollection->push($micro->result());
+            $this->microCollection->push(collect($micro->result()));
         });
+
+        $this->datetimeHeaders = $this->setCollectionDateHeaders($this->microCollection);
     }
 
     public function getMicroCollection(): Collection
     {
         return $this->microCollection;
+    }
+
+    public function getDateTimeHeaders(): Collection
+    {
+        return $this->datetimeHeaders;
     }
 }
