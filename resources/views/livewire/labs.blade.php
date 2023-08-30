@@ -93,9 +93,7 @@
                     </thead>
                     @if($labs)
                         <tbody>
-                        @php
-                            $loopPanel = '';
-                        @endphp
+                        @php($loopPanel = '')
                         @foreach($labLabelsSorted as $labLabel)
                             <tr class="border-b border-gray-500 hover:bg-sky-200 group">
                                 @if ($labLabel['panel'] != $loopPanel)
@@ -107,10 +105,7 @@
                          z-20 sticky left-7
                         ">{{ $labLabel['label'] }}</th>
                                 @foreach($labs->groupBy('collection_date') as $date)
-                                    @php
-                                        $lab = $date->where('name', $labLabel['name'])->first();
-                                    @endphp
-
+                                    @php($lab = $date->where('name', $labLabel['name'])->first())
                                     <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
                                         @if(str($lab?->get('flag'))->contains('*'))
                                         bg-red-500 text-red-950 group-hover:bg-sky-500 font-bold
@@ -123,9 +118,7 @@
                                     </td>
                                 @endforeach
                             </tr>
-                        @php
-                            $loopPanel = $labLabel['panel']
-                        @endphp
+                        @php($loopPanel = $labLabel['panel'])
                         @endforeach
                     @endif
                 </table>
