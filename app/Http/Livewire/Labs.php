@@ -74,7 +74,6 @@ class Labs extends Component
 
         $this->labs = $labBuilder->getLabCollection();
         $this->unparsableRows = $labBuilder->getUnparsableRows();
-        $this->unrecognizedLabLabels = $labBuilder->getUnrecognizedLabLabels();
         $this->labLabelsSorted = $labBuilder->getLabLabels();
         $this->datetimeHeaders = $labBuilder->getDateTimeHeaders();
         $this->panels = $labBuilder->getPanels();

@@ -111,7 +111,26 @@ class LabBuilder extends DiagnosticTestBuilder
 
         $this->unrecognizedLabLabels = $this->labCollection->pluck('name')->flip()->diffKeys($this->labsAndPanels)->flip();
 
-        $this->labLabels = $this->labsAndPanels->intersectByKeys($this->labCollection->pluck('name')->flip());
+        $this->labLabels = $this->labsAndPanels
+            ->intersectByKeys($this->labCollection->pluck('name')->flip())
+            ->map(function (
+                Lab $lab
+            ) {
+                return [
+                    'name' => $lab->name,
+                    'label' => $lab->label,
+                    'panel' => $lab->panel,
+                ];
+            })->merge($this->unrecognizedLabLabels->flip()->map(function (
+                int $key,
+                string $name
+            ) {
+                return [
+                    'name' => $name,
+                    'label' => $name,
+                    'panel' => 'Other',
+                ];
+            }));
         $this->panels = $this->labLabels->groupBy('panel')->map->count();
         $this->datetimeHeaders = $this->setCollectionDateHeaders();
 
