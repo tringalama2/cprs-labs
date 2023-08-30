@@ -37,6 +37,7 @@
                 <h1 class="text-4xl tracking-tight">CPRS Lab Formatter</h1>
             </div>
             <div class="mt-4">
+                <div id="app"></div>
                 <livewire:labs/>
             </div>
             <div class="flex justify-center px-0 mt-16 sm:items-center sm:justify-between">

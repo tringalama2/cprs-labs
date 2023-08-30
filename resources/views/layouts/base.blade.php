@@ -21,7 +21,7 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css'])
     @stack('styles')
     @livewireStyles
     @livewireScripts
@@ -32,6 +32,8 @@
 
 <body>
 @yield('body')
+
+@vite(['resources/js/app.js'])
 @stack('endScripts')
 </body>
 </html>
