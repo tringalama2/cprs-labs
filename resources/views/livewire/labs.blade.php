@@ -111,23 +111,7 @@
                                         $lab = $date->where('name', $labLabel->name)->first();
                                     @endphp
 
-                                    <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
-                                        @if(str($lab?->get('flag'))->contains('*'))
-                                        bg-red-500
-                                        text-red-950
-                                        group-hover:bg-sky-500
-                                        font-bold
-                                        @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
-                                        bg-red-300
-                                        text-red-900
-                                        group-hover:bg-sky-400
-                                        font-bold
-                                        @else
-                                        group-hover:bg-sky-200
-                                        bg-white
-                                        @endif
-                                        ">{{ $lab?->get('result') }}
-                                    </td>
+                                    <x-display.td-result :result="$lab?->get('result')" :flag="$lab?->get('flag')"/>
                                 @endforeach
                             </tr>
                             @php
@@ -152,23 +136,7 @@
                                         $lab = $date->where('name', $labLabel)->first();
                                     @endphp
 
-                                    <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
-                                        @if(str($lab?->get('flag'))->contains('*'))
-                                        bg-red-500
-                                        text-red-950
-                                        group-hover:bg-sky-500
-                                        font-bold
-                                        @elseif(str($lab?->get('flag'))->contains(['H', 'L']))
-                                        bg-red-300
-                                        text-red-900
-                                        group-hover:bg-sky-400
-                                        font-bold
-                                        @else
-                                        group-hover:bg-sky-200
-                                        bg-white
-                                        @endif
-                                        ">{{ $lab?->get('result') }}
-                                    </td>
+                                    <x-display.td-result :result="$lab?->get('result')" :flag="$lab?->get('flag')"/>
                                 @endforeach
                             </tr>
                         @endforeach
