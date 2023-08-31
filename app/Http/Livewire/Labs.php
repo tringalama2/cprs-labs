@@ -51,9 +51,9 @@ class Labs extends Component
         $this->validate();
 
         // Todo: Create DiagnosticTestDirector
-        //  abstract datetimeheaders
-        //  get micro labels
-        //  micro is its own panel
+        //  ✅abstract datetimeheaders
+        //  ✅get micro labels
+        //  ✅micro is its own panel
         //  write micro panel after unrecognizedlabs rows
         //  can further refactor to create one master collection to loop through with all results, grouped by panels
         //  for micro results, display tooltip with result; don't highlight positive or negative
@@ -66,6 +66,7 @@ class Labs extends Component
 
         $microBuilder->getMicroCollection();
         $microBuilder->getDateTimeHeaders();
+        $microBuilder->getMicroLabels();
 
         //$labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
         $labBuilder = new LabBuilder($this->input);
