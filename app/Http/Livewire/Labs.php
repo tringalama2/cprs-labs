@@ -56,6 +56,8 @@ class Labs extends Component
         //  ✅micro is its own panel
         //  write micro panel after unrecognizedlabs rows
         //  can further refactor to create one master collection to loop through with all results, grouped by panels
+        //  this can be a director that builds a labCollection and a microCollection through their builders,
+        //  then gets labels, dattimeheaders, etc for all diagnostic tests and merges them
         //  for micro results, display tooltip with result; don't highlight positive or negative
 
         $userSortDescending = true;
