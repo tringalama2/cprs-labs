@@ -24,6 +24,12 @@ class Labs extends Component
 
     public $unrecognizedLabLabels;
 
+    public $micro;
+
+    public $microDateTimeHeaders;
+
+    public $microLabels;
+
     protected $rules = [
         'input' => 'required',
     ];
@@ -66,9 +72,9 @@ class Labs extends Component
 
         $microBuilder->build();
 
-        $microBuilder->getMicroCollection();
-        $microBuilder->getDateTimeHeaders();
-        $microBuilder->getMicroLabels();
+        $this->micro = $microBuilder->getMicroCollection();
+        $this->microDateTimeHeaders = $microBuilder->getDateTimeHeaders();
+        $this->microLabels = $microBuilder->getMicroLabels();
 
         //$labBuilder = new LabBuilder(file_get_contents(resource_path('lab.test.txt')));
         $labBuilder = new LabBuilder($this->input);
