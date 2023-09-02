@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UnrecognizedLabController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\TestController;
@@ -56,9 +57,15 @@ Route::middleware('auth')->group(function () {
 
     Route::view('/profile', 'profile.edit')->name('profile.edit');
 
+    // Admin Routes
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
-    });
+
+        Route::get('unprocessed-labs/edit/{unrecognizedLab}',
+            [UnrecognizedLabController::class, 'edit'])->name('unprocessed-labs.edit');
+        Route::post('unprocessed-labs/update/{unrecognizedLab}',
+            [UnrecognizedLabController::class, 'update'])->name('unprocessed-labs.update');
+    })->middleware('isAdmin');
 
     Route::post('logout', LogoutController::class)
         ->name('logout');
