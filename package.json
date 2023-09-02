@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "@alpinejs/focus": "^3.12.3",
-        "@sentry/browser": "^7.40.0"
+        "@sentry/browser": "^7.40.0",
+        "sortablejs": "^1.15.0"
     }
 }

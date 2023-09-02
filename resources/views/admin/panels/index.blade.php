@@ -13,7 +13,7 @@
                 <tr>
                     <th scope="col" class="px-4 py-2">Label</th>
                     <th scope="col" class="px-4 py-2">Labs</th>
-                    <th scope="col" class="px-4 py-2">Order</th>
+                    <th scope="col" class="px-4 py-2"></th>
                     <th scope="col" class="px-4 py-2">
                         <a href="{{ route('admin.panel.create') }}">
                             <x-icons.plus fill="currentColor" class="ml-2 w-4"/>
@@ -21,14 +21,18 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="panelTableBody">
                 @foreach($panels as $panel)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-200">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-200"
+                        data-id="{{ $panel->id }}">
                         <td class="px-4 py-2 align-top">{{ $panel->label }}</td>
                         <td class="px-4 py-2 align-top">
                             {{ $panel->labs->implode('label', ', ') }}
                         </td>
-                        <td class="px-4 py-2 align-top">{{ $panel->order_column }}</td>
+                        <td class="px-4 py-2 align-top">
+
+                            <x-icons.arrows-move fill="currentColor" class="mx-2 w-4"/>
+                        </td>
                         <td class="px-4 py-2 align-top text-xs flex">
                             <a href="{{ route('admin.panel.show', $panel) }}">
                                 <x-icons.eye fill="currentColor" class="ml-2 w-4"/>
@@ -44,4 +48,5 @@
         </div>
     </div>
 
+    <livewire:panel-sort sortable-id="panelTableBody"/>
 @endsection

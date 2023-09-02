@@ -10,7 +10,7 @@ class PanelRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string', 'max:255'],
-            'order_column' => ['nullable', 'integer'],
+            'order_column' => ['sometimes', 'integer'],
         ];
     }
 
