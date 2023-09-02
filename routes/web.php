@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\UnrecognizedLabController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -65,6 +66,8 @@ Route::middleware('auth')->group(function () {
             [UnrecognizedLabController::class, 'edit'])->name('unprocessed-labs.edit');
         Route::post('unprocessed-labs/update/{unrecognizedLab}',
             [UnrecognizedLabController::class, 'update'])->name('unprocessed-labs.update');
+
+        Route::resource('panel', PanelController::class)->except(['destroy']);
     })->middleware('isAdmin');
 
     Route::post('logout', LogoutController::class)

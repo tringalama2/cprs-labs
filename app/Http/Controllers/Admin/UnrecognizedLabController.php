@@ -26,6 +26,6 @@ class UnrecognizedLabController extends Controller
             $unrecognizedLab->delete();
         });
 
-        return redirect()->route('admin.dashboard')->with(['message' => "{$validated['label']} has been saved."]);
+        return redirect()->route('admin.dashboard')->with(['message' => "{$validated['label']} lab has been saved."]);
     }
 }
