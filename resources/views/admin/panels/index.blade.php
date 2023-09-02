@@ -30,7 +30,6 @@
                             {{ $panel->labs->implode('label', ', ') }}
                         </td>
                         <td class="px-4 py-2 align-top">
-
                             <x-icons.arrows-move fill="currentColor" class="mx-2 w-4"/>
                         </td>
                         <td class="px-4 py-2 align-top text-xs flex">

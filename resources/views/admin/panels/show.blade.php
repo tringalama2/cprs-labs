@@ -15,16 +15,19 @@
                 <tr>
                     <th scope="col" class="px-4 py-2">Label</th>
                     <th scope="col" class="px-4 py-2">CPRS Name</th>
-                    <th scope="col" class="px-4 py-2">Order</th>
+                    <th scope="col" class="px-4 py-2"></th>
                     <th scope="col" class="px-4 py-2"></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="labTableBody">
                 @foreach($panel->labs as $lab)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-200">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-200"
+                        data-id="{{ $lab->id }}">
                         <td class="px-4 py-2 align-top">{{ $lab->label }}</td>
                         <td class="px-4 py-2 align-top">{{ $lab->name }}</td>
-                        <td class="px-4 py-2 align-top">{{ $lab->order_column }}</td>
+                        <td class="px-4 py-2 align-top">
+                            <x-icons.arrows-move fill="currentColor" class="mx-2 w-4"/>
+                        </td>
                         <td class="px-4 py-2 align-top text-xs flex">
 
                         </td>
@@ -35,4 +38,5 @@
         </div>
     </div>
 
+    <livewire:lab-sort sortable-id="labTableBody"/>
 @endsection

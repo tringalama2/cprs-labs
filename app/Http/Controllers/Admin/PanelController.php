@@ -10,7 +10,11 @@ class PanelController extends Controller
 {
     public function index()
     {
-        $panels = Panel::query()->with('labs')->orderBy('order_column')->get();
+        $panels = Panel::query()->with([
+            'labs' => function ($query) {
+                $query->orderBy('order_column');
+            },
+        ])->orderBy('order_column')->get();
 
         return view('admin.panels.index', compact('panels'));
     }
@@ -29,6 +33,12 @@ class PanelController extends Controller
 
     public function show(Panel $panel)
     {
+        $panel->load([
+            'labs' => function ($query) {
+                $query->orderBy('order_column');
+            },
+        ]);
+
         return view('admin.panels.show', compact('panel'));
     }
 

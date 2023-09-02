@@ -9,7 +9,7 @@ class PanelSort extends Component
 {
     public $sortableId;
 
-    protected $listeners = ['sortUpdated' => 'saveSort'];
+    protected $listeners = ['panelSortUpdated' => 'saveSort'];
 
     public function saveSort(array $panelSortArray)
     {
