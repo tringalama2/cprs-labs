@@ -3,7 +3,7 @@
 @section('content')
     @include('admin.navigation')
 
-    <div class="mx-auto max-w-4xl relative pt-10 bg-gray-100 bg-center  bg-dots selection:bg-sky-500 selection:text-white">
+    <div class="mx-auto max-w-4xl relative pt-10 bg-center">
         <h1 class="mb-4 text-3xl font-extralight tracking-tight leading-none text-gray-900 md:text-4xl lg:text-5xl">
             Edit {{ $panel->label }} Panel</h1>
 

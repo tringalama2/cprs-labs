@@ -3,7 +3,7 @@
 @section('content')
     @include('admin.navigation')
 
-    <div class="mx-auto max-w-4xl relative pt-10 bg-gray-100 bg-center  bg-dots selection:bg-sky-500 selection:text-white">
+    <div class="mx-auto max-w-4xl relative pt-10 bg-center">
         <h1 class="mb-4 text-3xl font-extralight tracking-tight leading-none text-gray-900 md:text-4xl lg:text-5xl">
             {{ $panel->label }} Panel</h1>
 
@@ -21,7 +21,7 @@
                 </thead>
                 <tbody id="labTableBody">
                 @foreach($panel->labs as $lab)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-200"
+                    <tr class="bg-white border-b hover:bg-gray-200"
                         data-id="{{ $lab->id }}">
                         <td class="px-4 py-2 align-top">{{ $lab->label }}</td>
                         <td class="px-4 py-2 align-top">{{ $lab->name }}</td>
