@@ -14,8 +14,9 @@
 
             @include('admin.panels._fields')
 
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button class="ml-4">Save</x-primary-button>
+            <div class="flex items-center justify-start mt-4">
+                <x-forms.submit-button/>
+                <x-forms.cancel-back class="ml-4"/>
             </div>
         </form>
     </div>
