@@ -5,7 +5,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 test('registration page contains livewire component', function () {
     $this->get(route('register'))
@@ -25,7 +26,7 @@ test('is redirected if already logged in', function () {
 test('a user can register', function () {
     Event::fake();
 
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('name', 'Tall Stack')
         ->set('email', 'tallstack@example.com')
         ->set('password', 'password')
@@ -40,21 +41,21 @@ test('a user can register', function () {
 });
 
 test('name is required', function () {
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('name', '')
         ->call('register')
         ->assertHasErrors(['name' => 'required']);
 });
 
 test('email is required', function () {
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('email', '')
         ->call('register')
         ->assertHasErrors(['email' => 'required']);
 });
 
 test('email is valid email', function () {
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('email', 'tallstack')
         ->call('register')
         ->assertHasErrors(['email' => 'email']);
@@ -63,7 +64,7 @@ test('email is valid email', function () {
 test('email hasnt been taken already', function () {
     User::factory()->create(['email' => 'tallstack@example.com']);
 
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('email', 'tallstack@example.com')
         ->call('register')
         ->assertHasErrors(['email' => 'unique']);
@@ -72,7 +73,7 @@ test('email hasnt been taken already', function () {
 test('see email hasnt already been taken validation message as user types', function () {
     User::factory()->create(['email' => 'tallstack@example.com']);
 
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('email', 'smallstack@gmail.com')
         ->assertHasNoErrors()
         ->set('email', 'tallstack@example.com')
@@ -81,7 +82,7 @@ test('see email hasnt already been taken validation message as user types', func
 });
 
 test('password is required', function () {
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('password', '')
         ->set('passwordConfirmation', 'password')
         ->call('register')
@@ -89,7 +90,7 @@ test('password is required', function () {
 });
 
 test('password is minimum of eight characters', function () {
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('password', 'secret')
         ->set('passwordConfirmation', 'secret')
         ->call('register')
@@ -97,7 +98,7 @@ test('password is minimum of eight characters', function () {
 });
 
 test('password matches password confirmation', function () {
-    Livewire::test('auth.register')
+    livewire('auth.register')
         ->set('email', 'tallstack@example.com')
         ->set('password', 'password')
         ->set('passwordConfirmation', 'not-password')

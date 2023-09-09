@@ -5,7 +5,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
-use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 test('can view verification page', function () {
     $user = User::factory()->create([
@@ -20,11 +21,9 @@ test('can view verification page', function () {
 });
 
 test('can resend verification email', function () {
-    $user = User::factory()->create();
+    login();
 
-    Livewire::actingAs($user);
-
-    Livewire::test('auth.verify')
+    livewire('auth.verify')
         ->call('resend')
         ->assertEmitted('resent');
 });

@@ -4,7 +4,8 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 test('can view login page', function () {
     $this->get(route('login'))
@@ -24,7 +25,7 @@ test('is redirected if already logged in', function () {
 test('a user can login', function () {
     $user = User::factory()->create(['password' => Hash::make('password')]);
 
-    Livewire::test('auth.login')
+    livewire('auth.login')
         ->set('email', $user->email)
         ->set('password', 'password')
         ->call('authenticate');
@@ -35,7 +36,7 @@ test('a user can login', function () {
 test('is redirected to the home page after login', function () {
     $user = User::factory()->create(['password' => Hash::make('password')]);
 
-    Livewire::test('auth.login')
+    livewire('auth.login')
         ->set('email', $user->email)
         ->set('password', 'password')
         ->call('authenticate')
@@ -45,7 +46,7 @@ test('is redirected to the home page after login', function () {
 test('email is required', function () {
     $user = User::factory()->create(['password' => Hash::make('password')]);
 
-    Livewire::test('auth.login')
+    livewire('auth.login')
         ->set('password', 'password')
         ->call('authenticate')
         ->assertHasErrors(['email' => 'required']);
@@ -54,7 +55,7 @@ test('email is required', function () {
 test('email must be valid email', function () {
     $user = User::factory()->create(['password' => Hash::make('password')]);
 
-    Livewire::test('auth.login')
+    livewire('auth.login')
         ->set('email', 'invalid-email')
         ->set('password', 'password')
         ->call('authenticate')
@@ -64,7 +65,7 @@ test('email must be valid email', function () {
 test('password is required', function () {
     $user = User::factory()->create(['password' => Hash::make('password')]);
 
-    Livewire::test('auth.login')
+    livewire('auth.login')
         ->set('email', $user->email)
         ->call('authenticate')
         ->assertHasErrors(['password' => 'required']);
@@ -73,7 +74,7 @@ test('password is required', function () {
 test('bad login attempt shows message', function () {
     $user = User::factory()->create();
 
-    Livewire::test('auth.login')
+    livewire('auth.login')
         ->set('email', $user->email)
         ->set('password', 'bad-password')
         ->call('authenticate')

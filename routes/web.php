@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/profile', 'profile.edit')->name('profile.edit');
 
     // Admin Routes
-    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::middleware(['isAdmin'])->prefix('admin')->as('admin.')->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
 
         Route::get('unprocessed-labs/edit/{unrecognizedLab}',
@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
             [UnrecognizedLabController::class, 'update'])->name('unprocessed-labs.update');
 
         Route::resource('panel', PanelController::class)->except(['destroy']);
-    })->middleware('isAdmin');
+    });
 
     Route::post('logout', LogoutController::class)
         ->name('logout');

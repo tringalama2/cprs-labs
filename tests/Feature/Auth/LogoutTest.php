@@ -3,7 +3,6 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-
 test('an authenticated user can log out', function () {
     $user = User::factory()->create();
     $this->be($user);

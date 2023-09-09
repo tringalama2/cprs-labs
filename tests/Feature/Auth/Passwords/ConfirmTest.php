@@ -3,7 +3,8 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     Route::get('/must-be-confirmed', function () {
@@ -24,7 +25,7 @@ test('a user must confirm their password before visiting a protected page', func
 });
 
 test('a user must enter a password to confirm it', function () {
-    Livewire::test('auth.passwords.confirm')
+    livewire('auth.passwords.confirm')
         ->call('confirm')
         ->assertHasErrors(['password' => 'required']);
 });
@@ -34,7 +35,7 @@ test('a user must enter their own password to confirm it', function () {
         'password' => Hash::make('password'),
     ]);
 
-    Livewire::test('auth.passwords.confirm')
+    livewire('auth.passwords.confirm')
         ->set('password', 'not-password')
         ->call('confirm')
         ->assertHasErrors(['password' => 'current_password']);
@@ -49,7 +50,7 @@ test('a user who confirms their password will get redirected', function () {
 
     $this->withSession(['url.intended' => '/must-be-confirmed']);
 
-    Livewire::test('auth.passwords.confirm')
+    livewire('auth.passwords.confirm')
         ->set('password', 'password')
         ->call('confirm')
         ->assertRedirect('/must-be-confirmed');

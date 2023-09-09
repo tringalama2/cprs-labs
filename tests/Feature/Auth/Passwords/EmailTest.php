@@ -1,7 +1,8 @@
 <?php
 
 use App\Models\User;
-use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 test('can view password request page', function () {
     $this->get(route('password.request'))
@@ -10,13 +11,13 @@ test('can view password request page', function () {
 });
 
 test('a user must enter an email address', function () {
-    Livewire::test('auth.passwords.email')
+    livewire('auth.passwords.email')
         ->call('sendResetPasswordLink')
         ->assertHasErrors(['email' => 'required']);
 });
 
 test('a user must enter a valid email address', function () {
-    Livewire::test('auth.passwords.email')
+    livewire('auth.passwords.email')
         ->set('email', 'email')
         ->call('sendResetPasswordLink')
         ->assertHasErrors(['email' => 'email']);
@@ -25,7 +26,7 @@ test('a user must enter a valid email address', function () {
 test('a user who enters a valid email address will get sent an email', function () {
     $user = User::factory()->create();
 
-    Livewire::test('auth.passwords.email')
+    livewire('auth.passwords.email')
         ->set('email', $user->email)
         ->call('sendResetPasswordLink')
         ->assertNotSet('emailSentMessage', false);

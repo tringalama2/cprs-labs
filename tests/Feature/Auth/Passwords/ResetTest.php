@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 test('can view password reset page', function () {
     $user = User::factory()->create();
@@ -39,7 +40,7 @@ test('can reset password', function () {
         'created_at' => Carbon::now(),
     ]);
 
-    Livewire::test('auth.passwords.reset', [
+    livewire('auth.passwords.reset', [
         'token' => $token,
     ])
         ->set('email', $user->email)
@@ -54,7 +55,7 @@ test('can reset password', function () {
 });
 
 test('token is required', function () {
-    Livewire::test('auth.passwords.reset', [
+    livewire('auth.passwords.reset', [
         'token' => null,
     ])
         ->call('resetPassword')
@@ -62,7 +63,7 @@ test('token is required', function () {
 });
 
 test('email is required', function () {
-    Livewire::test('auth.passwords.reset', [
+    livewire('auth.passwords.reset', [
         'token' => Str::random(16),
     ])
         ->set('email', null)
@@ -71,7 +72,7 @@ test('email is required', function () {
 });
 
 test('email is valid email', function () {
-    Livewire::test('auth.passwords.reset', [
+    livewire('auth.passwords.reset', [
         'token' => Str::random(16),
     ])
         ->set('email', 'email')
@@ -80,7 +81,7 @@ test('email is valid email', function () {
 });
 
 test('password is required', function () {
-    Livewire::test('auth.passwords.reset', [
+    livewire('auth.passwords.reset', [
         'token' => Str::random(16),
     ])
         ->set('password', '')
@@ -89,7 +90,7 @@ test('password is required', function () {
 });
 
 test('password is minimum of eight characters', function () {
-    Livewire::test('auth.passwords.reset', [
+    livewire('auth.passwords.reset', [
         'token' => Str::random(16),
     ])
         ->set('password', 'secret')
@@ -98,7 +99,7 @@ test('password is minimum of eight characters', function () {
 });
 
 test('password matches password confirmation', function () {
-    Livewire::test('auth.passwords.reset', [
+    livewire('auth.passwords.reset', [
         'token' => Str::random(16),
     ])
         ->set('password', 'new-password')
