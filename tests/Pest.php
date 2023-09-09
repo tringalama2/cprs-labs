@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 use Tests\TestCase;
 
 /*
@@ -14,7 +14,7 @@ use Tests\TestCase;
 |
 */
 
-uses(TestCase::class, RefreshDatabase::class)->in('Feature');
+uses(TestCase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +42,12 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function login($user = null, array $attributes = [])
 {
-    // ..
+    return test()->actingAs($user ?? User::factory()->create($attributes));
+}
+
+function loginAsAdmin()
+{
+    return login(null, ['is_admin' => true]);
 }
