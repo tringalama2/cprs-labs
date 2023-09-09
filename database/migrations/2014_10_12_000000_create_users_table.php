@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,14 +21,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-
-        User::create([
-            'name' => 'Steven Tringali',
-            'email' => 'dr.tringali@gmail.com',
-            'password' => '$2y$10$0pnUxjVBkGt09H4Sc.vEOeFj51i7.1rRoxLpB/SSb8K7YV4gULQlK',
-            'is_admin' => 1,
-            'remember_token' => 'hYN7Bt7LQsw7zic03BimrK4qJ2mv3g87cN8rjw0YHU5lBUJK6yBO5IsBJwzF',
-        ]);
     }
 
     /**
