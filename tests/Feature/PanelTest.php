@@ -13,9 +13,7 @@ it('can store a panel', function () {
         'label' => $label,
     ])->assertRedirect(route('admin.panel.index'))->assertSessionHas('message', "{$label} panel has been saved.");
 
-    $panel = Panel::latest('id')->first();
-
-    expect($panel->label)->toBe($label);
+    expect(Panel::latest('id')->first())->label->toBe($label);
 });
 
 it('can edit a panel', function () {
@@ -28,7 +26,7 @@ it('can edit a panel', function () {
 
     $panel->refresh();
 
-    expect($panel->label)->toBe($newLabel);
+    expect($panel)->label->toBe($newLabel);
 });
 
 it('can show a panel', function () {
