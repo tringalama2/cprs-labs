@@ -22,7 +22,7 @@ class UnrecognizedLabController extends Controller
         $validated = $request->safe()->only(['label', 'panel_id']);
 
         DB::transaction(function () use ($validated, $unrecognizedLab) {
-            Lab::create(array_merge($validated, ['name' => $unrecognizedLab->name]));
+            Lab::create(array_merge($validated, ['name' => $unrecognizedLab->name, 'order_column' => 1000]));
             $unrecognizedLab->delete();
         });
 
