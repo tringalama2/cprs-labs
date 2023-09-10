@@ -19,7 +19,7 @@ return new class extends Migration
             ['id' => 2, 'label' => 'Morphology', 'order_column' => 2],
             ['id' => 3, 'label' => 'Chem', 'order_column' => 3],
             ['id' => 4, 'label' => 'LFT', 'order_column' => 4],
-            ['id' => 5, 'label' => 'ABG', 'order_column' => 5],
+            ['id' => 5, 'label' => 'ABG', 'order_column' => 6],
             ['id' => 6, 'label' => 'Coag', 'order_column' => 7],
             ['id' => 7, 'label' => 'Cardiac', 'order_column' => 8],
             ['id' => 8, 'label' => 'UA', 'order_column' => 9],
