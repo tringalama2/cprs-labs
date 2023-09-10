@@ -58,6 +58,24 @@ class MicroBuilder extends DiagnosticTestBuilder
 
         $this->unrecognizedMicroLabels = $this->microCollection->pluck('name')->flip()->diffKeys($this->microsAndPanel)->flip();
 
+        //        dd($this->microCollection->pluck('name')->flip(),
+        //
+        //            $this->microsAndPanel
+        //                ->intersectByKeys($this->microCollection->pluck('name')->flip()),
+        //            $this->unrecognizedMicroLabels,
+        //
+        //            $this->unrecognizedMicroLabels->flip()->map(function (
+        //                int $key,
+        //                string $name
+        //            ) {
+        //                return [
+        //                    'name' => $name,
+        //                    'label' => $name,
+        //                    'panel' => 'Micro',
+        //                ];
+        //            }),
+        //        );
+
         $this->microLabels = $this->microsAndPanel
             ->intersectByKeys($this->microCollection->pluck('name')->flip())
             ->map(function (
@@ -68,7 +86,9 @@ class MicroBuilder extends DiagnosticTestBuilder
                     'label' => $micro->label,
                     'panel' => 'Micro',
                 ];
-            })->merge($this->unrecognizedMicroLabels->flip()->map(function (
+            })
+            ->toBase()  // resolves error: Call to a member function getKey() on array. when merging to empty collections; https://github.com/laravel/framework/issues/22626
+            ->merge($this->unrecognizedMicroLabels->flip()->map(function (
                 int $key,
                 string $name
             ) {

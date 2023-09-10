@@ -122,15 +122,6 @@
                         @endforeach
                     @endif
                 </table>
-                @if($labs)
-                    <div class="bg-white">
-                        <h2 class="text-lg underline">Unable To Process</h2>
-                        @foreach($unparsableRows as $row)
-                            <div>{{ implode(' ', $row->toArray()) }}</div>
-                        @endforeach
-                    </div>
-                @endif
-
 
                 <table class="text-sm border-collapse border-spacing-0">
                     <thead>
@@ -176,6 +167,14 @@
                     @endif
                 </table>
 
+                @if($labs)
+                    <div class="bg-white">
+                        <h2 class="text-lg underline">Unable To Process</h2>
+                        @foreach($unparsableRows as $row)
+                            <div>{{ implode(' ', $row->toArray()) }}</div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </div>

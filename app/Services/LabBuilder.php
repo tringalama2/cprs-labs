@@ -120,7 +120,9 @@ class LabBuilder extends DiagnosticTestBuilder
                     'label' => $lab->label,
                     'panel' => $lab->panel,
                 ];
-            })->merge($this->unrecognizedLabLabels->flip()->map(function (
+            })
+            ->toBase()  // resolves error: Call to a member function getKey() on array. when merging to empty collections; https://github.com/laravel/framework/issues/22626
+            ->merge($this->unrecognizedLabLabels->flip()->map(function (
                 int $key,
                 string $name
             ) {
