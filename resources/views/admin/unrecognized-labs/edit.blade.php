@@ -4,7 +4,7 @@
     @include('admin.navigation')
 
 
-    <div class="mx-auto max-w-4xl relative pt-10 bg-gray-100 bg-center  bg-dots selection:bg-sky-500 selection:text-white">
+    <div class="mx-auto max-w-4xl relative pt-10 bg-center  bg-dots selection:bg-sky-500 selection:text-white">
         <h1 class="mb-4 text-3xl font-extralight tracking-tight leading-none text-gray-900 md:text-4xl lg:text-5xl">
             Unrecognized Lab</h1>
         <h2 class="mb-4 text-1xl font-extralight tracking-tight leading-none text-gray-700 md:text-2xl lg:text-3xl">{{ $unrecognizedLab->name }}</h2>
