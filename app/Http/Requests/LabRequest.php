@@ -16,6 +16,13 @@ class LabRequest extends FormRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            'panel_id' => 'panel',
+        ];
+    }
+
     public function authorize(): bool
     {
         return true;
