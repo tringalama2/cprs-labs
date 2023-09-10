@@ -11,15 +11,17 @@ it('can save unrecognized lab', function () {
     loginAsAdmin()->get(route('admin.unprocessed-labs.edit', $unrecognizedLab))->assertOk();
 
     $label = fake()->word;
+    $panel_id = 1;
+
     loginAsAdmin()->post(route('admin.unprocessed-labs.update', $unrecognizedLab), [
         'label' => $label,
-        'panel_id' => 1,
-    ])->assertRedirect(route('admin.dashboard'))->assertSessionHas('message', "$label lab has been saved.");
+        'panel_id' => $panel_id,
+    ])->assertRedirect(route('admin.panel.show', $panel_id))->assertSessionHas('message', "$label lab has been saved.");
 
     expect(Lab::latest('id')->first())
         ->label->toBe($label)
         ->name->toBe($unrecognizedLab->name)
-        ->panel_id->toBe(1);
+        ->panel_id->toBe($panel_id);
 
     $this->assertDatabaseMissing('unrecognized_labs', ['id' => $unrecognizedLab->id]);
     $unrecognizedLab->refresh();
