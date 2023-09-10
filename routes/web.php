@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LabController;
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\UnrecognizedLabController;
 use App\Http\Controllers\Auth\EmailVerificationController;
@@ -68,6 +69,7 @@ Route::middleware('auth')->group(function () {
             [UnrecognizedLabController::class, 'update'])->name('unprocessed-labs.update');
 
         Route::resource('panel', PanelController::class)->except(['destroy']);
+        Route::resource('lab', LabController::class)->except(['index', 'show', 'destroy']);
     });
 
     Route::post('logout', LogoutController::class)

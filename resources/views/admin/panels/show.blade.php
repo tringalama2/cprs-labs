@@ -16,7 +16,11 @@
                     <th scope="col" class="px-4 py-2">Label</th>
                     <th scope="col" class="px-4 py-2">CPRS Name</th>
                     <th scope="col" class="px-4 py-2"></th>
-                    <th scope="col" class="px-4 py-2"></th>
+                    <th scope="col" class="px-4 py-2">
+                        <a href="{{ route('admin.lab.create') }}">
+                            <x-icons.plus fill="currentColor" class="ml-2 w-4"/>
+                        </a>
+                    </th>
                 </tr>
                 </thead>
                 <tbody id="labTableBody">
@@ -30,6 +34,9 @@
                         </td>
                         <td class="px-4 py-2 align-top text-xs flex">
 
+                            <a href="{{ route('admin.lab.edit', $lab) }}">
+                                <x-icons.edit fill="currentColor" class="ml-2 w-4"/>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
