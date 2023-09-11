@@ -12,7 +12,7 @@ class MicroFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => str($this->faker->word())->upper(),
+            'name' => str($this->faker->word())->upper()->toString(),
             'label' => $this->faker->word(),
             'order_column' => $this->faker->randomNumber(),
         ];

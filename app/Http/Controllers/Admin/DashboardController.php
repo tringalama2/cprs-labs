@@ -7,6 +7,7 @@ use App\Models\Lab;
 use App\Models\Panel;
 use App\Models\UnparsableLab;
 use App\Models\UnrecognizedLab;
+use App\Models\UnrecognizedMicro;
 
 class DashboardController extends Controller
 {
@@ -18,14 +19,16 @@ class DashboardController extends Controller
             ->orderBy('panels.order_column')
             ->orderBy('labs.order_column')
             ->get(['labs.label', 'panels.label as panel']);
-        $unparsableLabs = UnparsableLab::all();
-        $unrecognizedLabs = UnrecognizedLab::all();
+        $unparsableLabs = UnparsableLab::latest()->get();
+        $unrecognizedLabs = UnrecognizedLab::latest()->get();
+        $unrecognizedMicro = UnrecognizedMicro::latest()->get();
 
         return view('admin.dashboard', compact(
             'panels',
             'labs',
             'unparsableLabs',
             'unrecognizedLabs',
+            'unrecognizedMicro',
         ));
     }
 }

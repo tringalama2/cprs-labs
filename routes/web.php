@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LabController;
+use App\Http\Controllers\Admin\MicroController;
 use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\UnrecognizedLabController;
+use App\Http\Controllers\Admin\UnrecognizedMicroController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\TestController;
@@ -68,7 +70,13 @@ Route::middleware('auth')->group(function () {
         Route::post('unprocessed-labs/update/{unrecognizedLab}',
             [UnrecognizedLabController::class, 'update'])->name('unprocessed-labs.update');
 
+        Route::get('unprocessed-micros/edit/{unrecognizedMicro}',
+            [UnrecognizedMicroController::class, 'edit'])->name('unprocessed-micros.edit');
+        Route::post('unprocessed-micros/update/{unrecognizedMicro}',
+            [UnrecognizedMicroController::class, 'update'])->name('unprocessed-micros.update');
+
         Route::resource('panel', PanelController::class)->except(['destroy']);
+        Route::resource('micro', MicroController::class)->except(['show', 'destroy']);
         Route::resource('lab', LabController::class)->except(['index', 'show', 'destroy']);
     });
 

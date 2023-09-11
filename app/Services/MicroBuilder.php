@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Micro;
+use App\Models\UnrecognizedMicro;
 use App\Services\DiagnosticTests\MicroCreator;
 use App\Services\Parser\RowTypes\Row;
 use Illuminate\Support\Collection;
@@ -58,24 +59,6 @@ class MicroBuilder extends DiagnosticTestBuilder
 
         $this->unrecognizedMicroLabels = $this->microCollection->pluck('name')->flip()->diffKeys($this->microsAndPanel)->flip();
 
-        //        dd($this->microCollection->pluck('name')->flip(),
-        //
-        //            $this->microsAndPanel
-        //                ->intersectByKeys($this->microCollection->pluck('name')->flip()),
-        //            $this->unrecognizedMicroLabels,
-        //
-        //            $this->unrecognizedMicroLabels->flip()->map(function (
-        //                int $key,
-        //                string $name
-        //            ) {
-        //                return [
-        //                    'name' => $name,
-        //                    'label' => $name,
-        //                    'panel' => 'Micro',
-        //                ];
-        //            }),
-        //        );
-
         $this->microLabels = $this->microsAndPanel
             ->intersectByKeys($this->microCollection->pluck('name')->flip())
             ->map(function (
@@ -98,6 +81,15 @@ class MicroBuilder extends DiagnosticTestBuilder
                     'panel' => 'Micro',
                 ];
             }));
+
+        $this->logUnmatchedMicros();
+    }
+
+    public function logUnmatchedMicros(): void
+    {
+        $this->unrecognizedMicroLabels->each(function (string $item, int $key) {
+            UnrecognizedMicro::firstOrCreate(['name' => $item]);
+        });
     }
 
     public function getMicroCollection(): Collection
