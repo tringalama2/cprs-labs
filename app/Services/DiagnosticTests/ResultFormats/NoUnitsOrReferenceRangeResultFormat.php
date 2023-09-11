@@ -2,8 +2,6 @@
 
 namespace App\Services\DiagnosticTests\ResultFormats;
 
-use Illuminate\Support\Str;
-
 class NoUnitsOrReferenceRangeResultFormat implements ResultFormatContract
 {
     use WithRows;
@@ -14,11 +12,7 @@ class NoUnitsOrReferenceRangeResultFormat implements ResultFormatContract
 
     public function match(): bool
     {
-        return Str::startsWith($this->resultPieces[0], [
-            'VZ DNA',
-            'FIO2',
-            'HSV',
-        ]);
+        return count($this->resultPieces) == 3;
     }
 
     public function getResultPieces(): array

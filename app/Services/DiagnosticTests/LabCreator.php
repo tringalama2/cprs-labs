@@ -4,6 +4,7 @@ namespace App\Services\DiagnosticTests;
 
 use App\Services\DiagnosticTests\ResultFormats\FullResultFormat;
 use App\Services\DiagnosticTests\ResultFormats\NoSpaceAfterNameResultFormat;
+use App\Services\DiagnosticTests\ResultFormats\NoSpaceAfterReferenceRangeResultFormat;
 use App\Services\DiagnosticTests\ResultFormats\NoUnitsOrReferenceRangeResultFormat;
 use App\Services\DiagnosticTests\ResultFormats\NoUnitsResultFormat;
 use App\Services\DiagnosticTests\ResultFormats\ResultFormatContract;
@@ -29,6 +30,7 @@ class LabCreator implements DiagnosticTestCreatorInterface
         }
 
         $resultFormats = [
+            NoSpaceAfterReferenceRangeResultFormat::class,
             NoUnitsOrReferenceRangeResultFormat::class,
             NoSpaceAfterNameResultFormat::class,
             NoUnitsResultFormat::class,
@@ -108,6 +110,6 @@ class LabCreator implements DiagnosticTestCreatorInterface
 
     public function stripFlagFromResult(string $result): string
     {
-        return Str::of($result)->match('/([H|L]\**)$/');
+        return Str::of($result)->match('/ ([H|L]\**)$/');
     }
 }
