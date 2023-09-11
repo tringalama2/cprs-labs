@@ -21,11 +21,12 @@ class NoSpaceAfterNameResultFormat implements ResultFormatContract
             'MRSA SURVL NARES DNA,E-SWAB',
             'C. DIFF TOX B GENE PCR,stool',
             'OCCULT BLOOD RANDOM-GUAIAC ',
+            'Occult Blood (Fit) #1 Of 1 ',
         ];
 
         foreach ($availableNames as $item) {
             if (Str::startsWith($this->resultPieces[0], $item)) {
-                $this->name = $item;
+                $this->name = Str::of($item)->trim();
 
                 return true;
             }
