@@ -30,9 +30,9 @@ class LabCreator implements DiagnosticTestCreatorInterface
         }
 
         $resultFormats = [
+            NoSpaceAfterNameResultFormat::class,
             NoSpaceAfterReferenceRangeResultFormat::class,
             NoUnitsOrReferenceRangeResultFormat::class,
-            NoSpaceAfterNameResultFormat::class,
             NoUnitsResultFormat::class,
             FullResultFormat::class,
         ];

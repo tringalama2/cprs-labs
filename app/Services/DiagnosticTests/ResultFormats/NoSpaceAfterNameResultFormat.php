@@ -16,22 +16,32 @@ class NoSpaceAfterNameResultFormat implements ResultFormatContract
 
     public function match(): bool
     {
-        return Str::startsWith($this->resultPieces[0], [
+        $availableNames = [
             'MRSA SURVL NARES AGAR,E-SWAB',
             'MRSA SURVL NARES DNA,E-SWAB',
             'C. DIFF TOX B GENE PCR,stool',
             'OCCULT BLOOD RANDOM-GUAIAC ',
-        ]);
+        ];
+
+        foreach ($availableNames as $item) {
+            if (Str::startsWith($this->resultPieces[0], $item)) {
+                $this->name = $item;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getResultPieces(): array
     {
-        $result = Str::substr($this->resultPieces[0],
-            (strlen($this->resultPieces[0]) - strlen($this->name)) * -1);
+        $result = Str::of($this->resultPieces[0])->after($this->name)->trim();
+
         $pieceCount = count($this->resultPieces);
 
         return [
-            'name' => trim($this->name),
+            'name' => $this->name,
             'result' => $result,
             'flag' => $this->stripFlagFromResult($result),
             // check if units are avail based on number of pieces
