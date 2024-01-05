@@ -7,6 +7,7 @@ use Carbon\Carbon;
 class Micro implements DiagnosticTestInterface
 {
     public function __construct(
+        public string $accessionUniqueId,
         public string $name,
         public string $result,
         public Carbon $collectionDate,
@@ -20,6 +21,7 @@ class Micro implements DiagnosticTestInterface
     public function result(): array
     {
         return [
+            'accession_unique_id' => $this->accessionUniqueId,
             'name' => $this->name,
             'result' => $this->result,
             'collection_date' => $this->collectionDate,

@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class LabMetaRowParser
 {
+    const SPECIMEN_UNIQUE_ID_PATTERN = '/Specimen: [A-Z-a-z ]+.[\s]+([A-Z-a-z-0-9 ]+)/';
+
     const SPECIMEN_PATTERN = '/Specimen: ([A-Z-a-z ]+)/';
 
     const DATE_PATTERN = '/([A-Za-z]{3} [\d]{2}, [\d]{4}(@[\d]{2}:[\d]{2})?)/';
@@ -26,6 +28,11 @@ class LabMetaRowParser
         }
 
         return Carbon::createFromFormat(self::DATETIME_CARBON_FORMAT, $datetime);
+    }
+
+    public function stripSpecimenUniqueIdFromRow(string $row): string
+    {
+        return Str::of($row)->match(self::SPECIMEN_UNIQUE_ID_PATTERN);
     }
 
     public function stripSpecimenFromRow(string $row): string

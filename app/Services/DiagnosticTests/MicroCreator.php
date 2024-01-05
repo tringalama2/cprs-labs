@@ -23,6 +23,7 @@ class MicroCreator implements DiagnosticTestCreatorInterface
         $microRowsAsString = $microRows->implode("\n");
 
         return new Micro(
+            MicroParser::getAccessionUniqueId($microRowsAsString),
             MicroParser::getTestName($microRowsAsString),
             MicroParser::getResult($microRowsAsString),
             MicroParser::getCollectionDate($microRowsAsString),

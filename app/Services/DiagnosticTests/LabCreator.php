@@ -67,6 +67,7 @@ class LabCreator implements DiagnosticTestCreatorInterface
         }
 
         return [
+            'specimen_unique_id' => $metaRowParser->stripSpecimenUniqueIdFromRow($this->diagnosticTests->get($index - 1)),
             'collection_date' => $metaRowParser->stripDateFromRow($this->diagnosticTests->get($index)),
             'specimen' => $metaRowParser->stripSpecimenFromRow($this->diagnosticTests->get($index - 1)),
             'ordering_provider' => $metaRowParser->stripProviderFromRow($this->diagnosticTests->get($index - 2)),
@@ -95,6 +96,7 @@ class LabCreator implements DiagnosticTestCreatorInterface
     private function createLabWithMeta($resultData, $metaData): Lab
     {
         return new Lab(
+            $specimenUniqueId = $metaData['specimen_unique_id'],
             $name = $resultData['name'],
             $result = $resultData['result'],
             $collectionDate = $metaData['collection_date'],

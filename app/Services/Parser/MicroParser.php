@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class MicroParser
 {
+    const ACCESSION_UNIQUE_ID_PATTERN = '/Accession \[UID\]: ([A-Z-a-z-0-9 ]+)(?<! )/';
+
     const COLLECTION_DATE_PATTERN = '/(?<=Collection date: )([A-Za-z]{3} [\d]{2}, [\d]{4}( [\d]{2}:[\d]{2})?)/';
 
     const COMPLETED_DATE_PATTERN = '/(?<=completed: )([A-Za-z]{3} [\d]{2}, [\d]{4}( [\d]{2}:[\d]{2})?)/';
@@ -22,6 +24,11 @@ class MicroParser
     const RESULT_PATTERN = '/Test\(s\) ordered: ([\w\W]*?)=--=--=/';
 
     const DATETIME_CARBON_FORMAT = 'M d, Y H:i';
+
+    public static function getAccessionUniqueId(string $microRows): string
+    {
+        return Str::of($microRows)->match(self::ACCESSION_UNIQUE_ID_PATTERN);
+    }
 
     public static function getCollectionDate(string $microRows): bool|Carbon
     {

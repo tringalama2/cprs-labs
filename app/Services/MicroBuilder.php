@@ -6,6 +6,7 @@ use App\Models\Micro;
 use App\Models\UnrecognizedMicro;
 use App\Services\DiagnosticTests\MicroCreator;
 use App\Services\Parser\RowTypes\Row;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class MicroBuilder extends DiagnosticTestBuilder
@@ -83,6 +84,15 @@ class MicroBuilder extends DiagnosticTestBuilder
             }));
 
         $this->logUnmatchedMicros();
+    }
+
+    protected function setCollectionDateHeaders(Collection $testCollection): Collection
+    {
+        return $testCollection
+            ->pluck('collection_date', 'accession_unique_id')
+            ->map(function ($item) {
+                return Carbon::parse($item)->format('n/j/y<b\r>G:i');
+            });
     }
 
     public function logUnmatchedMicros(): void

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Services\Parser\RowTypes\Row;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 abstract class DiagnosticTestBuilder
@@ -45,15 +44,7 @@ abstract class DiagnosticTestBuilder
 
     abstract public function build(): void;
 
-    protected function setCollectionDateHeaders(Collection $labCollection): Collection
-    {
-        return $labCollection
-            ->pluck('collection_date')
-            ->unique()
-            ->map(function ($item) {
-                return Carbon::parse($item)->format('n/j/y<b\r>G:i');
-            });
-    }
+    abstract protected function setCollectionDateHeaders(Collection $testCollection): Collection;
 
     private function is_overflow($row): bool
     {

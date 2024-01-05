@@ -104,8 +104,8 @@
                                 <th scope="row" class="border-r border-gray-500 px-2 bg-gray-200 group-hover:bg-sky-300
                          z-20 sticky left-7
                         ">{{ $labLabel['label'] }}</th>
-                                @foreach($labs->groupBy('collection_date') as $date)
-                                    @php($lab = $date->where('name', $labLabel['name'])->first())
+                                @foreach($labs->groupBy('specimen_unique_id') as $specimen)
+                                    @php($lab = $specimen->where('name', $labLabel['name'])->first())
                                     <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap
                                         @if(str($lab?->get('flag'))->contains('*'))
                                         bg-red-500 text-red-950 group-hover:bg-sky-500 font-bold
@@ -145,8 +145,8 @@
                                 <th scope="row" class="border-r border-gray-500 px-2 bg-gray-200 group-hover/row:bg-sky-300
                          z-20 sticky left-7
                         ">{{ $labLabel['label'] }}</th>
-                                @foreach($micro->groupBy('collection_date') as $date)
-                                    @php($lab = $date->where('name', $labLabel['name'])->first())
+                                @foreach($micro->groupBy('accession_unique_id') as $accession)
+                                    @php($lab = $accession->where('name', $labLabel['name'])->first())
                                     <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap group/result group-hover/row:bg-sky-200 bg-white">
                                         @if($lab)
                                             Sample: {{ $lab->get('sample') }}

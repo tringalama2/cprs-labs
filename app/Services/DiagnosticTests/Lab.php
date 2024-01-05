@@ -7,6 +7,7 @@ use Carbon\Carbon;
 class Lab implements DiagnosticTestInterface
 {
     public function __construct(
+        public string $specimenUniqueId,
         public string $name,
         public string|int|float $result,
         public Carbon $collectionDate,
@@ -23,6 +24,7 @@ class Lab implements DiagnosticTestInterface
     public function result(): array
     {
         return [
+            'specimen_unique_id' => $this->specimenUniqueId,
             'name' => $this->name,
             'result' => $this->result,
             'collection_date' => $this->collectionDate,

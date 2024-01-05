@@ -9,6 +9,7 @@ use App\Services\DiagnosticTests\CancelledDiagnosticTest;
 use App\Services\DiagnosticTests\LabCreator;
 use App\Services\DiagnosticTests\UnparsableDiagnosticTest;
 use App\Services\Parser\RowTypes\Row;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class LabBuilder extends DiagnosticTestBuilder
@@ -136,6 +137,15 @@ class LabBuilder extends DiagnosticTestBuilder
         $this->datetimeHeaders = $this->setCollectionDateHeaders($this->labCollection);
 
         $this->logUnmatchedLabs();
+    }
+
+    protected function setCollectionDateHeaders(Collection $testCollection): Collection
+    {
+        return $testCollection
+            ->pluck('collection_date', 'specimen_unique_id')
+            ->map(function ($item) {
+                return Carbon::parse($item)->format('n/j/y<b\r>G:i');
+            });
     }
 
     public function logUnmatchedLabs(): void
