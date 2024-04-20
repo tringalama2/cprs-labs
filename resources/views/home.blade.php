@@ -31,12 +31,12 @@
         {{--                @endauth--}}
         {{--            </div>--}}
         {{--        @endif--}}
-        <div class="p-4 mx-auto max-w-5xl md:p-6">
+        <div class="p-4 md:p-6 mx-auto max-w-5xl lg:max-w-7xl">
             <div class="flex justify-center mb-6 md:mb-12">
                 <h1 class="text-4xl tracking-tight">CPRS Lab Formatter</h1>
             </div>
-            <div class="mt-4 flex flex-col md:flex-row  gap-12">
-                <div class="md:basis-1/3">
+            <div class="mt-4 flex flex-col md:flex-row  gap-12 lg:gap-20 xl:gap-24 2xl:gap-28">
+                <div class="md:basis-1/3 lg:basis-1/4 2xl:basis-1/5">
                     <div class=" p-8 rounded bg-white shadow-2xl shadow-black/10 ring-1 ring-white/5">
                         <!-- Instruction Steps Panel -->
                         <ol class="relative text-gray-500 border-s border-gray-200 mb-2">
@@ -70,9 +70,9 @@
                                 </div>
                             </li>
                             <li class="mb-10 ms-6">
-                    <span class="absolute flex items-center justify-center w-8 h-8 bg-sky-800 text-white rounded-full -start-4 ring-4 ring-sky-600 text-xl font-light">
-                        2
-                    </span>
+                                <span class="absolute flex items-center justify-center w-8 h-8 bg-sky-800 text-white rounded-full -start-4 ring-4 ring-sky-600 text-xl font-light">
+                                    2
+                                </span>
                                 <h3 class="font-medium leading-tight text-gray-600">Paste Into Formatter</h3>
                                 <p class="text-sm my-2  leading-7">
                                     Use
@@ -90,7 +90,7 @@
                         </ol>
                     </div>
                 </div>
-                <div class="md:basis-2/3">
+                <div class="md:basis-2/3 lg:basis-1/2 2xl:basis-3/5">
 
                     <div>
                         <livewire:labs/>
