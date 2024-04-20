@@ -51,5 +51,5 @@ input:invalid, textarea:invalid, select:invalid {
  */
 
 [x-cloak] {
-    display: none;
+    display: none !important;
 }

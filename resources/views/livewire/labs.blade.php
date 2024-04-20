@@ -6,12 +6,15 @@
                   wire:loading.attr="disabled"
                   rows="12"
                   class="font-mono mb-3 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded border border-gray-300
-                  focus:ring-sky-500 focus:border-sky-500"
+                  focus:ring-sky-500 focus:border-sky-500
+                  shadow-2xl shadow-black/10 ring-1 ring-white/5
+                  "
                   placeholder="Paste labs here..."></textarea>
         <x-input-error :messages="$errors->get('input')" class="mt-2"/>
         <div class="flex justify-between mt-4">
             <button class="focus:outline-none text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:ring-sky-300
-                    font-medium rounded text-sm px-5 py-2.5 mb-2"
+                    font-medium rounded text-sm px-5 py-2.5 mb-2
+                    shadow-2xl shadow-black/10 ring-1 ring-white/5"
                     wire:loading.attr="disabled">
                 <div role="status" wire:loading wire:target="save">
                     <svg aria-hidden="true"
@@ -30,7 +33,8 @@
             </button>
 
             <button wire:click.prevent="clear" class="text-gray-800 bg-gray-300 border border-gray-400 hover:bg-gray-500 hover:text-gray-200
-                focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded text-sm px-5 py-2.5 mb-2">
+                focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded text-sm px-5 py-2.5 mb-2
+                shadow-2xl shadow-black/10 ring-1 ring-white/5">
                 Clear
             </button>
         </div>
