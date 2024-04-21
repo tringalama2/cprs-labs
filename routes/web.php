@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
 
     // Admin Routes
     Route::middleware(['isAdmin'])->prefix('admin')->as('admin.')->group(function () {
-        Route::get('dashboard', DashboardController::class)->name('dashboard');
+        Route::get('/', DashboardController::class)->name('dashboard');
 
         Route::get('unprocessed-labs/edit/{unrecognizedLab}',
             [UnrecognizedLabController::class, 'edit'])->name('unprocessed-labs.edit');
