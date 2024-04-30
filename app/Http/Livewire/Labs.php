@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Services\Calc\MeldNaCalc;
 use App\Services\LabBuilder;
 use App\Services\MicroBuilder;
 use Illuminate\Contracts\View\View;
@@ -88,8 +89,30 @@ class Labs extends Component
         $this->datetimeHeaders = $labBuilder->getDateTimeHeaders();
         $this->panels = $labBuilder->getPanels();
 
-        $this->emit('resultsReady');
+        $meldNaCalc = new MeldNaCalc();
+        // are all found?
+        dump($this->allLabsFound($meldNaCalc->inputLabs()));
 
+        $labelDict = $this->labLabelsSorted->map(function ($nested) {
+            return $nested['label'];
+        });
+        dump($labelDict);
+
+        dd(
+            $this->labs->firstWhere('name', 'CREATININE,blood'));
+
+        $this->emit('resultsReady');
+    }
+
+    public function allLabsFound(array $inputLabs): bool
+    {
+        // search labels against calc input
+        $found_labs = array_keys($this->labLabelsSorted->values()->pluck('label')->flip()->only($inputLabs)->toArray());
+        $needed_labs = array_values($inputLabs);
+        sort($found_labs);
+        sort($needed_labs);
+
+        return $found_labs === $needed_labs;
     }
 
     public function render(): View

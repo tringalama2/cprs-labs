@@ -11,7 +11,7 @@
         </style>
     @endpush
     <div
-            class="relative min-h-screen bg-gray-100 bg-center py-16 sm:py-24 lg:py-32 bg-dots selection:bg-sky-500 selection:text-white">
+        class="relative min-h-screen bg-gray-100 bg-center py-16 sm:py-24 lg:py-32 bg-dots selection:bg-sky-500 selection:text-white">
 
 
         {{--        @if (Route::has('login'))--}}
@@ -33,7 +33,8 @@
         {{--        @endif--}}
 
         <div class="p-6 mx-auto max-w-4xl lg:p-8">
-            <div class="flex justify-center">
+            <div class="flex justify-center items-center mb-2">
+                <x-application-logo class="h-6 mr-2 align-middle w-auto fill-current text-sky-800"/>
                 <h1 class="text-4xl tracking-tight">CPRS Lab Formatter</h1>
             </div>
             <div class="mt-4">
@@ -46,7 +47,7 @@
                         tabular format and grouped by standard panels. It may not display every lab and
                         does not contain all the comments for each lab. Users should verify that
                         all tests ordered are accounted for. The data and calculations
-                        provided do not substitute for the healthcare providers
+                        provided do not substitute for the healthcare provider's
                         own chart review or their clinical judgment.
                     </p>
 
@@ -56,7 +57,7 @@
                 <div class="text-xs text-center text-gray-500 sm:text-left">
                     <div class="flex items-center gap-4">
                         <a href="https://www.buymeacoffee.com/tringali" target="_blank">Buy me a burrito bowl
-                            &#127791; &#129379; </a>
+                                                                                        &#127791; &#129379; </a>
                     </div>
                 </div>
                 <div class="ml-4 text-xs text-center text-gray-500 sm:text-right sm:ml-0">
