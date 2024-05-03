@@ -8,5 +8,4 @@
         {{ $slot }}
     @endisset
 
-    @livewire('livewire-ui-modal')
 @endsection

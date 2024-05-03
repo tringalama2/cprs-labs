@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Services\LabBuilder;
 use App\Services\MicroBuilder;
@@ -88,7 +88,7 @@ class Labs extends Component
         $this->datetimeHeaders = $labBuilder->getDateTimeHeaders();
         $this->panels = $labBuilder->getPanels();
 
-        $this->emit('resultsReady');
+        $this->dispatch('results-ready');
 
     }
 

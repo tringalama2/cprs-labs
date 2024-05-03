@@ -9,7 +9,6 @@
 
     <meta name="robots" content="noindex,nofollow">
     @hasSection('title')
-
         <title>@yield('title') - {{ config('app.name') }}</title>
     @else
         <title>{{ config('app.name') }}</title>
@@ -26,8 +25,6 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
-    @livewireStyles
-    @livewireScripts
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
