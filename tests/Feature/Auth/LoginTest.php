@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
+use App\Providers\AppServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,15 +11,6 @@ test('can view login page', function () {
     $this->get(route('login'))
         ->assertSuccessful()
         ->assertSeeLivewire('auth.login');
-});
-
-test('is redirected if already logged in', function () {
-    $user = User::factory()->create();
-
-    $this->be($user);
-
-    $this->get(route('login'))
-        ->assertRedirect(RouteServiceProvider::HOME);
 });
 
 test('a user can login', function () {
@@ -33,14 +24,14 @@ test('a user can login', function () {
     $this->assertAuthenticatedAs($user);
 });
 
-test('is redirected to the home page after login', function () {
+test('is redirected to the admin dashboard page after login', function () {
     $user = User::factory()->create(['password' => Hash::make('password')]);
 
     livewire('auth.login')
         ->set('email', $user->email)
         ->set('password', 'password')
         ->call('authenticate')
-        ->assertRedirect(route('home'));
+        ->assertRedirect(AppServiceProvider::ADMIN_HOME);
 });
 
 test('email is required', function () {
