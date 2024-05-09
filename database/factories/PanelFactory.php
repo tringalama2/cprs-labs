@@ -12,8 +12,8 @@ class PanelFactory extends Factory
     public function definition()
     {
         return [
-            'label' => $this->faker->word(),
-            'order_column' => $this->faker->randomNumber(),
+            'label' => fake()->word(),
+            'order_column' => fake()->randomNumber(),
         ];
     }
 }

@@ -19,7 +19,7 @@ use function Pest\Livewire\livewire;
 //    $this->be($user);
 //
 //    $this->get(route('register'))
-//        ->assertRedirect(RouteServiceProvider::HOME);
+//        ->assertRedirect(AppServiceProvider::ADMIN_HOME);
 //});
 
 test('a user can register', function () {

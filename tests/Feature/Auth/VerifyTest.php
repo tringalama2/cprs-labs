@@ -25,7 +25,7 @@ test('can resend verification email', function () {
 
     livewire('auth.verify')
         ->call('resend')
-        ->assertEmitted('resent');
+        ->assertDispatched('resent');
 });
 
 test('can verify', function () {

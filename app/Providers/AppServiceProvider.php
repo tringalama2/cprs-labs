@@ -7,12 +7,14 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public const ADMIN_HOME = '/admin';
+
     /**
      * Register any application services.
      */
     public function register(): void
     {
-        //
+        \Livewire\Livewire::forceAssetInjection();
     }
 
     /**

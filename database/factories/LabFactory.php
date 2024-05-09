@@ -12,10 +12,10 @@ class LabFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'label' => $this->faker->word(),
-            'panel_id' => $this->faker->randomNumber(),
-            'order_column' => $this->faker->randomNumber(),
+            'name' => fake()->name(),
+            'label' => fake()->word(),
+            'panel_id' => fake()->randomNumber(),
+            'order_column' => fake()->randomNumber(),
         ];
     }
 }
