@@ -15,6 +15,7 @@ use App\Livewire\Auth\Passwords\Email;
 use App\Livewire\Auth\Passwords\Reset;
 use App\Livewire\Auth\Verify;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'home')->name('home');
+Route::view('/terms', 'terms', ['terms' => Str::markdown(file_get_contents(resource_path('markdown/terms.md')))])->name('terms');
+Route::view('/policy', 'policy', ['policy' => Str::markdown(file_get_contents(resource_path('markdown/policy.md')))])->name('policy');
 Route::get('/test', TestController::class)->name('test');
 
 Route::middleware('guest')->group(function () {
