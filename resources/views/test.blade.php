@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <div>
         <table class="text-sm border-collapse border-spacing-0">
             <thead>
@@ -100,4 +100,4 @@
             @endforeach
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>
