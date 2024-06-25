@@ -11,16 +11,13 @@ class PanelSort extends Component
 
     protected $listeners = ['panelSortUpdated' => 'saveSort'];
 
-    public function saveSort(array $panelSortArray)
+    public function saveSort($sort)
     {
-        collect($panelSortArray)->each(function (string $id, int $index) {
+        collect($sort)->each(function (string $id, int $index) {
             Panel::where('id', $id)->update(['order_column' => $index + 1]);
         });
 
-        $this->dispatchBrowserEvent('flash-message', [
-            'style' => 'info',
-            'message' => 'Panel sort order saved.',
-        ]);
+        $this->dispatch('flash-message', style: 'info', message: 'Panel sort order saved.');
     }
 
     public function render()

@@ -5,7 +5,7 @@
                 let el = document.getElementById('{{ $sortableId }}');
                 Sortable.create(el, {
                     onEnd: function () {
-                        Livewire.emit('microSortUpdated', this.toArray())
+                        Livewire.dispatch('microSortUpdated', {sort: this.toArray()})
                     }
                 });
             });

@@ -11,16 +11,13 @@ class MicroSort extends Component
 
     protected $listeners = ['microSortUpdated' => 'saveSort'];
 
-    public function saveSort(array $microSortArray)
+    public function saveSort($sort)
     {
-        collect($microSortArray)->each(function (string $id, int $index) {
+        collect($sort)->each(function (string $id, int $index) {
             Micro::where('id', $id)->update(['order_column' => $index + 1]);
         });
 
-        $this->dispatchBrowserEvent('flash-message', [
-            'style' => 'info',
-            'message' => 'Micro sort order saved.',
-        ]);
+        $this->dispatch('flash-message', style: 'info', message: 'Micro sort order saved.');
     }
 
     public function render()

@@ -11,17 +11,14 @@ class LabSort extends Component
 
     protected $listeners = ['labSortUpdated' => 'saveSort'];
 
-    public function saveSort(array $labSortArray)
+    public function saveSort($sort)
     {
-        collect($labSortArray)->each(function (string $id, int $index) {
+        collect($sort)->each(function (string $id, int $index) {
             $saved = Lab::where('id', $id)->update(['order_column' => $index + 1]);
             //dd($saved, $id, $index + 1);
         });
 
-        $this->dispatchBrowserEvent('flash-message', [
-            'style' => 'info',
-            'message' => 'Lab sort order saved.',
-        ]);
+        $this->dispatch('flash-message', style: 'info', message: 'Panel sort order saved.');
     }
 
     public function render()

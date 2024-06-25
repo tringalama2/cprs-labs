@@ -10,6 +10,7 @@
             message = event.detail.message;
             show = true;
             setTimeout(() => show = false, 6000);
+            console.log(event.detail.style)
         "
     :class="{
             'bg-red-500': style == 'danger',
@@ -17,7 +18,7 @@
             'bg-green-600': style == 'success',
             'bg-blue-500': style == 'info'
         }"
-    class="absolute right-5 bottom-5 z-50 rounded-sm flex items-center text-sm font-bold px-3 py-2 text-white"
+    class="fixed right-5 bottom-5 z-50 rounded-sm flex items-center text-sm font-bold px-3 py-2 text-white"
     role="alert">
     <p x-text="message" class="px-2"></p>
     <span class="relative top-0 bottom-0 right-0">

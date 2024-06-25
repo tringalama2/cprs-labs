@@ -5,7 +5,7 @@
                 let el = document.getElementById('{{ $sortableId }}');
                 Sortable.create(el, {
                     onEnd: function () {
-                        Livewire.emit('labSortUpdated', this.toArray())
+                        Livewire.dispatch('labSortUpdated', {sort: this.toArray()})
                     }
                 });
             });
