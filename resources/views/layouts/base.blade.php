@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="category" content="Business"/>
     <meta name="keywords" content="medical education, electronic health record">
     <meta name="description"
           content="Allows users to format labs from CPRS for enhanced viewing. No patient information or lab data is stored on servers or local computers.">
