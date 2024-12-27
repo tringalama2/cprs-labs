@@ -18,3 +18,9 @@ Route::get('/labs', function () {
 Route::get('/labels', function () {
     return new LabLabelsCollection(Lab::all());
 });
+
+Route::get('/app-version', function () {
+    return response()->json([
+        'appVersion' => (new DateTime(trim(exec('git log -n1 --pretty=%ci HEAD'))))->format('M j, Y'),
+    ]);
+});
