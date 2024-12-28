@@ -1,4 +1,4 @@
-export const labs = `Printed at:
+export const rawLabs = `Printed at:
 FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
 2615 EAST CLINTON AVE FRESNO, CA 93703-2223
 As of: Aug 16, 2023@08:53
