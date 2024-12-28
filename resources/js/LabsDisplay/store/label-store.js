@@ -1,7 +1,7 @@
-import { reactive } from 'vue'
+import {reactive} from 'vue'
 
 const retrieveLabAndPanelLabels = async function () {
-    let url = 'http://labs.test/api/labels';
+    let url = '/api/labels';
     let response = await fetch(url);
     let labelResult = {};
 
