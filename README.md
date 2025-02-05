@@ -22,6 +22,8 @@
 
 - vite
 - alpinejs
+- vuejs
+- luxon
 
 ## Installation
 
