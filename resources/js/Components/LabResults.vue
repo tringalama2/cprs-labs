@@ -2,17 +2,17 @@
 //import {rawLabs} from "@/LabsDisplay/labs.short.js";
 import ResultCell from "@/Components/ResultCell.vue";
 import Modal from "@/Components/Modal.vue";
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, ref, shallowReactive} from "vue";
 import {LabDirector} from "@/LabsDisplay/index.js";
 
 const rawLabs = ref('');
 const isLoading = ref(false);
 const showingResults = ref(false);
-const labResults = reactive([]);
-const unparsableRows = reactive([]);
-const labels = reactive({});
-const panels = reactive({});
-const dateTimeHeaders = reactive([]);
+const labResults = shallowReactive([]);
+const unparsableRows = shallowReactive([]);
+const labels = shallowReactive({});
+const panels = shallowReactive({});
+const dateTimeHeaders = shallowReactive([]);
 
 const formatLabs = () => {
     isLoading.value = true;
