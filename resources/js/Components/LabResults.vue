@@ -2,9 +2,10 @@
 //import {rawLabs} from "@/LabsDisplay/labs.short.js";
 import ResultCell from "@/Components/ResultCell.vue";
 import Modal from "@/Components/Modal.vue";
-import {onMounted, ref, shallowReactive} from "vue";
+import {onMounted, reactive, ref, shallowReactive} from "vue";
 import {LabDirector} from "@/LabsDisplay/index.js";
 
+const errors = reactive([]);
 const rawLabs = ref('');
 const isLoading = ref(false);
 const showingResults = ref(false);
@@ -14,25 +15,53 @@ const labels = shallowReactive({});
 const panels = shallowReactive({});
 const dateTimeHeaders = shallowReactive([]);
 
-const formatLabs = () => {
-    isLoading.value = true;
 
-    getLabs();
-
-    showingResults.value = true;
-    isLoading.value = false;
+const resetForm = () => {
+    errors.splice(0);
+    rawLabs.value = '';
 }
 
-const getLabs = async () => {
-    let labDirector = await LabDirector.initialize(rawLabs.value);
+const formatLabs = () => {
+    errors.splice(0);
+
+    if (rawLabs.value === "") {
+        errors.push('Please paste your labs below.');
+        return;
+    }
+
+    isLoading.value = true;
+
+    const labCount = getLabs();
+
+    if (labCount === 0) {
+        errors.push('No labs found.');
+        showingResults.value = false;
+        isLoading.value = false;
+        return
+    }
+
+    setTimeout(() => {
+        showingResults.value = true;
+        isLoading.value = false;
+    }, 1);
+}
+
+const getLabs = () => {
+    let labDirector = LabDirector.initialize(rawLabs.value);
+
+    const labCount = labDirector.labResults.length
+
+    if (labCount === 0) {
+        return 0;
+    }
 
     labResults.value = labDirector.labResults;
     unparsableRows.value = labDirector.unparsableRows;
     labels.value = labDirector.labels;
     panels.value = labDirector.panels;
     dateTimeHeaders.value = labDirector.dateTimeHeaders;
-    //console.log(labResults.value, unparsableRows.value, labels.value, panels.value, dateTimeHeaders.value);
 
+    return labCount;
 }
 
 const closeModal = () => {
@@ -54,6 +83,11 @@ onMounted(function () {
 
 <template>
     <div>
+        <div v-if="errors.length" class="my-2 text-red-600 font-semibold">
+            <ul>
+                <li v-for="error in errors">{{ error }}</li>
+            </ul>
+        </div>
         <label for="input" hidden>Lab Input</label>
         <textarea v-model="rawLabs"
                   :disabled="isLoading"
@@ -87,7 +121,7 @@ onMounted(function () {
 
             <button class="text-gray-800 bg-gray-300 border border-gray-400 hover:bg-gray-500 hover:text-gray-200
                 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded text-sm px-5 py-2.5 mb-2
-                shadow-2xl shadow-black/10 ring-1 ring-white/5" @click="rawLabs = ''">
+                shadow-2xl shadow-black/10 ring-1 ring-white/5" @click="resetForm">
                 Clear
             </button>
         </div>
@@ -123,7 +157,7 @@ onMounted(function () {
                 </template>
                 </tbody>
             </table>
-            <div v-if="unparsableRows.value.length > 0" class="bg-white">
+            <div v-if="unparsableRows.value?.length > 0" class="bg-white">
                 <h2 class="text-lg underline">Unable To Process</h2>
                 <div v-for="row in unparsableRows.value">
                     {{ row.result }}

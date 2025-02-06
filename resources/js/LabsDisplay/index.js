@@ -18,12 +18,14 @@ class LabDirector {
     // passed into the constructor are ready and correct at the type-level.
     // It is literally deferred initialization and a level of indirection.
     // https://dev.to/somedood/the-proper-way-to-write-async-constructors-in-javascript-1o8c
-    static async initialize(rawLabs) {
+    static initialize(rawLabs) {
         const _labDirector = new LabDirector(rawLabs);
         const _displayBuilder = new DisplayBuilder(_labDirector.labResults);
-        _labDirector.labels = await _displayBuilder.getLabels();
-        _labDirector.panels = await _displayBuilder.getPanels();
+
+        _labDirector.labels = _displayBuilder.getLabels();
+        _labDirector.panels = _displayBuilder.getPanels();
         _labDirector.dateTimeHeaders = _displayBuilder.getDateTimeHeaders();
+
         return _labDirector;
     }
 }

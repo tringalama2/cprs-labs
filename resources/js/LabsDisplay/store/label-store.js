@@ -1,4 +1,4 @@
-import {reactive} from 'vue'
+import {shallowReactive} from 'vue'
 
 const retrieveLabAndPanelLabels = async function () {
     let url = '/api/labels';
@@ -13,4 +13,4 @@ const retrieveLabAndPanelLabels = async function () {
     return labelResult.data;
 }
 
-export const labels = reactive(await retrieveLabAndPanelLabels());
+export const labels = shallowReactive(retrieveLabAndPanelLabels());
