@@ -1,8 +1,8 @@
 <script setup>
-//import {rawLabs} from "@/LabsDisplay/labs.short.js";
 import ResultCell from "@/Components/ResultCell.vue";
 import Modal from "@/Components/Modal.vue";
-import {onMounted, reactive, ref, shallowReactive} from "vue";
+import Unparsable from "@/Components/Unparsable.vue";
+import {reactive, ref, shallowReactive} from "vue";
 import {LabDirector} from "@/LabsDisplay/index.js";
 
 const errors = reactive([]);
@@ -72,13 +72,6 @@ function getLab(results, specimenUniqueId, name) {
     return results.filter((result) => result.specimenUniqueId === specimenUniqueId)
         .find((result) => result.name === name);
 }
-
-onMounted(function () {
-    //console.log(labResults);
-    //console.log(unparsableRows);
-
-
-})
 </script>
 
 <template>
@@ -157,16 +150,9 @@ onMounted(function () {
                 </template>
                 </tbody>
             </table>
-            <div v-if="unparsableRows.value?.length > 0" class="bg-white">
-                <h2 class="text-lg underline">Unable To Process</h2>
-                <div v-for="row in unparsableRows.value">
-                    {{ row.result }}
-                </div>
-            </div>
+
+            <Unparsable :rows="unparsableRows.value"/>
         </div>
     </Modal>
 </template>
 
-<style scoped>
-
-</style>
