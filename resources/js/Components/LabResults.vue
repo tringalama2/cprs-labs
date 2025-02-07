@@ -120,13 +120,48 @@ function getLab(results, specimenUniqueId, name) {
         </div>
     </div>
 
-    <Modal :show="showingResults" @close="closeModal">
+    <Modal v-slot="slotProps" :show="showingResults" @close="closeModal">
         <div class="grid gap-6 grid-cols-1 lg:gap-8">
             <table class="text-sm border-collapse border-spacing-0">
                 <thead>
                 <tr style="font-weight: bolder">
-                    <th class="dateHeader" scope="col"></th>
-                    <th class="dateHeader" scope="col"></th>
+                    <th class="border-b border-gray-500 z-40 sticky bg-gray-200 top-0 left-0" colspan="2"
+                        scope="col">
+                        <div class="top-0 left-0 flex justify-between py-1 px-2">
+                            <button
+                                class="modal-close text-xs p2 font-medium text-white bg-sky-700
+                                        rounded-lg hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300"
+                                @click="slotProps.close()">
+                                <svg class="fill-current" height="16" viewBox="0 0 18 18"
+                                     width="16"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                                </svg>
+                            </button>
+                            <div class="mr-2 relative inline-block border-b border-gray-300 border-dotted group">
+                                <svg class="bi bi-info-circle" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                     width="16" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path
+                                        d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                                <div
+                                    class="font-medium text-sm l-1/2 top-[135%]-ml-24 w-48 border border-gray-500 bg-gray-200 text-gray-800 rounded p-2 invisible opacity-0 group-hover:visible z-10 group-hover:opacity-100 absolute transition-opacity after:content-[''] after:absolute after:bottom-full after:left-1/2 after:-ml-1 after:border-1 after:border-solid after:border-t-transparent after:border-r-transparent after:border-b-gray-500 after:border-l-transparent">
+                                    <h5 class="font-bold">Navigation</h5>
+                                    <p>Press <kbd
+                                        class="bg-gray-800 text-gray-100 rounded font-mono py-0.5 px-1">ESC</kbd>
+                                       to exit<br/>
+                                       Hold <kbd
+                                            class="bg-gray-800 text-gray-100 rounded font-mono py-0.5 px-1">Shift</kbd>
+                                       to scroll horizontally
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </th>
                     <th v-for="specimen in dateTimeHeaders.value" class="dateHeader"
                         scope="col"
                         v-html="specimen.collectionDate.toFormat('L/d/yy<br />H:mm')"></th>

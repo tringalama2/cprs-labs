@@ -115,7 +115,7 @@ const maxWidthClass = computed(() => {
                     :class="maxWidthClass"
                     class="mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full"
                 >
-                    <slot v-if="showSlot"/>
+                    <slot v-if="showSlot" :close="close"/>
                 </div>
             </Transition>
         </div>
