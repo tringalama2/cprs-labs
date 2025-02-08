@@ -20,21 +20,21 @@ function DisplayBuilder(results) {
         return uniqSpecimen(headers).sort((specimen1, specimen2) => specimen2.collectionDate - specimen1.collectionDate);
     }
 
-    this.getLabels = function () {
+    this.getLabels = async function () {
         let uniqueLabLabels = {};
         for (const key in this.results) {
             uniqueLabLabels[this.results[key].name] = true;
         }
-        let matchedLabels = intersectObjects(this.labels, uniqueLabLabels);
+        let matchedLabels = await intersectObjects(await this.labels, uniqueLabLabels)
 
-        let unMatchedLabs = this.getUnrecognizedLabs()
+        let unMatchedLabs = await this.getUnrecognizedLabs();
 
         return {...matchedLabels, ...unMatchedLabs};
     }
 
-    this.getUnrecognizedLabs = function () {
+    this.getUnrecognizedLabs = async function () {
         let result = {};
-        let labels = Object.keys(this.labels);
+        let labels = Object.keys(await this.labels);
 
         for (let lab in this.results) {
             if (!labels.includes(this.results[lab].name)) {
@@ -49,9 +49,9 @@ function DisplayBuilder(results) {
         return result;
     }
 
-    this.getPanels = function () {
+    this.getPanels = async function () {
         let panels = {};
-        Object.entries(this.getLabels()).map((x) => x[1]['panel']).forEach(function (item, index, array) {
+        Object.entries(await this.getLabels()).map((x) => x[1]['panel']).forEach(function (item, index, array) {
             panels[item] = array.countBy(item)
         });
         return panels;

@@ -22,10 +22,5 @@ const classObject = computed(() => ({
 </script>
 
 <template>
-    <td :class="classObject">{{ result }}
-    </td>
+    <td :class="classObject">{{ result }}</td>
 </template>
-
-<style scoped>
-
-</style>

@@ -48,8 +48,8 @@ const formatLabs = () => {
 
 }
 
-const getLabs = () => {
-    let labDirector = LabDirector.initialize(rawLabs.value);
+const getLabs = async () => {
+    let labDirector = await LabDirector.initialize(rawLabs.value);
 
     const labCount = labDirector.labResults.length
 
