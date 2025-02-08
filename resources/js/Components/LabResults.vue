@@ -63,6 +63,8 @@ const getLabs = async () => {
     panels.value = labDirector.panels;
     dateTimeHeaders.value = labDirector.dateTimeHeaders;
 
+    console.log(labDirector.labResults, labDirector.dateTimeHeaders, labDirector.unparsableRows, labDirector.labels, labDirector.panels);
+
     return labCount;
 }
 
@@ -161,7 +163,7 @@ function getLab(results, specimenUniqueId, name) {
                     </th>
                     <th v-for="specimen in dateTimeHeaders.value" class="dateHeader"
                         scope="col"
-                        v-html="specimen.collectionDate.toFormat('L/d/yy<br />H:mm')"></th>
+                        v-html="specimen.collectionDate?.toFormat('L/d/yy<br />H:mm')"></th>
                 </tr>
                 </thead>
                 <tbody>
