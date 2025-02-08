@@ -63,7 +63,7 @@ const getLabs = async () => {
     panels.value = labDirector.panels;
     dateTimeHeaders.value = labDirector.dateTimeHeaders;
 
-    console.log(labDirector.labResults, labDirector.dateTimeHeaders, labDirector.labels, labDirector.panels);
+    console.log(labDirector.labResults, labDirector.dateTimeHeaders, labDirector.unparsableRows, labDirector.labels, labDirector.panels);
 
     return labCount;
 }
