@@ -10,9 +10,7 @@ class NoSpaceAfterNameResultFormat implements ResultFormatContract
 
     private string $name;
 
-    public function __construct(public array $resultPieces)
-    {
-    }
+    public function __construct(public array $resultPieces) {}
 
     public function match(): bool
     {
@@ -22,6 +20,8 @@ class NoSpaceAfterNameResultFormat implements ResultFormatContract
             'C. DIFF TOX B GENE PCR,stool',
             'OCCULT BLOOD RANDOM-GUAIAC ',
             'Occult Blood (Fit) #1 Of 1 ',
+            'NORHYDROCODONE QUANT,urine ',
+            'Heparin Induced Plt Ab,Blood',
         ];
 
         foreach ($availableNames as $item) {
