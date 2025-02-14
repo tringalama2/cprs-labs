@@ -86,6 +86,8 @@ class NoSpaceAfterNameResultFormat extends ResultFormat {
         'C. DIFF TOX B GENE PCR,stool',
         'OCCULT BLOOD RANDOM-GUAIAC ',
         'Occult Blood (Fit) #1 Of 1 ',
+        'NORHYDROCODONE QUANT,urine ',
+        'Heparin Induced Plt Ab,Blood',
     ];
 
     getMatchedName() {
@@ -109,9 +111,9 @@ class NoSpaceAfterNameResultFormat extends ResultFormat {
             result: result,
             flag: stripFlagFromResult(result),
             // check if units are avail based on number of pieces
-            units: this.resultPieces[this.resultPieces.length-3] === this.resultPieces[0] ? '' : this.resultPieces[this.resultPieces.length-3],
-            reference_range: cleanRefRange(this.resultPieces[this.resultPieces.length-2]),
-            site_code: this.resultPieces[this.resultPieces.length-1],
+            units: this.resultPieces[this.resultPieces.length - 3] === this.resultPieces[0] ? '' : this.resultPieces[this.resultPieces.length - 3],
+            reference_range: cleanRefRange(this.resultPieces[this.resultPieces.length - 2]),
+            site_code: this.resultPieces[this.resultPieces.length - 1],
         };
     }
 }
