@@ -30,7 +30,7 @@ use Inertia\Inertia;
 */
 Route::get('/', function () {
     return Inertia::render('Home');
-});
+})->name('home');
 
 //Route::view('/', 'home')->name('home');
 Route::view('/terms', 'terms', ['terms' => Str::markdown(file_get_contents(resource_path('markdown/terms.md')))])->name('terms');
