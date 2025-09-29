@@ -29,6 +29,9 @@ use Illuminate\Support\Str;
 */
 
 Route::view('/', 'home')->name('home');
+Route::view('/about', 'about')->name('about');
+Route::view('/contact', 'contact')->name('contact');
+Route::view('/faq', 'faq')->name('faq');
 Route::view('/terms', 'terms', ['terms' => Str::markdown(file_get_contents(resource_path('markdown/terms.md')))])->name('terms');
 Route::view('/policy', 'policy', ['policy' => Str::markdown(file_get_contents(resource_path('markdown/policy.md')))])->name('policy');
 Route::get('/test', TestController::class)->name('test');

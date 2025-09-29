@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="category" content="Business"/>
-    <meta name="keywords" content="medical education, electronic health record">
-    <meta name="description"
-          content="Allows users to format labs from CPRS for enhanced viewing. No patient information or lab data is stored on servers or local computers.">
 
-    <meta name="robots" content="noindex,nofollow">
+    <!-- Default meta tags - can be overridden by individual pages -->
+    <meta name="keywords" content="CPRS labs, VA EHR, medical residents, lab results formatter, healthcare tools, medical education, electronic health record">
+    <meta name="description" content="EasyCPRSLabs - Transform VA CPRS lab results into clean, organized tables. Essential tool for medical residents, fellows, and healthcare providers.">
     @hasSection('title')
         <title>@yield('title') - {{ config('app.name') }}</title>
     @else
@@ -29,6 +28,8 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @stack('head')
 </head>
 
 <body>
