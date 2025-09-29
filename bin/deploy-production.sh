@@ -61,5 +61,17 @@ npm ci
 # Build assets using vite
 npm run build
 
+#stop Job Queue
+nohup php artisan queue:restart > ./storage/logs/laravel.log &
+
+#start Job Queue
+nohup php artisan queue:work > ./storage/logs/laravel.log &
+
 # stop maintenance mode
 php artisan up
+
+#prep for next deploy
+chmod +x ./bin/*
+
+#check that artisan queue is running
+ps aux
