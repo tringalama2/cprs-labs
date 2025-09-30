@@ -18,7 +18,7 @@
 
         <!-- Terms Content -->
         <div class="bg-white rounded shadow-2xl shadow-black/10 ring-1 ring-white/5 p-8 md:p-12">
-            <div class="prose prose-lg max-w-none prose-sky prose-headings:text-gray-900 prose-h1:text-sky-600 prose-h2:text-gray-800 prose-h3:text-sky-600">
+            <div class="prose max-w-none prose-sky prose-headings:text-gray-900 prose-h1:text-sky-600 prose-h2:text-gray-800 prose-h3:text-sky-600">
                 {!! $terms !!}
             </div>
         </div>
