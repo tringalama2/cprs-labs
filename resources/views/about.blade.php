@@ -14,22 +14,11 @@
 
 @section('content')
     <div class="p-4 md:p-6 mx-auto max-w-5xl lg:max-w-7xl">
-        <!-- Logo and Title Section -->
-        <div class="flex justify-center mb-6 md:mb-12">
-            <div class="flex flex-col items-center gap-4">
-                <div class="flex-shrink-0">
-                    <x-application-logo class="w-12 h-12 block fill-current text-sky-600"/>
-                </div>
-                <div class="text-center">
-                    <h1 class="text-4xl font-bold mb-2">
-                        About <span class="text-sky-600">Easy</span><span class="text-gray-600">CPRSLabs</span>
-                    </h1>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        The essential tool for healthcare providers working with VA CPRS systems
-                    </p>
-                </div>
-            </div>
-        </div>
+        <x-logo-and-title
+            title="About"
+            subtitle="The essential tool for healthcare providers working with VA CPRS systems"
+            :title_after="false"
+        />
 
         <!-- Main Content -->
         <div class="bg-white rounded shadow-2xl shadow-black/10 ring-1 ring-white/5 p-8 md:p-12 mb-8">

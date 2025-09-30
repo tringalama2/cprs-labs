@@ -49,7 +49,7 @@ For the purposes of these Terms of Service:
 ## Privacy policy
 
 Before you continue using our website, we advise you to read our privacy
-policy [www.easycprslabs.com/privacy-policy](https://www.easycprslabs.com/privacy-policy) regarding our user data
+policy [www.easycprslabs.com/policy](https://www.easycprslabs.com/privacy-policy) regarding our user data
 collection. It will help you better understand our practices.
 
 ## Age restriction
