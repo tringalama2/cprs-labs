@@ -1,4 +1,6 @@
-<x-guest-layout>
+@extends('layouts.guest')
+
+@section('content')
     <div>
         <table class="text-sm border-collapse border-spacing-0">
             <thead>
@@ -100,4 +102,4 @@
             @endforeach
         </div>
     </div>
-</x-guest-layout>
+@endsection

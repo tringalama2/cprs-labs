@@ -7,7 +7,10 @@ use App\Http\Controllers\Admin\PanelController;
 use App\Http\Controllers\Admin\UnrecognizedLabController;
 use App\Http\Controllers\Admin\UnrecognizedMicroController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Passwords\Confirm;
@@ -57,6 +60,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('password/confirm', Confirm::class)
         ->name('password.confirm');
+
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {
@@ -64,7 +69,15 @@ Route::middleware('auth')->group(function () {
         ->middleware('signed')
         ->name('verification.verify');
 
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
     Route::view('/profile', 'profile.edit')->name('profile.edit');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Admin Routes
     Route::middleware(['isAdmin'])->prefix('admin')->as('admin.')->group(function () {
