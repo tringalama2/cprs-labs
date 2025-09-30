@@ -27,8 +27,8 @@ php artisan down || true
 # git pull
 # ignore changes by last npm production build instead of using $git pull
 git fetch
-git reset --hard origin/master
-git merge  -s theirs
+git reset --hard origin/main
+git merge
 
 # update PHP dependencies
 # --no-interaction Do not ask any interactive question
