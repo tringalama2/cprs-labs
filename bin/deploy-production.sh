@@ -28,7 +28,7 @@ php artisan down || true
 # ignore changes by last npm production build instead of using $git pull
 git fetch
 git reset --hard origin/master
-git merge
+git merge  -s theirs
 
 # update PHP dependencies
 # --no-interaction Do not ask any interactive question
@@ -61,17 +61,8 @@ npm ci
 # Build assets using vite
 npm run build
 
-#stop Job Queue
-nohup php artisan queue:restart > ./storage/logs/laravel.log &
-
-#start Job Queue
-nohup php artisan queue:work > ./storage/logs/laravel.log &
-
 # stop maintenance mode
 php artisan up
 
 #prep for next deploy
 chmod +x ./bin/*
-
-#check that artisan queue is running
-ps aux
