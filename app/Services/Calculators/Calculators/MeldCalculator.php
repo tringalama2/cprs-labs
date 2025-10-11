@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Services\Calculators\Calculators;
+
+use App\Services\Calculators\Core\BaseCalculator;
+use App\Services\Calculators\Core\CalculationResult;
+use App\Services\Calculators\Core\LabValueResolver;
+
+class MeldCalculator extends BaseCalculator
+{
+    protected string $name = 'meld';
+
+    protected string $displayName = 'MELD Score (Model for End-Stage Liver Disease)';
+
+    protected array $requiredFields = [
+        'BILIRUBIN,TOTAL,Blood',
+        'CREATININE,blood',
+        'INR,blood',
+    ];
+
+    protected string $units = 'points';
+
+    protected int $priority = 2;
+
+    protected string $formulaText = '3.78 × ln(Bilirubin) + 11.2 × ln(INR) + 9.57 × ln(Creatinine) + 6.43';
+
+    protected array $interpretationRules = [
+        ['max' => 9, 'interpretation' => 'Low risk - 1.9% 3-month mortality'],
+        ['max' => 19, 'interpretation' => 'Moderate risk - 6.0% 3-month mortality'],
+        ['max' => 29, 'interpretation' => 'High risk - 19.6% 3-month mortality'],
+        ['max' => 39, 'interpretation' => 'Very high risk - 52.6% 3-month mortality'],
+        ['interpretation' => 'Extremely high risk - >76% 3-month mortality'],
+    ];
+
+    public function calculate(LabValueResolver $resolver): ?CalculationResult
+    {
+        // Get required values with dates
+        $bilirubinData = $resolver->getLatestValueWithDate('BILIRUBIN,TOTAL,Blood');
+        $creatinineData = $resolver->getLatestValueWithDate('CREATININE,blood');
+        $inrData = $resolver->getLatestValueWithDate('INR,blood');
+
+        // Check if all required values are available
+        if (! $bilirubinData || ! $creatinineData || ! $inrData) {
+            return null;
+        }
+
+        $bilirubin = $bilirubinData['value'];
+        $creatinine = $creatinineData['value'];
+        $inr = $inrData['value'];
+
+        // Validate values are within reasonable ranges
+        if (! $this->isValidValue($bilirubin, 0.1, 50) ||
+            ! $this->isValidValue($creatinine, 0.1, 20) ||
+            ! $this->isValidValue($inr, 0.5, 10)) {
+            return null;
+        }
+
+        // Apply MELD constraints
+        // Minimum values for calculation
+        $bilirubin = max($bilirubin, 1.0);
+        $creatinine = max($creatinine, 1.0);
+        $inr = max($inr, 1.0);
+
+        // Maximum creatinine value is capped at 4.0 for MELD calculation
+        $creatinine = min($creatinine, 4.0);
+
+        // Calculate MELD score using the standard formula
+        // MELD = 3.78 × ln(Bilirubin) + 11.2 × ln(INR) + 9.57 × ln(Creatinine) + 6.43
+        $meld = 3.78 * log($bilirubin) +
+                11.2 * log($inr) +
+                9.57 * log($creatinine) +
+                6.43;
+
+        // Round to the nearest integer
+        $meld = round($meld);
+
+        // MELD score is typically capped between 6 and 40
+        $meld = max(6, min(40, $meld));
+
+        return new CalculationResult(
+            name: $this->name,
+            displayName: $this->displayName,
+            value: $meld,
+            units: $this->units,
+            interpretation: $this->interpret($meld),
+            usedValues: [
+                'Total Bilirubin' => $bilirubin,
+                'Creatinine' => $creatinine,
+                'INR' => $inr,
+            ],
+            usedValueDates: [
+                'Total Bilirubin' => $bilirubinData['collection_date'],
+                'Creatinine' => $creatinineData['collection_date'],
+                'INR' => $inrData['collection_date'],
+            ],
+            formula: $this->formulaText,
+            calculatedAt: \Carbon\Carbon::now()
+        );
+    }
+
+    /**
+     * Custom interpretation logic for MELD score
+     */
+    protected function interpret(float $value): string
+    {
+        if ($value <= 9) {
+            return 'Low risk - 1.9% 3-month mortality';
+        } elseif ($value <= 19) {
+            return 'Moderate risk - 6.0% 3-month mortality';
+        } elseif ($value <= 29) {
+            return 'High risk - 19.6% 3-month mortality';
+        } elseif ($value <= 39) {
+            return 'Very high risk - 52.6% 3-month mortality';
+        } else {
+            return 'Extremely high risk - >76% 3-month mortality';
+        }
+    }
+}

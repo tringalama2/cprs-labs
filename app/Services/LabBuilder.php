@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Lab;
 use App\Models\UnparsableLab;
 use App\Models\UnrecognizedLab;
+use App\Services\Calculators\CalculationEngine;
 use App\Services\DiagnosticTests\CancelledDiagnosticTest;
 use App\Services\DiagnosticTests\LabCreator;
 use App\Services\DiagnosticTests\UnparsableDiagnosticTest;
@@ -30,12 +31,18 @@ class LabBuilder extends DiagnosticTestBuilder
 
     private Collection $labsAndPanels;
 
+    private Collection $calculatedValues;
+
+    private CalculationEngine $calculationEngine;
+
     public function __construct($rawLabs)
     {
         parent::__construct($rawLabs);
         $this->labCollection = collect();
         $this->unparsableRows = collect();
         $this->cancelledTests = collect();
+        $this->calculatedValues = collect();
+        $this->calculationEngine = new CalculationEngine();
         $this->setLabsAndPanels();
     }
 
@@ -136,6 +143,9 @@ class LabBuilder extends DiagnosticTestBuilder
         $this->panels = $this->labLabels->groupBy('panel')->map->count();
         $this->datetimeHeaders = $this->setCollectionDateHeaders($this->labCollection);
 
+        // Calculate derived values
+        $this->calculateValues();
+
         $this->logUnmatchedLabs();
     }
 
@@ -156,5 +166,39 @@ class LabBuilder extends DiagnosticTestBuilder
         $this->unparsableRows->each(function (string $item, int $key) {
             UnparsableLab::firstOrCreate(['name' => $item]);
         });
+    }
+
+    /**
+     * Calculate derived values using the calculation engine
+     */
+    private function calculateValues(): void
+    {
+        $this->calculatedValues = $this->calculationEngine->calculate($this->labCollection);
+    }
+
+    /**
+     * Get calculated values
+     */
+    public function getCalculatedValues(): Collection
+    {
+        return $this->calculatedValues;
+    }
+
+    /**
+     * Check if any calculated values are available
+     */
+    public function hasCalculatedValues(): bool
+    {
+        return $this->calculatedValues->isNotEmpty();
+    }
+
+    /**
+     * Get calculated values formatted for display
+     */
+    public function getCalculatedValuesForDisplay(): array
+    {
+        return $this->calculatedValues->map(function ($result) {
+            return $result->toArray();
+        })->toArray();
     }
 }
