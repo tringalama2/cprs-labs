@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 <div>
     <form wire:submit="save">
         <label hidden for="input">Lab Input</label>
@@ -154,7 +155,9 @@
                                             </span>
                                         </div>
                                         <details class="text-sm">
-                                            <summary class="cursor-pointer text-gray-500 hover:text-gray-700 font-medium">Details</summary>
+                                            <summary class="cursor-pointer text-gray-500 hover:text-gray-700 font-medium">
+                                                Details
+                                            </summary>
                                             <div class="mt-2 space-y-2">
                                                 <div>
                                                     <span class="font-medium text-gray-700">Formula:</span>
@@ -168,15 +171,12 @@
                                                                 {{ $name }}: {{ $value }}
                                                                 @if(isset($result['used_value_dates'][$name]))
                                                                     <span class="text-gray-500">
-                                                                        ({{ \Carbon\Carbon::parse($result['used_value_dates'][$name])->format('M j, Y g:i A') }})
+                                                                        ({{ Carbon::parse($result['used_value_dates'][$name])->format('M j, Y g:i A') }})
                                                                     </span>
                                                                 @endif
                                                             </li>
                                                         @endforeach
                                                     </ul>
-                                                </div>
-                                                <div class="text-xs text-gray-500">
-                                                    Calculated: {{ \Carbon\Carbon::parse($result['calculated_at'])->format('M j, Y g:i A') }}
                                                 </div>
                                             </div>
                                         </details>

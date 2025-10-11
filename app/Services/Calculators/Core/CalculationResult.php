@@ -35,7 +35,6 @@ class CalculationResult
             'formula' => $this->formula,
             'used_values' => $this->usedValues,
             'used_value_dates' => $this->usedValueDates,
-            'calculated_at' => $this->calculatedAt?->toISOString(),
         ];
     }
 
