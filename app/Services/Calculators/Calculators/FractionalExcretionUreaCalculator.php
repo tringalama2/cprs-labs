@@ -6,85 +6,85 @@ use App\Services\Calculators\Core\BaseCalculator;
 use App\Services\Calculators\Core\CalculationResult;
 use App\Services\Calculators\Core\LabValueResolver;
 
-class FractionalExcretionSodiumCalculator extends BaseCalculator
+class FractionalExcretionUreaCalculator extends BaseCalculator
 {
-    protected string $name = 'fena';
+    protected string $name = 'feurea';
 
-    protected string $displayName = 'Fractional Excretion of Sodium (FENa)';
+    protected string $displayName = 'Fractional Excretion of Urea (FEUrea)';
 
     protected array $requiredFields = [
         'CREATININE,blood',
-        'SODIUM,Blood',
+        'UREA NITROGEN,Blood',
         'CREATININE,Urine',
-        'SODIUM,Urine',
+        'UREA NITROGEN,Urine',
     ];
 
     protected string $units = '%';
 
-    protected int $priority = 1;
+    protected int $priority = 2;
 
-    protected string $formulaText = '100 × (SCr × UNa) / (SNa × UCr)';
+    protected string $formulaText = '100 × (SCr × UUrea) / (SUrea × UCr)';
 
     protected array $interpretationRules = [
-        ['max_exclusive' => 1.0, 'interpretation' => 'Pre-renal azotemia likely'],
-        ['min' => 1.0, 'max' => 2.0, 'interpretation' => 'Intermediate range - clinical correlation needed'],
-        ['min_exclusive' => 2.0, 'interpretation' => 'Acute tubular necrosis likely'],
+        ['max' => 35.0, 'interpretation' => 'Pre-renal azotemia likely'],
+        ['min_exclusive' => 35.0, 'max' => 50.0, 'interpretation' => 'Intermediate range - clinical correlation needed'],
+        ['min_exclusive' => 50.0, 'interpretation' => 'Acute tubular necrosis likely'],
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult
     {
         // Get required values with dates
         $serumCreatinineData = $resolver->getLatestValueWithDate('CREATININE,blood');
-        $serumSodiumData = $resolver->getLatestValueWithDate('SODIUM,Blood');
+        $serumUreaData = $resolver->getLatestValueWithDate('UREA NITROGEN,Blood');
         $urineCreatinineData = $resolver->getLatestValueWithDate('CREATININE,Urine');
-        $urineSodiumData = $resolver->getLatestValueWithDate('SODIUM,Urine');
+        $urineUreaData = $resolver->getLatestValueWithDate('UREA NITROGEN,Urine');
 
         // Check if all required values are available
-        if (! $serumCreatinineData || ! $serumSodiumData || ! $urineCreatinineData || ! $urineSodiumData) {
+        if (! $serumCreatinineData || ! $serumUreaData || ! $urineCreatinineData || ! $urineUreaData) {
             return null;
         }
 
         $serumCreatinine = $serumCreatinineData['value'];
-        $serumSodium = $serumSodiumData['value'];
+        $serumUrea = $serumUreaData['value'];
         $urineCreatinine = $urineCreatinineData['value'];
-        $urineSodium = $urineSodiumData['value'];
+        $urineUrea = $urineUreaData['value'];
 
         // Check if all required values are within valid ranges
         if (! $this->isValidValue($serumCreatinine, 0.1, 20) ||
-            ! $this->isValidValue($serumSodium, 100, 200) ||
+            ! $this->isValidValue($serumUrea, 1, 300) ||
             ! $this->isValidValue($urineCreatinine, 1, 500) ||
-            ! $this->isValidValue($urineSodium, 1, 300)) {
+            ! $this->isValidValue($urineUrea, 1, 2000)) {
             return null;
         }
 
         // Avoid division by zero
-        if ($serumSodium == 0 || $urineCreatinine == 0) {
+        if ($serumUrea == 0 || $urineCreatinine == 0) {
             return null;
         }
 
-        // Calculate FENa: 100 × (SCr × UNa) / (SNa × UCr)
-        $fena = 100 * ($serumCreatinine * $urineSodium) / ($serumSodium * $urineCreatinine);
+        // Calculate FEUrea: 100 × (SCr × UUrea) / (SUrea × UCr)
+        $feurea = 100 * ($serumCreatinine * $urineUrea) / ($serumUrea * $urineCreatinine);
 
         // Round to 2 decimal places
-        $fena = round($fena, 2);
+        $feurea = round($feurea, 2);
 
         return new CalculationResult(
             name: $this->name,
             displayName: $this->displayName,
-            value: $fena,
+            value: $feurea,
             units: $this->units,
-            interpretation: $this->interpret($fena),
+            interpretation: $this->interpret($feurea),
             usedValues: [
                 'Serum Creatinine' => $serumCreatinine,
-                'Serum Sodium' => $serumSodium,
+                'Serum Urea Nitrogen' => $serumUrea,
                 'Urine Creatinine' => $urineCreatinine,
-                'Urine Sodium' => $urineSodium,
+                'Urine Urea Nitrogen' => $urineUrea,
             ],
             usedValueDates: [
                 'Serum Creatinine' => $serumCreatinineData['collection_date'],
-                'Serum Sodium' => $serumSodiumData['collection_date'],
+                'Serum Urea Nitrogen' => $serumUreaData['collection_date'],
                 'Urine Creatinine' => $urineCreatinineData['collection_date'],
-                'Urine Sodium' => $urineSodiumData['collection_date'],
+                'Urine Urea Nitrogen' => $urineUreaData['collection_date'],
             ],
             formula: $this->formulaText,
         );

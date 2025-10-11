@@ -91,6 +91,25 @@ class DebugCalculators extends Command
             $this->line('');
         }
 
+        $this->info('=== TESTING FEUREA FIELDS ===');
+        $feUreaFields = ['CREATININE,blood', 'UREA NITROGEN,Blood', 'CREATININE,Urine', 'UREA NITROGEN,Urine'];
+
+        foreach ($feUreaFields as $field) {
+            $value = $resolver->getLatestValue($field);
+
+            $this->info("Field: {$field}");
+            $this->line('  Value: '.($value ?? 'NULL'));
+
+            // Check if this lab name exists in our labs
+            $lab = $labs->where('name', $field)->first();
+            if ($lab) {
+                $this->line("  Found lab: {$field} = {$lab['result']}");
+            } else {
+                $this->line('  Lab not found in data');
+            }
+            $this->line('');
+        }
+
         $this->info('=== CALCULATED VALUES ===');
         $this->info('Total calculations: '.$calculatedValues->count());
 

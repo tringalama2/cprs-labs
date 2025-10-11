@@ -29,7 +29,7 @@ class MeldCalculator extends BaseCalculator
         ['max' => 19, 'interpretation' => 'Moderate risk - 6.0% 3-month mortality'],
         ['max' => 29, 'interpretation' => 'High risk - 19.6% 3-month mortality'],
         ['max' => 39, 'interpretation' => 'Very high risk - 52.6% 3-month mortality'],
-        ['interpretation' => 'Extremely high risk - >76% 3-month mortality'],
+        ['interpretation' => 'Extremely high risk - >71.3% 3-month mortality'],
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult
@@ -94,25 +94,6 @@ class MeldCalculator extends BaseCalculator
                 'INR' => $inrData['collection_date'],
             ],
             formula: $this->formulaText,
-            calculatedAt: \Carbon\Carbon::now()
         );
-    }
-
-    /**
-     * Custom interpretation logic for MELD score
-     */
-    protected function interpret(float $value): string
-    {
-        if ($value <= 9) {
-            return 'Low risk - 1.9% 3-month mortality';
-        } elseif ($value <= 19) {
-            return 'Moderate risk - 6.0% 3-month mortality';
-        } elseif ($value <= 29) {
-            return 'High risk - 19.6% 3-month mortality';
-        } elseif ($value <= 39) {
-            return 'Very high risk - 52.6% 3-month mortality';
-        } else {
-            return 'Extremely high risk - >76% 3-month mortality';
-        }
     }
 }

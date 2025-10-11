@@ -72,16 +72,43 @@ abstract class BaseCalculator implements CalculatorInterface
     protected function interpret(float $value): string
     {
         foreach ($this->interpretationRules as $rule) {
-            if (isset($rule['max']) && $value <= $rule['max']) {
-                return $rule['interpretation'];
+            $matchesMin = true;
+            $matchesMax = true;
+
+            // Check minimum boundary (inclusive)
+            if (isset($rule['min'])) {
+                $matchesMin = $value >= $rule['min'];
             }
-            if (isset($rule['min']) && $value >= $rule['min']) {
+
+            // Check minimum boundary (exclusive)
+            if (isset($rule['min_exclusive'])) {
+                $matchesMin = $value > $rule['min_exclusive'];
+            }
+
+            // Check maximum boundary (inclusive)
+            if (isset($rule['max'])) {
+                $matchesMax = $value <= $rule['max'];
+            }
+
+            // Check maximum boundary (exclusive)
+            if (isset($rule['max_exclusive'])) {
+                $matchesMax = $value < $rule['max_exclusive'];
+            }
+
+            // If both conditions match, return this interpretation
+            if ($matchesMin && $matchesMax) {
                 return $rule['interpretation'];
             }
         }
 
-        // Return default interpretation if no rules match
-        return $this->interpretationRules[array_key_last($this->interpretationRules)]['interpretation'] ?? 'Normal range';
+        // Return default interpretation if no rules match (should be the last rule without min/max)
+        foreach (array_reverse($this->interpretationRules) as $rule) {
+            if (! isset($rule['min']) && ! isset($rule['max']) && ! isset($rule['max_exclusive'])) {
+                return $rule['interpretation'];
+            }
+        }
+
+        return 'Normal range';
     }
 
     /**

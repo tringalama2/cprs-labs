@@ -2,20 +2,17 @@
 
 namespace App\Services\Calculators\Core;
 
-use Carbon\Carbon;
-
-class CalculationResult
+readonly class CalculationResult
 {
     public function __construct(
-        public readonly string $name,
-        public readonly string $displayName,
-        public readonly float|string $value,
-        public readonly string $units,
-        public readonly string $interpretation,
-        public readonly array $usedValues,
-        public readonly array $usedValueDates,
-        public readonly string $formula,
-        public readonly Carbon $calculatedAt
+        public string $name,
+        public string $displayName,
+        public float|string $value,
+        public string $units,
+        public string $interpretation,
+        public array $usedValues,
+        public array $usedValueDates,
+        public string $formula,
     ) {
         // Constructor - all properties are now required
     }

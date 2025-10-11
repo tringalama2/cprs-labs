@@ -135,6 +135,18 @@ test('FENa interprets intermediate range correctly', function () {
     expect($result->interpretation)->toBe('Intermediate range - clinical correlation needed');
 });
 
+test('FENa interprets edge case range correctly', function () {
+    $calculator = new FractionalExcretionSodiumCalculator();
+
+    // FENa between 1-2 (inclusive) % = Intermediate range
+    $labs = createLabsWithFena(2);
+    $resolver = new LabValueResolver($labs);
+    $result = $calculator->calculate($resolver);
+
+    expect($result)->not->toBeNull();
+    expect($result->interpretation)->toBe('Intermediate range - clinical correlation needed');
+});
+
 test('FENa returns null when required values are missing', function () {
     $calculator = new FractionalExcretionSodiumCalculator();
 

@@ -43,7 +43,7 @@ class Labs extends Component
     public function mount(): void
     {
         if (App::environment('local')) {
-            $this->input = file_get_contents(resource_path('test.comprehensive.txt'));
+            $this->input = file_get_contents(resource_path('test.with_urea.txt'));
         }
     }
 
