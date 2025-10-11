@@ -60,7 +60,7 @@ test('FENa calculator has correct properties', function () {
     expect($calculator->getDisplayName())->toBe('Fractional Excretion of Sodium (FENa)');
     expect($calculator->getUnits())->toBe('%');
     expect($calculator->getFormulaText())->toBe('100 × (SCr × UNa) / (SNa × UCr)');
-    expect($calculator->getPriority())->toBe(1);
+    expect($calculator->getPriority())->toBe(2);
 });
 
 test('FENa calculation formula is correct', function () {

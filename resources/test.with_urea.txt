@@ -14,7 +14,7 @@ Provider: TEST,PHYSICIAN
     Specimen Collection Date: Oct 10, 2025@09:00
       Test name                Result    units      Ref.   range   Site Code
 GLUCOSE,Blood                   100     mg/dL      70 - 105         [570]
-SODIUM,Blood                    147 H   mmol/L     136 - 145        [570]
+SODIUM,Blood                    126 H   mmol/L     136 - 145        [570]
 POTASSIUM,Blood                 3.8     mmol/L     3.5 - 5.1        [570]
 CREATININE,blood                2.0 H   mg/dL      0.6 - 1.3        [570]
 UREA NITROGEN,Blood             25 H    mg/dL      8 - 20           [570]

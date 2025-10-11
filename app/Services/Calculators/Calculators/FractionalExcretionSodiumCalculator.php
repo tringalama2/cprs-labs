@@ -21,7 +21,7 @@ class FractionalExcretionSodiumCalculator extends BaseCalculator
 
     protected string $units = '%';
 
-    protected int $priority = 1;
+    protected int $priority = 2;
 
     protected string $formulaText = '100 × (SCr × UNa) / (SNa × UCr)';
 

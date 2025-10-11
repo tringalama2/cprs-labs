@@ -21,14 +21,14 @@ class FractionalExcretionUreaCalculator extends BaseCalculator
 
     protected string $units = '%';
 
-    protected int $priority = 2;
+    protected int $priority = 4;
 
     protected string $formulaText = '100 × (SCr × UUrea) / (SUrea × UCr)';
 
     protected array $interpretationRules = [
-        ['max' => 35.0, 'interpretation' => 'Pre-renal azotemia likely'],
-        ['min_exclusive' => 35.0, 'max' => 50.0, 'interpretation' => 'Intermediate range - clinical correlation needed'],
-        ['min_exclusive' => 50.0, 'interpretation' => 'Acute tubular necrosis likely'],
+        ['max_exclusive' => 35.0, 'interpretation' => 'Pre-renal azotemia likely'],
+        ['min' => 50.0, 'interpretation' => 'Acute tubular necrosis likely'],
+        ['interpretation' => 'Intermediate range - clinical correlation needed'], // fallback for 35-50
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult

@@ -47,7 +47,7 @@ test('MELD calculator has correct properties', function () {
     expect($calculator->getDisplayName())->toBe('MELD Score (Model for End-Stage Liver Disease)');
     expect($calculator->getUnits())->toBe('points');
     expect($calculator->getFormulaText())->toBe('3.78 × ln(Bilirubin) + 11.2 × ln(INR) + 9.57 × ln(Creatinine) + 6.43');
-    expect($calculator->getPriority())->toBe(2);
+    expect($calculator->getPriority())->toBe(3);
 });
 
 test('MELD calculation formula is correct', function () {
@@ -123,7 +123,7 @@ test('MELD interprets extremely high risk correctly', function () {
 
     expect($result)->not->toBeNull();
     expect($result->value)->toBe(40.0); // Maximum MELD score
-    expect($result->interpretation)->toBe('Extremely high risk - >76% 3-month mortality');
+    expect($result->interpretation)->toBe('Extremely high risk - >71.3% 3-month mortality');
 });
 
 test('MELD applies minimum value constraints correctly', function () {

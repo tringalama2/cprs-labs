@@ -60,7 +60,7 @@ test('FEUrea calculator has correct properties', function () {
     expect($calculator->getDisplayName())->toBe('Fractional Excretion of Urea (FEUrea)');
     expect($calculator->getUnits())->toBe('%');
     expect($calculator->getFormulaText())->toBe('100 × (SCr × UUrea) / (SUrea × UCr)');
-    expect($calculator->getPriority())->toBe(2);
+    expect($calculator->getPriority())->toBe(4);
 });
 
 test('FEUrea calculation formula is correct', function () {
