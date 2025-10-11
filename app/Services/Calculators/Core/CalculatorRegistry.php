@@ -2,8 +2,6 @@
 
 namespace App\Services\Calculators\Core;
 
-use App\Services\Calculators\Calculators\FractionalExcretionSodiumCalculator;
-use App\Services\Calculators\Calculators\MeldCalculator;
 use App\Services\Calculators\Contracts\CalculatorInterface;
 use Illuminate\Support\Collection;
 
@@ -21,8 +19,29 @@ class CalculatorRegistry
      */
     private function registerCalculators(): void
     {
-        $this->register(new FractionalExcretionSodiumCalculator());
-        $this->register(new MeldCalculator());
+        $calculatorPath = app_path('Services/Calculators/Calculators');
+
+        if (! is_dir($calculatorPath)) {
+            return;
+        }
+
+        $files = glob($calculatorPath.'/*.php');
+
+        foreach ($files as $file) {
+            $filename = basename($file, '.php');
+            $className = "App\\Services\\Calculators\\Calculators\\{$filename}";
+
+            // Check if the class exists and implements the CalculatorInterface
+            if (class_exists($className)) {
+                $reflection = new \ReflectionClass($className);
+
+                // Skip abstract classes and ensure it implements CalculatorInterface
+                if (! $reflection->isAbstract() && $reflection->implementsInterface(CalculatorInterface::class)) {
+                    $calculator = new $className();
+                    $this->register($calculator);
+                }
+            }
+        }
     }
 
     /**
