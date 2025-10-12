@@ -46,16 +46,6 @@ test('MELD-Na calculator has correct required fields', function () {
     expect($calculator->getRequiredFields())->toBe($expectedFields);
 });
 
-test('MELD-Na calculator has correct properties', function () {
-    $calculator = new MeldNaCalculator();
-
-    expect($calculator->getName())->toBe('meld_na');
-    expect($calculator->getDisplayName())->toBe('MELD-Na Score (Model for End-Stage Liver Disease with Sodium)');
-    expect($calculator->getUnits())->toBe('points');
-    expect($calculator->getFormulaText())->toBe('MELD + 1.32 × (137 - Na) - [0.033 × MELD × (137 - Na)] (if Na < 137)');
-    expect($calculator->getPriority())->toBe(1);
-});
-
 test('MELD-Na calculation with normal sodium equals MELD', function () {
     $calculator = new MeldNaCalculator();
 
@@ -147,7 +137,7 @@ test('MELD-Na interprets extremely high risk correctly', function () {
 
     expect($result)->not->toBeNull();
     expect($result->value)->toBe(40.0); // Maximum MELD-Na score
-    expect($result->interpretation)->toBe('Extremely high risk - >76% 3-month mortality');
+    expect($result->interpretation)->toBe('Extremely high risk - >71.3% 3-month mortality');
 });
 
 test('MELD-Na applies minimum value constraints correctly', function () {

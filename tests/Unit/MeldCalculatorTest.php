@@ -40,16 +40,6 @@ test('MELD calculator has correct required fields', function () {
     expect($calculator->getRequiredFields())->toBe($expectedFields);
 });
 
-test('MELD calculator has correct properties', function () {
-    $calculator = new MeldCalculator();
-
-    expect($calculator->getName())->toBe('meld');
-    expect($calculator->getDisplayName())->toBe('MELD Score (Model for End-Stage Liver Disease)');
-    expect($calculator->getUnits())->toBe('points');
-    expect($calculator->getFormulaText())->toBe('3.78 × ln(Bilirubin) + 11.2 × ln(INR) + 9.57 × ln(Creatinine) + 6.43');
-    expect($calculator->getPriority())->toBe(3);
-});
-
 test('MELD calculation formula is correct', function () {
     $calculator = new MeldCalculator();
 

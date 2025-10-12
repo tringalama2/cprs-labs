@@ -10,7 +10,7 @@ class MeldCalculator extends BaseCalculator
 {
     protected string $name = 'meld';
 
-    protected string $displayName = 'MELD Score (Model for End-Stage Liver Disease)';
+    protected string $displayName = 'Model for End-Stage Liver Disease (MELD) Score';
 
     protected array $requiredFields = [
         'BILIRUBIN,TOTAL,Blood',

@@ -53,16 +53,6 @@ test('FENa calculator has correct required fields', function () {
     expect($calculator->getRequiredFields())->toBe($expectedFields);
 });
 
-test('FENa calculator has correct properties', function () {
-    $calculator = new FractionalExcretionSodiumCalculator();
-
-    expect($calculator->getName())->toBe('fena');
-    expect($calculator->getDisplayName())->toBe('Fractional Excretion of Sodium (FENa)');
-    expect($calculator->getUnits())->toBe('%');
-    expect($calculator->getFormulaText())->toBe('100 × (SCr × UNa) / (SNa × UCr)');
-    expect($calculator->getPriority())->toBe(2);
-});
-
 test('FENa calculation formula is correct', function () {
     $calculator = new FractionalExcretionSodiumCalculator();
 

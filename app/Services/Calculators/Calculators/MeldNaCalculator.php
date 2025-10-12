@@ -10,7 +10,7 @@ class MeldNaCalculator extends BaseCalculator
 {
     protected string $name = 'meld_na';
 
-    protected string $displayName = 'MELD-Na Score (Model for End-Stage Liver Disease with Sodium)';
+    protected string $displayName = 'Model for End-Stage Liver Disease with Sodium (MELD-Na) Score';
 
     protected array $requiredFields = [
         'BILIRUBIN,TOTAL,Blood',

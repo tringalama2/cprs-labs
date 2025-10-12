@@ -20,6 +20,9 @@ CREATININE,blood                2.0 H   mg/dL      0.6 - 1.3        [570]
 UREA NITROGEN,Blood             25 H    mg/dL      8 - 20           [570]
 BILIRUBIN,TOTAL,Blood           2.5 H   mg/dL      0.2 - 1.0        [570]
 BILIRUBIN,DIRECT,blood          0.1     mg/dL      Ref: <=0.2       [570]
+ALBUMIN ,Blood                  2.7 L   g/dL       3.6 - 4.8        [570]
+ALBUMIN,PERITONEAL FLUID        1.2 L   g/dL       1.5 - 5.0        [570]
+PROTEIN,PERITONEAL FLUID        2 L     g/dL       2.5 - 5.0        [570]
 ===============================================================================
 
 Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
