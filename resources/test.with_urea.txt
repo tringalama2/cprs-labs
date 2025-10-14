@@ -23,6 +23,10 @@ BILIRUBIN,DIRECT,blood          0.1     mg/dL      Ref: <=0.2       [570]
 ALBUMIN ,Blood                  2.7 L   g/dL       3.6 - 4.8        [570]
 ALBUMIN,PERITONEAL FLUID        1.2 L   g/dL       1.5 - 5.0        [570]
 PROTEIN,PERITONEAL FLUID        2 L     g/dL       2.5 - 5.0        [570]
+PROTEIN,TOTAL,Blood             4       g/dL       2.5 - 5.0        [570]
+PROTEIN,PLEURAL FLUID           3       g/dL       2.5 - 5.0        [570]
+LDH,PLEURAL FLUID               178     g/dL       2.5 - 5.0        [570]
+LDH,Blood                       190     g/dL       2.5 - 5.0        [570]
 ===============================================================================
 
 Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
