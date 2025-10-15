@@ -55,6 +55,11 @@ class MeldCalculator extends BaseCalculator
             return null;
         }
 
+        // return null if all values within normal
+        if ($bilirubin <= 1 && $creatinine <= 1.2 && $inr <= 1.3) {
+            return null;
+        }
+
         // Apply MELD constraints
         // Minimum values for calculation
         $bilirubin = max($bilirubin, 1.0);

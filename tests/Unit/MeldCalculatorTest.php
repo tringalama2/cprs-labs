@@ -54,16 +54,30 @@ test('MELD calculation formula is correct', function () {
     expect($result->interpretation)->toBe('High risk - 19.6% 3-month mortality');
 });
 
+test('MELD handles normal values correctly', function () {
+    $calculator = new MeldCalculator();
+
+    $labs = collect([
+        ['name' => 'CREATININE,Blood', 'result' => 1, 'collection_date' => '2023-01-01'], // wnl
+        ['name' => 'BILIRUBIN,TOTAL,Blood', 'result' => 0.5, 'collection_date' => '2023-01-01'], // wnl
+        ['name' => 'INR,Blood', 'result' => 1.1, 'collection_date' => '2023-01-01'], // wnl
+    ]);
+
+    $result = $calculator->calculate(new LabValueResolver($labs));
+
+    expect($result)->toBeNull();
+});
+
 test('MELD interprets low risk correctly', function () {
     $calculator = new MeldCalculator();
 
     // MELD ≤ 9 = Low risk
-    $labs = createLabsWithMeld(1.0, 1.0, 1.0);
+    $labs = createLabsWithMeld(0.5, 1.3, 0.5);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
     expect($result)->not->toBeNull();
-    expect($result->value)->toBe(6.0); // Minimum MELD score
+    expect($result->value)->toBe(9.0); // Minimum MELD score
     expect($result->interpretation)->toBe('Low risk - 1.9% 3-month mortality');
 });
 
@@ -116,23 +130,6 @@ test('MELD interprets extremely high risk correctly', function () {
     expect($result->interpretation)->toBe('Extremely high risk - >71.3% 3-month mortality');
 });
 
-test('MELD applies minimum value constraints correctly', function () {
-    $calculator = new MeldCalculator();
-
-    // Test with values below minimum (should be adjusted to 1.0)
-    $labs = createLabsWithMeld(0.5, 0.8, 0.9);
-    $resolver = new LabValueResolver($labs);
-    $result = $calculator->calculate($resolver);
-
-    expect($result)->not->toBeNull();
-    expect($result->value)->toBe(6.0); // Minimum MELD score after constraints
-    expect($result->usedValues)->toBe([
-        'Total Bilirubin' => 1.0, // Adjusted from 0.5
-        'Creatinine' => 1.0,      // Adjusted from 0.8
-        'INR' => 1.0,             // Adjusted from 0.9
-    ]);
-});
-
 test('MELD caps creatinine at 4.0', function () {
     $calculator = new MeldCalculator();
 
@@ -145,16 +142,8 @@ test('MELD caps creatinine at 4.0', function () {
     expect($result->usedValues['Creatinine'])->toBe(4.0); // Capped from 8.0
 });
 
-test('MELD caps final score between 6 and 40', function () {
+test('MELD caps final score at 40', function () {
     $calculator = new MeldCalculator();
-
-    // Test minimum score
-    $labs = createLabsWithMeld(1.0, 1.0, 1.0);
-    $resolver = new LabValueResolver($labs);
-    $result = $calculator->calculate($resolver);
-
-    expect($result)->not->toBeNull();
-    expect($result->value)->toBeGreaterThanOrEqual(6);
 
     // Test maximum score
     $labs = createLabsWithMeld(50.0, 4.0, 5.0);

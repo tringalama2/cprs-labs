@@ -46,6 +46,21 @@ test('MELD-Na calculator has correct required fields', function () {
     expect($calculator->getRequiredFields())->toBe($expectedFields);
 });
 
+test('MELD-Na handles normal values correctly', function () {
+    $calculator = new MeldNaCalculator();
+
+    $labs = collect([
+        ['name' => 'CREATININE,Blood', 'result' => 1, 'collection_date' => '2023-01-01'], // wnl
+        ['name' => 'BILIRUBIN,TOTAL,Blood', 'result' => 0.5, 'collection_date' => '2023-01-01'], // wnl
+        ['name' => 'INR,Blood', 'result' => 1.1, 'collection_date' => '2023-01-01'], // wnl
+        ['name' => 'SODIUM,Blood', 'result' => 140, 'collection_date' => '2023-01-01'], // wnl
+    ]);
+
+    $result = $calculator->calculate(new LabValueResolver($labs));
+
+    expect($result)->toBeNull();
+});
+
 test('MELD-Na calculation with normal sodium equals MELD', function () {
     $calculator = new MeldNaCalculator();
 
@@ -82,12 +97,12 @@ test('MELD-Na interprets low risk correctly', function () {
     $calculator = new MeldNaCalculator();
 
     // MELD-Na ≤ 9 = Low risk
-    $labs = createLabsWithMeldNa(1.0, 1.0, 1.0, 140);
+    $labs = createLabsWithMeldNa(1.1, 0.5, 0.5, 137);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
     expect($result)->not->toBeNull();
-    expect($result->value)->toBe(6.0); // Minimum MELD-Na score
+    expect($result->value)->toBe(7.0); // Minimum MELD-Na score
     expect($result->interpretation)->toBe('Low risk - 1.9% 3-month mortality');
 });
 
@@ -140,25 +155,6 @@ test('MELD-Na interprets extremely high risk correctly', function () {
     expect($result->interpretation)->toBe('Extremely high risk - >71.3% 3-month mortality');
 });
 
-test('MELD-Na applies minimum value constraints correctly', function () {
-    $calculator = new MeldNaCalculator();
-
-    // Test with values below minimum (should be adjusted to 1.0)
-    $labs = createLabsWithMeldNa(0.5, 0.8, 0.9, 140);
-    $resolver = new LabValueResolver($labs);
-    $result = $calculator->calculate($resolver);
-
-    expect($result)->not->toBeNull();
-    expect($result->value)->toBe(6.0); // Minimum MELD-Na score after constraints
-    expect($result->usedValues)->toMatchArray([
-        'Total Bilirubin' => 0.5, // Shows original value (internally constrained to 1.0)
-        'Creatinine' => 0.8,      // Shows original value (internally constrained to 1.0)
-        'INR' => 0.9,             // Shows original value (internally constrained to 1.0)
-        'Serum Sodium' => 140.0,
-        'Base MELD Score' => 6.0, // This shows the constrained calculation result
-    ]);
-});
-
 test('MELD-Na caps creatinine at 4.0', function () {
     $calculator = new MeldNaCalculator();
 
@@ -196,7 +192,7 @@ test('MELD-Na caps final score between 6 and 40', function () {
     $calculator = new MeldNaCalculator();
 
     // Test minimum score
-    $labs = createLabsWithMeldNa(1.0, 1.0, 1.0, 140);
+    $labs = createLabsWithMeldNa(1.0, 1.3, 1.0, 137);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 

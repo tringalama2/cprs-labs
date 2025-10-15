@@ -59,6 +59,11 @@ class MeldNaCalculator extends BaseCalculator
             return null;
         }
 
+        // return null if all values within normal
+        if ($sodium >= 136 && $bilirubin <= 1 && $creatinine <= 1.2 && $inr <= 1.3) {
+            return null;
+        }
+
         // Calculate original MELD score first
         // Apply MELD constraints
         $bilirubinForMeld = max($bilirubin, 1.0);
