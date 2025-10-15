@@ -27,6 +27,8 @@ PROTEIN,TOTAL,Blood             4       g/dL       2.5 - 5.0        [570]
 PROTEIN,PLEURAL FLUID           3       g/dL       2.5 - 5.0        [570]
 LDH,PLEURAL FLUID               178     g/dL       2.5 - 5.0        [570]
 LDH,Blood                       190     g/dL       2.5 - 5.0        [570]
+ALT,Blood                       40     g/dL       20 - 50          [570]
+ALKP,Blood                       100     g/dL       50 - 150          [570]
 ===============================================================================
 
 Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
