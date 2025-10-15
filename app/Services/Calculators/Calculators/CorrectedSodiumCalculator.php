@@ -45,7 +45,8 @@ class CorrectedSodiumCalculator extends BaseCalculator
 
         // Validate values are within reasonable ranges
         if (! $this->isValidValue($sodium, 100, 200) ||
-            ! $this->isValidValue($glucose, 50, 800)) {
+            // unnecessary to calculate if glucose is < 200
+            ! $this->isValidValue($glucose, 200, 800)) {
             return null;
         }
 

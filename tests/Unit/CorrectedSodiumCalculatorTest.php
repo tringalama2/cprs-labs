@@ -34,7 +34,7 @@ test('Corrected Sodium calculator has correct required fields', function () {
     expect($calculator->getRequiredFields())->toBe($expectedFields);
 });
 
-test('Corrected Sodium calculation with normal glucose shows no correction', function () {
+test('Corrected Sodium calculation returns null if glucose < 200', function () {
     $calculator = new CorrectedSodiumCalculator();
 
     // Test case: Normal glucose (100) should not change sodium
@@ -43,10 +43,7 @@ test('Corrected Sodium calculation with normal glucose shows no correction', fun
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
-    expect($result)->not->toBeNull();
-    expect($result->value)->toBe('130'); // Same value for both formulas
-    expect($result->units)->toBe('mEq/L');
-    expect($result->interpretation)->toBe('Hyponatremia (corrected sodium range < 135 mEq/L)');
+    expect($result)->toBeNull();
 });
 
 test('Corrected Sodium calculation with hyperglycemia shows range', function () {
@@ -79,31 +76,16 @@ test('Corrected Sodium calculation with severe hyperglycemia', function () {
     expect($result->interpretation)->toBe('Hyponatremia (corrected sodium range < 135 mEq/L)');
 });
 
-test('Corrected Sodium calculation with low glucose', function () {
-    $calculator = new CorrectedSodiumCalculator();
-
-    // Test case: Low glucose should show different values
-    // Formula 1: 140 + 1.6 × [(75 - 100) / 100] = 140 - 0.4 = 139.6
-    // Formula 2: 140 + 2.4 × [(75 - 100) / 100] = 140 - 0.6 = 139.4
-    $labs = createLabsWithCorrectedSodium(140, 75);
-    $resolver = new LabValueResolver($labs);
-    $result = $calculator->calculate($resolver);
-
-    expect($result)->not->toBeNull();
-    expect($result->value)->toBe('140 - 139'); // Note: 1.6 factor gives higher value with low glucose
-    expect($result->interpretation)->toBe('Normal corrected sodium range (135-145 mEq/L)');
-});
-
 test('Corrected Sodium interprets hyponatremia correctly', function () {
     $calculator = new CorrectedSodiumCalculator();
 
     // Both corrections still result in hyponatremia
-    $labs = createLabsWithCorrectedSodium(130, 100);
+    $labs = createLabsWithCorrectedSodium(130, 200);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
     expect($result)->not->toBeNull();
-    expect($result->value)->toBe('130');
+    expect($result->value)->toBe('132');
     expect($result->interpretation)->toBe('Hyponatremia (corrected sodium range < 135 mEq/L)');
 });
 
@@ -111,12 +93,12 @@ test('Corrected Sodium interprets normal sodium correctly', function () {
     $calculator = new CorrectedSodiumCalculator();
 
     // Normal sodium range
-    $labs = createLabsWithCorrectedSodium(140, 100);
+    $labs = createLabsWithCorrectedSodium(140, 200);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
     expect($result)->not->toBeNull();
-    expect($result->value)->toBe('140');
+    expect($result->value)->toBe('142');
     expect($result->interpretation)->toBe('Normal corrected sodium range (135-145 mEq/L)');
 });
 
@@ -124,12 +106,12 @@ test('Corrected Sodium interprets hypernatremia correctly', function () {
     $calculator = new CorrectedSodiumCalculator();
 
     // High sodium
-    $labs = createLabsWithCorrectedSodium(150, 100);
+    $labs = createLabsWithCorrectedSodium(144, 260);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
     expect($result)->not->toBeNull();
-    expect($result->value)->toBe('150');
+    expect($result->value)->toBe('147 - 148');
     expect($result->interpretation)->toBe('Hypernatremia (corrected sodium range > 145 mEq/L)');
 });
 
@@ -137,22 +119,21 @@ test('Corrected Sodium boundary values work correctly', function () {
     $calculator = new CorrectedSodiumCalculator();
 
     // Test boundary at 135 mEq/L
-    $labs = createLabsWithCorrectedSodium(135, 100);
+    $labs = createLabsWithCorrectedSodium(135, 200);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
     expect($result)->not->toBeNull();
-    expect($result->value)->toBe('135');
+    expect($result->value)->toBe('137');
     expect($result->interpretation)->toBe('Normal corrected sodium range (135-145 mEq/L)');
 
     // Test boundary at 145 mEq/L
-    $labs = createLabsWithCorrectedSodium(145, 100);
+    $labs = createLabsWithCorrectedSodium(145, 200);
     $resolver = new LabValueResolver($labs);
     $result = $calculator->calculate($resolver);
 
-    expect($result)->not->toBeNull();
-    expect($result->value)->toBe('145');
-    expect($result->interpretation)->toBe('Normal corrected sodium range (135-145 mEq/L)');
+    expect($result->value)->toBe('147');
+    expect($result->interpretation)->toBe('Hypernatremia (corrected sodium range > 145 mEq/L)');
 });
 
 test('Corrected Sodium shows hyperglycemia correction range', function () {
@@ -269,19 +250,6 @@ test('Corrected Sodium used values include both calculations', function () {
         'Measured Sodium',
         'Glucose',
     ]);
-});
-
-test('Corrected Sodium edge case with glucose at 100', function () {
-    $calculator = new CorrectedSodiumCalculator();
-
-    // Test with glucose exactly at 100 (no correction needed)
-    $labs = createLabsWithCorrectedSodium(142, 100);
-    $resolver = new LabValueResolver($labs);
-    $result = $calculator->calculate($resolver);
-
-    expect($result)->not->toBeNull();
-    expect($result->value)->toBe('142'); // No change from measured sodium
-    expect($result->interpretation)->toBe('Normal corrected sodium range (135-145 mEq/L)');
 });
 
 test('Corrected Sodium demonstrates clinical range significance', function () {
