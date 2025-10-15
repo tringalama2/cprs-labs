@@ -7,14 +7,14 @@ beforeEach(function () {
     $this->calculator = new RFactorCalculator();
 });
 
-it('R Factor calculator has correct required fields', function () {
+test('R Factor calculator has correct required fields', function () {
     expect($this->calculator->getRequiredFields())->toBe([
         'ALT,Blood',
         'ALKP,Blood',
     ]);
 });
 
-it('R Factor calculation formula is correct', function () {
+test('R Factor calculation formula is correct', function () {
     // Test case: ALT = 200 (5x ULN), ALP = 240 (2x ULN)
     // R = (200/40) / (240/120) = 5 / 2 = 2.5 (Mixed pattern)
     $labs = collect([
@@ -31,7 +31,7 @@ it('R Factor calculation formula is correct', function () {
         ->and($result->usedValues['ALP/ULN'])->toBe(2.0);
 });
 
-it('R Factor handles normal values correctly', function () {
+test('R Factor handles normal values correctly', function () {
     // R ≥ 5: Hepatocellular pattern
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 30.0, 'collection_date' => '2023-01-01'], // wnl
@@ -43,7 +43,7 @@ it('R Factor handles normal values correctly', function () {
     expect($result)->toBeNull();
 });
 
-it('R Factor interprets hepatocellular pattern correctly', function () {
+test('R Factor interprets hepatocellular pattern correctly', function () {
     // R ≥ 5: Hepatocellular pattern
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 400.0, 'collection_date' => '2023-01-01'], // 10x ULN
@@ -58,7 +58,7 @@ it('R Factor interprets hepatocellular pattern correctly', function () {
         ->and($result->interpretation)->toBe('Hepatocellular pattern (R ≥ 5)');
 });
 
-it('R Factor interprets mixed pattern correctly', function () {
+test('R Factor interprets mixed pattern correctly', function () {
     // 2 ≤ R < 5: Mixed pattern
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 120.0, 'collection_date' => '2023-01-01'], // 3x ULN
@@ -73,7 +73,7 @@ it('R Factor interprets mixed pattern correctly', function () {
         ->and($result->interpretation)->toBe('Mixed pattern (2 ≤ R < 5)');
 });
 
-it('R Factor interprets cholestatic pattern correctly', function () {
+test('R Factor interprets cholestatic pattern correctly', function () {
     // R < 2: Cholestatic pattern
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 60.0, 'collection_date' => '2023-01-01'], // 1.5x ULN
@@ -88,7 +88,7 @@ it('R Factor interprets cholestatic pattern correctly', function () {
         ->and($result->interpretation)->toBe('Cholestatic pattern (R < 2)');
 });
 
-it('R Factor boundary values work correctly', function () {
+test('R Factor boundary values work correctly', function () {
     // Test R = exactly 5.0 (should be hepatocellular)
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 200.0, 'collection_date' => '2023-01-01'], // 5x ULN
@@ -126,7 +126,7 @@ it('R Factor boundary values work correctly', function () {
         ->and($result->interpretation)->toBe('Cholestatic pattern (R < 2)');
 });
 
-it('R Factor returns null when required values are missing', function () {
+test('R Factor returns null when required values are missing', function () {
     // Missing ALT
     $labs = collect([
         ['name' => 'ALKP,Blood', 'result' => 150.0, 'collection_date' => '2023-01-01'],
@@ -150,7 +150,7 @@ it('R Factor returns null when required values are missing', function () {
     expect($result)->toBeNull();
 });
 
-it('R Factor handles invalid values correctly', function () {
+test('R Factor handles invalid values correctly', function () {
     // Invalid ALT (too high)
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 6000.0, 'collection_date' => '2023-01-01'],
@@ -188,7 +188,7 @@ it('R Factor handles invalid values correctly', function () {
     expect($result)->toBeNull();
 });
 
-it('R Factor protects against division by zero', function () {
+test('R Factor protects against division by zero', function () {
     // ALP = 0 should return null
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 100.0, 'collection_date' => '2023-01-01'],
@@ -199,7 +199,7 @@ it('R Factor protects against division by zero', function () {
     expect($result)->toBeNull();
 });
 
-it('R Factor used values and dates are correct', function () {
+test('R Factor used values and dates are correct', function () {
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 160.0, 'collection_date' => '2023-01-01'],
         ['name' => 'ALKP,Blood', 'result' => 180.0, 'collection_date' => '2023-01-02'],
@@ -220,7 +220,7 @@ it('R Factor used values and dates are correct', function () {
         ]);
 });
 
-it('R Factor clinical scenarios work correctly', function () {
+test('R Factor clinical scenarios work correctly', function () {
     // Drug-induced hepatitis (high ALT, normal ALP)
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 800.0, 'collection_date' => '2023-01-01'], // 20x ULN
@@ -261,7 +261,7 @@ it('R Factor clinical scenarios work correctly', function () {
         ->and($result->interpretation)->toBe('Cholestatic pattern (R < 2)');
 });
 
-it('R Factor precision and rounding work correctly', function () {
+test('R Factor precision and rounding work correctly', function () {
     // Test that values are rounded to 2 decimal places
     $labs = collect([
         ['name' => 'ALT,Blood', 'result' => 133.0, 'collection_date' => '2023-01-01'],
