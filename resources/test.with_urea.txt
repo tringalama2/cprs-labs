@@ -29,6 +29,7 @@ LDH,PLEURAL FLUID               178     g/dL       2.5 - 5.0        [570]
 LDH,Blood                       190     g/dL       2.5 - 5.0        [570]
 ALT,Blood                       42     g/dL       20 - 50          [570]
 ALKP,Blood                       320     g/dL       50 - 150          [570]
+CALCIUM,Blood                       8     g/dL       7-10         [570]
 ===============================================================================
 
 Reporting Lab: FRESNO VA MEDICAL CENTER [CLIA# 05D0988207]
