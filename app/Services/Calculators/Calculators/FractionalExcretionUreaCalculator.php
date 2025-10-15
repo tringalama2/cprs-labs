@@ -21,14 +21,14 @@ class FractionalExcretionUreaCalculator extends BaseCalculator
 
     protected string $units = '%';
 
-    protected int $priority = 4;
+    protected int $priority = 2;
 
     protected string $formulaText = '100 × (SCr × UUrea) / (SUrea × UCr)';
 
     protected array $interpretationRules = [
-        ['max_exclusive' => 35.0, 'interpretation' => 'Pre-renal azotemia likely'],
-        ['min' => 50.0, 'interpretation' => 'Acute tubular necrosis likely'],
-        ['interpretation' => 'Intermediate range - clinical correlation needed'], // fallback for 35-50
+        ['max_exclusive' => 35.0, 'interpretation' => 'Pre-renal azotemia likely', 'color' => 'blue-500'],
+        ['min' => 50.0, 'interpretation' => 'Acute tubular necrosis likely', 'color' => 'blue-500'],
+        ['interpretation' => 'Intermediate range - clinical correlation needed', 'color' => 'red-500'], // fallback for 35-50
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult
@@ -68,12 +68,16 @@ class FractionalExcretionUreaCalculator extends BaseCalculator
         // Round to 2 decimal places
         $feurea = round($feurea, 2);
 
+        // Get interpretation with color
+        $interpretationResult = $this->interpretWithColor($feurea);
+
         return new CalculationResult(
             name: $this->name,
             displayName: $this->displayName,
             value: $feurea,
             units: $this->units,
-            interpretation: $this->interpret($feurea),
+            interpretation: $interpretationResult['interpretation'],
+            color: $interpretationResult['color'],
             usedValues: [
                 'Serum Creatinine' => $serumCreatinine,
                 'Serum Urea Nitrogen' => $serumUrea,

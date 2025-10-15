@@ -23,7 +23,7 @@ class LightsCriteriaCalculator extends BaseCalculator
 
     protected string $units = '';
 
-    protected int $priority = 7;
+    protected int $priority = 4;
 
     // Upper limit of normal serum LDH
     protected string $formulaText = 'Exudate if any: Pleural protein/serum protein > 0.5, OR pleural LDH/serum LDH > 0.6, OR pleural LDH > 2/3 * Serum LDH Upper Limit of Normal (222 U/L)';
@@ -95,6 +95,7 @@ class LightsCriteriaCalculator extends BaseCalculator
 
         // Create result summary for display
         $resultSummary = $isExudate ? 'Exudate' : 'Transudate';
+        $color = $isExudate ? 'red-500' : 'green-500';
 
         return new CalculationResult(
             name: $this->name,
@@ -118,6 +119,7 @@ class LightsCriteriaCalculator extends BaseCalculator
                 'Pleural LDH' => $pleuralLdhData['collection_date'],
             ],
             formula: $this->formulaText,
+            color: $color,
         );
     }
 

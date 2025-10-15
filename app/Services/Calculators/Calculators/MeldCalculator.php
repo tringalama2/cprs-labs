@@ -20,16 +20,16 @@ class MeldCalculator extends BaseCalculator
 
     protected string $units = 'points';
 
-    protected int $priority = 3; // Lower priority than MELD-Na
+    protected int $priority = 7; // Lower priority than MELD-Na
 
     protected string $formulaText = '3.78 × ln(Bilirubin) + 11.2 × ln(INR) + 9.57 × ln(Creatinine) + 6.43';
 
     protected array $interpretationRules = [
-        ['max' => 9, 'interpretation' => 'Low risk - 1.9% 3-month mortality'],
-        ['max' => 19, 'interpretation' => 'Moderate risk - 6.0% 3-month mortality'],
-        ['max' => 29, 'interpretation' => 'High risk - 19.6% 3-month mortality'],
-        ['max' => 39, 'interpretation' => 'Very high risk - 52.6% 3-month mortality'],
-        ['interpretation' => 'Extremely high risk - >71.3% 3-month mortality'],
+        ['max' => 9, 'interpretation' => 'Low risk - 1.9% 3-month mortality', 'color' => 'green-500'],
+        ['max' => 19, 'interpretation' => 'Moderate risk - 6.0% 3-month mortality', 'color' => 'yellow-500'],
+        ['max' => 29, 'interpretation' => 'High risk - 19.6% 3-month mortality', 'color' => 'orange-500'],
+        ['max' => 39, 'interpretation' => 'Very high risk - 52.6% 3-month mortality', 'color' => 'red-500'],
+        ['interpretation' => 'Extremely high risk - >71.3% 3-month mortality', 'color' => 'purple-500'],
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult
@@ -77,12 +77,15 @@ class MeldCalculator extends BaseCalculator
         // MELD score is typically capped between 6 and 40
         $meld = max(6, min(40, $meld));
 
+        // Get interpretation with color
+        $interpretationResult = $this->interpretWithColor($meld);
+
         return new CalculationResult(
             name: $this->name,
             displayName: $this->displayName,
             value: $meld,
             units: $this->units,
-            interpretation: $this->interpret($meld),
+            interpretation: $interpretationResult['interpretation'],
             usedValues: [
                 'Total Bilirubin' => $bilirubin,
                 'Creatinine' => $creatinine,
@@ -94,6 +97,7 @@ class MeldCalculator extends BaseCalculator
                 'INR' => $inrData['collection_date'],
             ],
             formula: $this->formulaText,
+            color: $interpretationResult['color'],
         );
     }
 }

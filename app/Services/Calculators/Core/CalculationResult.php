@@ -13,8 +13,9 @@ readonly class CalculationResult
         public array $usedValues,
         public array $usedValueDates,
         public string $formula,
+        public ?string $color = null,
     ) {
-        // Constructor - all properties are now required
+        // Constructor - all properties are now required except color
     }
 
     /**
@@ -32,6 +33,7 @@ readonly class CalculationResult
             'formula' => $this->formula,
             'used_values' => $this->usedValues,
             'used_value_dates' => $this->usedValueDates,
+            'color' => $this->color,
         ];
     }
 

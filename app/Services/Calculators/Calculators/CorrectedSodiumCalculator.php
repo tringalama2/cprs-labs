@@ -19,14 +19,14 @@ class CorrectedSodiumCalculator extends BaseCalculator
 
     protected string $units = 'mEq/L';
 
-    protected int $priority = 6;
+    protected int $priority = 3;
 
     protected string $formulaText = 'Measured Na + 1.6 × [(Glucose - 100) / 100] and Measured Na + 2.4 × [(Glucose - 100) / 100]';
 
     protected array $interpretationRules = [
-        ['max_exclusive' => 135, 'interpretation' => 'Hyponatremia (corrected sodium range < 135 mEq/L)'],
-        ['min' => 135, 'max' => 145, 'interpretation' => 'Normal corrected sodium range (135-145 mEq/L)'],
-        ['min_exclusive' => 145, 'interpretation' => 'Hypernatremia (corrected sodium range > 145 mEq/L)'],
+        ['max_exclusive' => 135, 'interpretation' => 'Hyponatremia (corrected sodium range < 135 mEq/L)', 'color' => 'red-500'],
+        ['min' => 135, 'max' => 145, 'interpretation' => 'Normal corrected sodium range (135-145 mEq/L)', 'color' => 'green-500'],
+        ['min_exclusive' => 145, 'interpretation' => 'Hypernatremia (corrected sodium range > 145 mEq/L)', 'color' => 'red-500'],
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult
@@ -70,12 +70,15 @@ class CorrectedSodiumCalculator extends BaseCalculator
         // Use the average for interpretation (or the lower value if glucose <= 100)
         $correctedSodiumForInterpretation = ($glucose <= 100) ? $correctedSodium1_6 : ($correctedSodium1_6 + $correctedSodium2_4) / 2;
 
+        // Get interpretation with color
+        $interpretationResult = $this->interpretWithColor($correctedSodiumForInterpretation);
+
         return new CalculationResult(
             name: $this->name,
             displayName: $this->displayName,
             value: $correctedSodiumRange,
             units: $this->units,
-            interpretation: $this->interpret($correctedSodiumForInterpretation),
+            interpretation: $interpretationResult['interpretation'],
             usedValues: [
                 'Measured Sodium' => $sodium,
                 'Glucose' => $glucose,
@@ -85,6 +88,7 @@ class CorrectedSodiumCalculator extends BaseCalculator
                 'Glucose' => $glucoseData['collection_date'],
             ],
             formula: $this->formulaText,
+            color: $interpretationResult['color'],
         );
     }
 }

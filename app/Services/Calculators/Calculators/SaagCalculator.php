@@ -23,8 +23,8 @@ class SaagCalculator extends BaseCalculator
     protected string $formulaText = 'Serum Albumin - Ascitic Albumin';
 
     protected array $interpretationRules = [
-        ['min' => 1.1, 'interpretation' => 'Portal hypertension (SAAG ≥ 1.1)'],
-        ['interpretation' => 'Non-portal hypertension etiology (SAAG < 1.1)'],
+        ['min' => 1.1, 'interpretation' => 'Portal hypertension (SAAG ≥ 1.1)', 'color' => 'purple-500'],
+        ['interpretation' => 'Non-portal hypertension etiology (SAAG < 1.1)', 'color' => 'orange-500'],
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult
@@ -56,7 +56,7 @@ class SaagCalculator extends BaseCalculator
         // Check for protein-based enhanced interpretation
         $proteinData = $resolver->getLatestValueWithDate('PROTEIN,PERITONEAL FLUID');
         $validProteinData = $proteinData && $this->isValidValue($proteinData['value'], 0.1, 10.0) ? $proteinData : null;
-        $interpretation = $this->getEnhancedInterpretation($saag, $validProteinData);
+        $interpretationResult = $this->getEnhancedInterpretation($saag, $validProteinData);
 
         $usedValues = [
             'Serum Albumin' => $serumAlbumin,
@@ -79,34 +79,35 @@ class SaagCalculator extends BaseCalculator
             displayName: $this->displayName,
             value: $saag,
             units: $this->units,
-            interpretation: $interpretation,
+            interpretation: $interpretationResult['interpretation'],
             usedValues: $usedValues,
             usedValueDates: $usedValueDates,
             formula: $this->formulaText,
+            color: $interpretationResult['color'],
         );
     }
 
-    private function getEnhancedInterpretation(float $saag, ?array $proteinData): string
+    private function getEnhancedInterpretation(float $saag, ?array $proteinData): array
     {
         if ($proteinData === null) {
             // Basic SAAG interpretation only
-            return $this->interpret($saag);
+            return $this->interpretWithColor($saag);
         }
 
         $protein = $proteinData['value'];
 
-        // Enhanced protein-based interpretation
+        // Enhanced protein-based interpretation with colors
         if ($saag >= 1.1 && $protein >= 2.5) {
-            return 'Cardiac ascites (SAAG ≥ 1.1, Ascitic protein ≥ 2.5)';
+            return ['interpretation' => 'Cardiac ascites (SAAG ≥ 1.1, Ascitic protein ≥ 2.5)', 'color' => 'red-500'];
         } elseif ($saag >= 1.1 && $protein < 2.5) {
-            return 'Cirrhosis (SAAG ≥ 1.1, Ascitic protein < 2.5)';
+            return ['interpretation' => 'Cirrhosis (SAAG ≥ 1.1, Ascitic protein < 2.5)', 'color' => 'purple-500'];
         } elseif ($saag < 1.1 && $protein < 2.5) {
-            return 'Nephrotic syndrome (SAAG < 1.1, Ascitic protein < 2.5)';
+            return ['interpretation' => 'Nephrotic syndrome (SAAG < 1.1, Ascitic protein < 2.5)', 'color' => 'orange-500'];
         } elseif ($saag < 1.1 && $protein > 2.5) {
-            return 'TB or Malignancy (SAAG < 1.1, Ascitic protein > 2.5)';
+            return ['interpretation' => 'TB or Malignancy (SAAG < 1.1, Ascitic protein > 2.5)', 'color' => 'red-500'];
         }
 
         // Fallback to basic interpretation
-        return $this->interpret($saag);
+        return $this->interpretWithColor($saag);
     }
 }

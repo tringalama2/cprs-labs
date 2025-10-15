@@ -137,12 +137,67 @@
                     @endif
                 </table>
 
+                @if($micro && count($micro) > 0)
+                    <table class="text-sm border-collapse border-spacing-0">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="border-b border-gray-500 z-40 sticky bg-gray-200 top-0 left-0" colspan="2"></th>
+                            <th scope="col" class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">
+                                {!! $microDateTimeHeaders?->implode('</th><th class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">') !!}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @php($loopPanel = '')
+                        @foreach($microLabels as $labLabel)
+                            <tr class="border-b border-gray-500 hover:bg-sky-200 group/row">
+                                @if ($labLabel['panel'] != $loopPanel)
+                                    <th rowspan="{{ $micro->groupBy('name')->count() }}"
+                                        class="font-extrabold border-r border-gray-500 group-hover/row:bg-white text-xl text-start ps-3 z-30 sticky bg-white left-0"
+                                        style="writing-mode: vertical-lr;">{{ $labLabel['panel'] }}</th>
+                                @endif
+                                <th scope="row" class="border-r border-gray-500 px-2 bg-gray-200 group-hover/row:bg-sky-300
+                         z-20 sticky left-7
+                        ">{{ $labLabel['label'] }}</th>
+                                @foreach($micro->groupBy('accession_unique_id') as $accession)
+                                    @php($lab = $accession->where('name', $labLabel['name'])->first())
+                                    <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap group/result group-hover/row:bg-sky-200 bg-white">
+                                        @if($lab)
+                                            Sample: {{ $lab->get('sample') }}
+                                            @if($lab->get('specimen'))
+                                            , {{ $lab->get('specimen') }}
+                                            @endif
+                                            <div
+                                                class="font-medium text-sm l-1/2 top-[135%]-ml-24 border border-gray-500 bg-gray-200 text-gray-800 rounded p-2 invisible opacity-0 group-hover/result:visible z-10 group-hover/result:opacity-100 absolute transition-opacity after:content-[''] after:absolute after:bottom-full after:left-1/2 after:-ml-1 after:border-1 after:border-solid after:border-t-transparent after:border-r-transparent after:border-b-gray-500 after:border-l-transparent">
+                                                <h5 class="font-bold">Result</h5>
+                                                <pre>{{ $lab->get('result') }}</pre>
+                                            </div>
+                                        @endif
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @php($loopPanel = $labLabel['panel'])
+                        @endforeach
+                    </table>
+                @endif
+
+                @if($unparsableRows && count($unparsableRows) > 0)
+                    <div class="bg-white mt-6 mb-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4 px-2 py-2 bg-gradient-to-r from-yellow-100 to-yellow-200 border-l-4 border-yellow-500">
+                            Unable To Process
+                        </h2>
+                        @foreach($unparsableRows as $row)
+                            <div>{{ implode(' ', $row->toArray()) }}</div>
+                        @endforeach
+                    </div>
+                @endif
+
                 @if($calculatedValues && count($calculatedValues) > 0)
                     <div class="mt-6 mb-6">
                         <h2 class="text-xl font-bold text-gray-800 mb-4 px-2 py-2 bg-gradient-to-r from-blue-100 to-blue-200 border-l-4 border-blue-500">
                             Calculated Values
                         </h2>
-                        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 ml-4">
                             @foreach($calculatedValues as $result)
                                 <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                                     <div class="p-4">
@@ -150,7 +205,7 @@
                                         <div class="text-2xl font-bold text-blue-600 mb-2">{{ $result['display_value'] }}</div>
                                         <div class="text-sm text-gray-600 mb-3">
                                             <span class="font-medium">Interpretation:</span>
-                                            <span class="@if(str_contains(strtolower($result['interpretation']), 'high') || str_contains(strtolower($result['interpretation']), 'low') || str_contains(strtolower($result['interpretation']), 'abnormal')) text-red-600 font-medium @else text-green-600 @endif">
+                                            <span class="text-{{ $result['color'] }}">
                                                 {{ $result['interpretation'] }}
                                             </span>
                                         </div>
@@ -184,59 +239,6 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
-                @endif
-
-                <table class="text-sm border-collapse border-spacing-0">
-                    <thead>
-                    <tr>
-                        <th scope="col" class="border-b border-gray-500 z-40 sticky bg-gray-200 top-0 left-0" colspan="2"></th>
-                        <th scope="col" class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">
-                            {!! $microDateTimeHeaders?->implode('</th><th class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">') !!}
-                        </th>
-                    </tr>
-                    </thead>
-                    @if($micro)
-                        <tbody>
-                        @php($loopPanel = '')
-                        @foreach($microLabels as $labLabel)
-                            <tr class="border-b border-gray-500 hover:bg-sky-200 group/row">
-                                @if ($labLabel['panel'] != $loopPanel)
-                                    <th rowspan="{{ $micro->groupBy('name')->count() }}"
-                                        class="font-extrabold border-r border-gray-500 group-hover/row:bg-white text-xl text-start ps-3 z-30 sticky bg-white left-0"
-                                        style="writing-mode: vertical-lr;">{{ $labLabel['panel'] }}</th>
-                                @endif
-                                <th scope="row" class="border-r border-gray-500 px-2 bg-gray-200 group-hover/row:bg-sky-300
-                         z-20 sticky left-7
-                        ">{{ $labLabel['label'] }}</th>
-                                @foreach($micro->groupBy('accession_unique_id') as $accession)
-                                    @php($lab = $accession->where('name', $labLabel['name'])->first())
-                                    <td class="border-r border-gray-500 px-2 text-center whitespace-nowrap group/result group-hover/row:bg-sky-200 bg-white">
-                                        @if($lab)
-                                            Sample: {{ $lab->get('sample') }}
-                                            @if($lab->get('specimen'))
-                                            , {{ $lab->get('specimen') }}
-                                            @endif
-                                            <div
-                                                class="font-medium text-sm l-1/2 top-[135%]-ml-24 border border-gray-500 bg-gray-200 text-gray-800 rounded p-2 invisible opacity-0 group-hover/result:visible z-10 group-hover/result:opacity-100 absolute transition-opacity after:content-[''] after:absolute after:bottom-full after:left-1/2 after:-ml-1 after:border-1 after:border-solid after:border-t-transparent after:border-r-transparent after:border-b-gray-500 after:border-l-transparent">
-                                                <h5 class="font-bold">Result</h5>
-                                                <pre>{{ $lab->get('result') }}</pre>
-                                            </div>
-                                        @endif
-                                    </td>
-                                @endforeach
-                            </tr>
-                        @php($loopPanel = $labLabel['panel'])
-                        @endforeach
-                    @endif
-                </table>
-
-                @if($labs)
-                    <div class="bg-white">
-                        <h2 class="text-lg underline">Unable To Process</h2>
-                        @foreach($unparsableRows as $row)
-                            <div>{{ implode(' ', $row->toArray()) }}</div>
-                        @endforeach
                     </div>
                 @endif
             </div>

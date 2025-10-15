@@ -71,6 +71,16 @@ abstract class BaseCalculator implements CalculatorInterface
      */
     protected function interpret(float $value): string
     {
+        $result = $this->interpretWithColor($value);
+
+        return $result['interpretation'];
+    }
+
+    /**
+     * Interpret the calculated result and return both interpretation and color
+     */
+    protected function interpretWithColor(float $value): array
+    {
         foreach ($this->interpretationRules as $rule) {
             $matchesMin = true;
             $matchesMax = true;
@@ -95,20 +105,29 @@ abstract class BaseCalculator implements CalculatorInterface
                 $matchesMax = $value < $rule['max_exclusive'];
             }
 
-            // If both conditions match, return this interpretation
+            // If both conditions match, return this interpretation and color
             if ($matchesMin && $matchesMax) {
-                return $rule['interpretation'];
+                return [
+                    'interpretation' => $rule['interpretation'],
+                    'color' => $rule['color'] ?? null,
+                ];
             }
         }
 
         // Return default interpretation if no rules match (should be the last rule without min/max)
         foreach (array_reverse($this->interpretationRules) as $rule) {
             if (! isset($rule['min']) && ! isset($rule['max']) && ! isset($rule['max_exclusive'])) {
-                return $rule['interpretation'];
+                return [
+                    'interpretation' => $rule['interpretation'],
+                    'color' => $rule['color'] ?? null,
+                ];
             }
         }
 
-        return 'Normal range';
+        return [
+            'interpretation' => 'Normal range',
+            'color' => 'green-500',
+        ];
     }
 
     /**

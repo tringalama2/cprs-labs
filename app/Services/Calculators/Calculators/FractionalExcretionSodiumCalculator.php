@@ -21,14 +21,14 @@ class FractionalExcretionSodiumCalculator extends BaseCalculator
 
     protected string $units = '%';
 
-    protected int $priority = 2;
+    protected int $priority = 1;
 
     protected string $formulaText = '100 × (SCr × UNa) / (SNa × UCr)';
 
     protected array $interpretationRules = [
-        ['max_exclusive' => 1.0, 'interpretation' => 'Pre-renal azotemia likely'],
-        ['min' => 1.0, 'max' => 2.0, 'interpretation' => 'Intermediate range - clinical correlation needed'],
-        ['min_exclusive' => 2.0, 'interpretation' => 'Acute tubular necrosis likely'],
+        ['max_exclusive' => 1.0, 'interpretation' => 'Pre-renal azotemia likely', 'color' => 'blue-500'],
+        ['min' => 1.0, 'max' => 2.0, 'interpretation' => 'Intermediate range - clinical correlation needed', 'color' => 'red-500'],
+        ['min_exclusive' => 2.0, 'interpretation' => 'Acute tubular necrosis likely', 'color' => 'blue-500'],
     ];
 
     public function calculate(LabValueResolver $resolver): ?CalculationResult
@@ -68,12 +68,15 @@ class FractionalExcretionSodiumCalculator extends BaseCalculator
         // Round to 2 decimal places
         $fena = round($fena, 2);
 
+        // Get interpretation with color
+        $interpretationResult = $this->interpretWithColor($fena);
+
         return new CalculationResult(
             name: $this->name,
             displayName: $this->displayName,
             value: $fena,
             units: $this->units,
-            interpretation: $this->interpret($fena),
+            interpretation: $interpretationResult['interpretation'],
             usedValues: [
                 'Serum Creatinine' => $serumCreatinine,
                 'Serum Sodium' => $serumSodium,
@@ -87,6 +90,7 @@ class FractionalExcretionSodiumCalculator extends BaseCalculator
                 'Urine Sodium' => $urineSodiumData['collection_date'],
             ],
             formula: $this->formulaText,
+            color: $interpretationResult['color'],
         );
     }
 }
