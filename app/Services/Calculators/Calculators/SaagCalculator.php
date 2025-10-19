@@ -10,7 +10,7 @@ class SaagCalculator extends BaseCalculator
 {
     protected string $name = 'saag';
 
-    protected string $displayName = 'Serum-Ascites Albumin Gradient (SAAG)';
+    protected string $displayName = 'Serum Ascites Albumin Gradient (SAAG)';
 
     protected array $requiredFields = [
         'ALBUMIN,PERITONEAL FLUID',

@@ -12,7 +12,7 @@ class LightsCriteriaCalculator extends BaseCalculator
 
     protected string $name = 'lights_criteria';
 
-    protected string $displayName = "Light's Criteria for Pleural Effusion";
+    protected string $displayName = "Light's Criteria for Pleural Effusions";
 
     protected array $requiredFields = [
         'PROTEIN,TOTAL,Blood',

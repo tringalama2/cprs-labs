@@ -71,8 +71,45 @@
                     </div>
                     <p class="text-gray-600 leading-relaxed mt-4">
                         The tool automatically organizes results into standard panels with intelligent highlighting for
-                        abnormal values.
+                        abnormal values and calculates clinical metrics like corrected calcium and MELD scores when relevant labs are present.
                     </p>
+                </div>
+
+                <!-- Automatic Calculations -->
+                <div class="border-b border-gray-200 pb-8">
+                    <h3 class="text-xl font-semibold text-sky-600 mb-4 flex items-center">
+                        🧮 What automatic calculations are performed?
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        EasyCPRSLabs automatically calculates important clinical metrics when the required lab values are present:
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-3">Available Calculations:</h4>
+                            <ul class="list-disc list-inside text-gray-600 leading-relaxed space-y-2">
+                                <li><strong>FENa:</strong> Fractional excretion of sodium</li>
+                                <li><strong>FEUrea:</strong> Fractional excretion of urea</li>
+                                <li><strong>SAAG:</strong> Serum-Ascites Albumin Gradient</li>
+                                <li><strong>Light's Criteria:</strong> Classify exudative pleural effusions</li>
+                                <li><strong>MELD-Na Score:</strong> Model for End-Stage Liver Disease scoring</li>
+                                <li><strong>R Factor:</strong> Differentiates cholestatic from hepatocellular liver injury</li>
+                                <li><strong>Corrected Sodium:</strong> Corrects sodium for hyperglycemia</li>
+                                <li><strong>Corrected Calcium:</strong> Corrects serum calcium for albumin levels</li>
+                                <li><strong>Want Additional calculator?</strong> Use our
+                                    <a href="{{ route('contact') }}" class="text-sky-600 hover:text-sky-800 underline">contact
+                                                                                                                       form</a>
+                                                                                 to suggest new calculators</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-800 mb-3">How It Works:</h4>
+                            <ul class="list-disc list-inside text-gray-600 leading-relaxed space-y-2">
+                                <li>Calculations appear automatically when required labs are present</li>
+                                <li>Some calculations only appear if labs are out of range</li>
+                                <li>Uses standard clinical formulas and reference ranges</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Parsing Issues -->
@@ -176,6 +213,15 @@
                                 <li>Our tool uses standard reference ranges</li>
                                 <li>Some labs may have facility-specific ranges</li>
                                 <li>Always verify critical values against the original CPRS output</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Automatic calculations not appearing:</h4>
+                            <ul class="list-disc list-inside text-gray-600 leading-relaxed space-y-1 ml-4">
+                                <li>Ensure all required lab values are present (e.g., calcium and albumin for corrected calcium)</li>
+                                <li>Some calculations only show when values are abnormal (MELD score)</li>
+                                <li>Check that lab values are properly parsed and recognized</li>
+                                <li>Calculations use standard formulas - results may differ from facility-specific calculations</li>
                             </ul>
                         </div>
                     </div>

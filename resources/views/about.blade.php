@@ -46,13 +46,13 @@
                         <h3 class="text-lg font-semibold text-sky-600 mb-4">The EasyCPRSLabs Solution</h3>
                         <p class="text-gray-600 leading-relaxed mb-4">
                             <strong>EasyCPRSLabs</strong> instantly transforms chaotic CPRS lab results into beautiful,
-                                                          organized tables with intelligent highlighting and logical
-                                                          grouping. What used to take minutes of mental parsing now
+                                                          organized tables with intelligent highlighting, logical
+                                                          grouping, and automatic clinical calculations. What used to take minutes of mental parsing now
                                                           takes seconds.
                         </p>
                         <p class="text-gray-600 leading-relaxed">
                             See all your patient's labs at once, organized by panels (CBC, BMP, LFTs, etc.) with
-                            abnormal values clearly highlighted.
+                            abnormal values clearly highlighted and automatic calculations like corrected calcium and MELD scores when applicable.
                         </p>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
             <!-- Features -->
             <section class="mb-10">
                 <h2 class="text-2xl font-semibold text-gray-900 mb-6">Why Healthcare Providers Choose EasyCPRSLabs</h2>
-                <div class="grid md:grid-cols-3 gap-6">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="bg-gray-50 p-6 rounded border border-gray-200">
                         <div class="text-sky-600 text-2xl mb-3">⚡</div>
                         <h3 class="text-lg font-semibold text-gray-900 mb-2">Instant Results</h3>
@@ -79,6 +79,11 @@
                         <h3 class="text-lg font-semibold text-gray-900 mb-2">Abnormal Value Highlighting</h3>
                         <p class="text-gray-600 text-sm">Critical and abnormal values stand out with color-coded
                                                          highlighting</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded border border-gray-200">
+                        <div class="text-sky-600 text-2xl mb-3">🧮</div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Automatic Calculations</h3>
+                        <p class="text-gray-600 text-sm">Automatically calculates corrected calcium, MELD score, and other clinical metrics when relevant labs are present</p>
                     </div>
                 </div>
             </section>

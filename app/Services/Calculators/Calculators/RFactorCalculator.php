@@ -14,7 +14,7 @@ class RFactorCalculator extends BaseCalculator
 
     protected string $name = 'r_factor';
 
-    protected string $displayName = 'R Factor for Drug-Induced Liver Injury (DILI)';
+    protected string $displayName = 'R Factor for Differentiating cholestatic from hepatocellular liver injury';
 
     protected array $requiredFields = [
         'ALT,Blood',
