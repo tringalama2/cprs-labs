@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Services\Calculators\Calculators;
+
+use App\Services\Calculators\Core\BaseCalculator;
+use App\Services\Calculators\Core\CalculationResult;
+use App\Services\Calculators\Core\LabValueResolver;
+
+class FractionalExcretionSodiumCalculator extends BaseCalculator
+{
+    protected string $name = 'fena';
+
+    protected string $displayName = 'Fractional Excretion of Sodium (FENa)';
+
+    protected array $requiredFields = [
+        'CREATININE,blood',
+        'SODIUM,Blood',
+        'CREATININE,Urine',
+        'SODIUM,Urine',
+    ];
+
+    protected string $units = '%';
+
+    protected int $priority = 1;
+
+    protected string $formulaText = '100 × (SCr × UNa) / (SNa × UCr)';
+
+    protected array $interpretationRules = [
+        ['max_exclusive' => 1.0, 'interpretation' => 'Pre-renal azotemia likely', 'color' => 'blue-500'],
+        ['min' => 1.0, 'max' => 2.0, 'interpretation' => 'Intermediate range - clinical correlation needed', 'color' => 'red-500'],
+        ['min_exclusive' => 2.0, 'interpretation' => 'Acute tubular necrosis likely', 'color' => 'blue-500'],
+    ];
+
+    public function calculate(LabValueResolver $resolver): ?CalculationResult
+    {
+        // Get required values with dates
+        $serumCreatinineData = $resolver->getLatestValueWithDate('CREATININE,blood');
+        $serumSodiumData = $resolver->getLatestValueWithDate('SODIUM,Blood');
+        $urineCreatinineData = $resolver->getLatestValueWithDate('CREATININE,Urine');
+        $urineSodiumData = $resolver->getLatestValueWithDate('SODIUM,Urine');
+
+        // Check if all required values are available
+        if (! $serumCreatinineData || ! $serumSodiumData || ! $urineCreatinineData || ! $urineSodiumData) {
+            return null;
+        }
+
+        $serumCreatinine = $serumCreatinineData['value'];
+        $serumSodium = $serumSodiumData['value'];
+        $urineCreatinine = $urineCreatinineData['value'];
+        $urineSodium = $urineSodiumData['value'];
+
+        // Check if all required values are within valid ranges
+        if (! $this->isValidValue($serumCreatinine, 0.1, 20) ||
+            ! $this->isValidValue($serumSodium, 100, 200) ||
+            ! $this->isValidValue($urineCreatinine, 1, 500) ||
+            ! $this->isValidValue($urineSodium, 1, 300)) {
+            return null;
+        }
+
+        // Avoid division by zero
+        if ($serumSodium == 0 || $urineCreatinine == 0) {
+            return null;
+        }
+
+        // Calculate FENa: 100 × (SCr × UNa) / (SNa × UCr)
+        $fena = 100 * ($serumCreatinine * $urineSodium) / ($serumSodium * $urineCreatinine);
+
+        // Round to 2 decimal places
+        $fena = round($fena, 2);
+
+        // Get interpretation with color
+        $interpretationResult = $this->interpretWithColor($fena);
+
+        return new CalculationResult(
+            name: $this->name,
+            displayName: $this->displayName,
+            value: $fena,
+            units: $this->units,
+            interpretation: $interpretationResult['interpretation'],
+            usedValues: [
+                'Serum Creatinine' => $serumCreatinine,
+                'Serum Sodium' => $serumSodium,
+                'Urine Creatinine' => $urineCreatinine,
+                'Urine Sodium' => $urineSodium,
+            ],
+            usedValueDates: [
+                'Serum Creatinine' => $serumCreatinineData['collection_date'],
+                'Serum Sodium' => $serumSodiumData['collection_date'],
+                'Urine Creatinine' => $urineCreatinineData['collection_date'],
+                'Urine Sodium' => $urineSodiumData['collection_date'],
+            ],
+            formula: $this->formulaText,
+            color: $interpretationResult['color'],
+        );
+    }
+}

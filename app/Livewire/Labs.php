@@ -24,6 +24,8 @@ class Labs extends Component
 
     public $unrecognizedLabLabels;
 
+    public $calculatedValues;
+
     public $micro;
 
     public $microDateTimeHeaders;
@@ -41,7 +43,7 @@ class Labs extends Component
     public function mount(): void
     {
         if (App::environment('local')) {
-            $this->input = file_get_contents(resource_path('lab.test.txt'));
+            $this->input = file_get_contents(resource_path('test.with_urea.txt'));
         }
     }
 
@@ -87,6 +89,7 @@ class Labs extends Component
         $this->labLabelsSorted = $labBuilder->getLabLabels();
         $this->datetimeHeaders = $labBuilder->getDateTimeHeaders();
         $this->panels = $labBuilder->getPanels();
+        $this->calculatedValues = $labBuilder->getCalculatedValues()->map->toArray();
 
         $this->dispatch('results-ready');
 

@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 <div>
     <form wire:submit="save">
         <label hidden for="input">Lab Input</label>
@@ -136,16 +137,16 @@
                     @endif
                 </table>
 
-                <table class="text-sm border-collapse border-spacing-0">
-                    <thead>
-                    <tr>
-                        <th scope="col" class="border-b border-gray-500 z-40 sticky bg-gray-200 top-0 left-0" colspan="2"></th>
-                        <th scope="col" class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">
-                            {!! $microDateTimeHeaders?->implode('</th><th class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">') !!}
-                        </th>
-                    </tr>
-                    </thead>
-                    @if($micro)
+                @if($micro && count($micro) > 0)
+                    <table class="text-sm border-collapse border-spacing-0">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="border-b border-gray-500 z-40 sticky bg-gray-200 top-0 left-0" colspan="2"></th>
+                            <th scope="col" class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">
+                                {!! $microDateTimeHeaders?->implode('</th><th class="text-center border-b border-gray-500 px-2 z-20 sticky bg-gray-200 top-0">') !!}
+                            </th>
+                        </tr>
+                        </thead>
                         <tbody>
                         @php($loopPanel = '')
                         @foreach($microLabels as $labLabel)
@@ -177,15 +178,67 @@
                             </tr>
                         @php($loopPanel = $labLabel['panel'])
                         @endforeach
-                    @endif
-                </table>
+                    </table>
+                @endif
 
-                @if($labs)
-                    <div class="bg-white">
-                        <h2 class="text-lg underline">Unable To Process</h2>
+                @if($unparsableRows && count($unparsableRows) > 0)
+                    <div class="bg-white mt-6 mb-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4 px-2 py-2 bg-gradient-to-r from-yellow-100 to-yellow-200 border-l-4 border-yellow-500">
+                            Unable To Process
+                        </h2>
                         @foreach($unparsableRows as $row)
                             <div>{{ implode(' ', $row->toArray()) }}</div>
                         @endforeach
+                    </div>
+                @endif
+
+                @if($calculatedValues && count($calculatedValues) > 0)
+                    <div class="mt-6 mb-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4 px-2 py-2 bg-gradient-to-r from-blue-100 to-blue-200 border-l-4 border-blue-500">
+                            Calculated Values
+                        </h2>
+                        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 ml-4">
+                            @foreach($calculatedValues as $result)
+                                <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-lg text-gray-900 mb-2">{{ $result['display_name'] }}</h3>
+                                        <div class="text-2xl font-bold text-blue-600 mb-2">{{ $result['display_value'] }}</div>
+                                        <div class="text-sm text-gray-600 mb-3">
+                                            <span class="font-medium">Interpretation:</span>
+                                            <span class="text-{{ $result['color'] }}">
+                                                {{ $result['interpretation'] }}
+                                            </span>
+                                        </div>
+                                        <details class="text-sm">
+                                            <summary class="cursor-pointer text-gray-500 hover:text-gray-700 font-medium">
+                                                Details
+                                            </summary>
+                                            <div class="mt-2 space-y-2">
+                                                <div>
+                                                    <span class="font-medium text-gray-700">Formula:</span>
+                                                    <code class="text-xs bg-gray-100 px-1 py-0.5 rounded">{{ $result['formula'] }}</code>
+                                                </div>
+                                                <div>
+                                                    <span class="font-medium text-gray-700">Values used:</span>
+                                                    <ul class="text-xs text-gray-600 mt-1">
+                                                        @foreach($result['used_values'] as $name => $value)
+                                                            <li>
+                                                                {{ $name }}: {{ $value }}
+                                                                @if(isset($result['used_value_dates'][$name]))
+                                                                    <span class="text-gray-500">
+                                                                        ({{ Carbon::parse($result['used_value_dates'][$name])->format('M j, Y g:i A') }})
+                                                                    </span>
+                                                                @endif
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </details>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endif
             </div>

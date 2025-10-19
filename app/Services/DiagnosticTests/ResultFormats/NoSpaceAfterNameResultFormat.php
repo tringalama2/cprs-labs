@@ -10,7 +10,9 @@ class NoSpaceAfterNameResultFormat implements ResultFormatContract
 
     private string $name;
 
-    public function __construct(public array $resultPieces) {}
+    public function __construct(public array $resultPieces)
+    {
+    }
 
     public function match(): bool
     {

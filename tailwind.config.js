@@ -32,5 +32,13 @@ export default {
             backgroundColor: ['active'],
         }
     },
+    safelist: [
+        'text-green-500',
+        'text-yellow-500',
+        'text-orange-500',
+        'text-red-500',
+        'text-blue-500',
+        'text-purple-500',
+    ],
     plugins: [forms, typography],
 };
