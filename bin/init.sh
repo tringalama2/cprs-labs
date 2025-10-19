@@ -15,6 +15,14 @@ fi
 composer install
 cp .env.example .env
 php artisan key:generate
+
+echo "Set up your .env file with your database credentials."
+
+# Pause and wait for any key press
+read -n 1 -s -r -p "Press any key to continue once complete..."
+
+echo "" # Add a newline for better formatting after the prompt
+
 php artisan migrate
 npm install
 
